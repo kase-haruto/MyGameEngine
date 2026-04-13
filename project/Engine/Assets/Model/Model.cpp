@@ -3,6 +3,8 @@
 /* include space
 /* ===================================================================== */
 // engine
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <Engine/graphics/Material.h>
 #include <Engine/Objects/Transform/Transform.h>
 #include <Engine/Foundation/Math/Vector4.h>
@@ -40,7 +42,7 @@ void Model::Initialize() {
 /////////////////////////////////////////////////////////////////////////////////////////
 void Model::InitializeTextures(const std::vector<std::string>& textureFilePaths) {
 	textureHandles_.clear();
-	for(const auto& filePath : textureFilePaths) { textureHandles_.push_back(TextureManager::GetInstance()->LoadTexture(filePath)); }
+	for(const auto& filePath : textureFilePaths) { textureHandles_.push_back(CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture(filePath)); }
 	if(!textureHandles_.empty()) {
 		handle_ = textureHandles_[0]; // 初期テクスチャ
 	}

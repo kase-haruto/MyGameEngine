@@ -1,4 +1,7 @@
 #include "AssetPanel.h"
+
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <Engine/Assets/Database/AssetDatabase.h>
 
 #include <externals/imgui/ImGuiFileDialog.h>
@@ -16,7 +19,7 @@ namespace CalyxEngine {
 		currentFolderAbs_ = assetsRootAbs_;
 
 		// アイコン（存在しなければ任意の代替に差し替え）
-		auto& tm	 = *TextureManager::GetInstance();
+		auto& tm	 = *AssetManager::GetInstance()->GetTextureManager();
 		iconFolder_	 = (ImTextureID)tm.LoadTexture("UI/Tool/AssetPanel/folder.dds").ptr;
 		iconGeneric_ = (ImTextureID)tm.LoadTexture("UI/Tool/AssetPanel/generic.dds").ptr;
 

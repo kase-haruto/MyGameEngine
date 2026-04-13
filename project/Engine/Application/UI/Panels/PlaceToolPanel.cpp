@@ -16,6 +16,8 @@
 // event
 
 // --- externals --------------------------------------------------------------
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <externals/imgui/imgui.h>
 
 namespace CalyxEngine {
@@ -49,7 +51,7 @@ namespace CalyxEngine {
 
 			shapeItems.push_back({PlaceItemCategory::Shape,
 								  objName,
-								  TextureManager::GetInstance()->LoadTexture("UI/Tool/" + name + ".dds"),
+								  AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/" + name + ".dds"),
 								  {64, 64},
 								  [modelName, objName](const CalyxEngine::Vector3& pos) {
 									  auto factory = [modelName, objName, pos]() {
@@ -77,7 +79,7 @@ namespace CalyxEngine {
 			auto& particleItems = categoryItems_[PlaceItemCategory::Particle];
 			particleItems.push_back({PlaceItemCategory::Particle,
 									 "ParticleSystem",
-									 TextureManager::GetInstance()->LoadTexture("UI/Tool/particle.dds"),
+									 AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/particle.dds"),
 									 {64, 64},
 									 [](const CalyxEngine::Vector3& pos) {
 										 const std::string name	   = "ParticleSystem";
@@ -103,7 +105,7 @@ namespace CalyxEngine {
 			auto& particleItems = categoryItems_[PlaceItemCategory::Particle];
 			particleItems.push_back({PlaceItemCategory::Particle,
 									 "EffectObject",
-									 TextureManager::GetInstance()->LoadTexture("UI/Tool/particle.dds"),
+									 AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/particle.dds"),
 									 {64, 64},
 									 [](const CalyxEngine::Vector3& pos) {
 										 const std::string name	   = "EffectObject";

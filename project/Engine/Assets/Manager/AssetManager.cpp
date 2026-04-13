@@ -11,10 +11,14 @@ CalyxEngine::AssetManager* CalyxEngine::AssetManager::GetInstance()  {
 /////////////////////////////////////////////////////////////////////////////////////////
 //		初期化
 /////////////////////////////////////////////////////////////////////////////////////////
-void CalyxEngine::AssetManager::Initialize() {
+void CalyxEngine::AssetManager::Initialize(ImGuiManager* imgui) {
 	modelManager_ = std::make_unique<ModelManager>();
 	modelManager_->Initialize();
 	modelManager_->StartUpLoad();
+
+	textureManager_ = std::make_unique<TextureManager>();
+	textureManager_->Initialize(imgui);
+	textureManager_->StartUpLoad();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

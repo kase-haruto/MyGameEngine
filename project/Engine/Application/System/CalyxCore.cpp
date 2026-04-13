@@ -90,12 +90,7 @@ namespace CalyxEngine {
 		PrimitiveDrawer::GetInstance()->Initialize();
 
 		// モデル管理クラスの初期化(インスタンス生成)
-		AssetManager::GetInstance()->Initialize();
-
-		// textureManagerの初期化
-		TextureManager::GetInstance()->Initialize(imguiManager_.get());
-		// スタート時に読み込み
-		TextureManager::GetInstance()->StartUpLoad();
+		AssetManager::GetInstance()->Initialize(imguiManager_.get());
 
 		auto* db = AssetDatabase::GetInstance();
 		// 実行ファイルの場所からプロジェクトルートを解決して Assets へ
@@ -213,7 +208,7 @@ namespace CalyxEngine {
 		// imgui終了処理
 		imguiManager_->Finalize();
 		// textureの終了処理
-		TextureManager::GetInstance()->Finalize();
+		AssetManager::GetInstance()->GetTextureManager()->Finalize();
 		// モデルマネージャーの開放
 		AssetManager::GetInstance()->Finalize();
 		PrimitiveDrawer::GetInstance()->Finalize();

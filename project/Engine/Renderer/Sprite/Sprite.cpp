@@ -16,6 +16,7 @@
 #include <stdint.h>
 /* externals */
 #include "Engine/Application/UI/Panels/InspectorPanel.h"
+#include "Engine/Assets/Manager/AssetManager.h"
 #include "Engine/Foundation/Math/MathUtil.h"
 
 #include <externals/imgui/imgui.h>
@@ -23,7 +24,7 @@
 
 Sprite::Sprite(const std::string& filePath) {
 
-	handle = TextureManager::GetInstance()->LoadTexture(filePath);
+	handle = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture(filePath);
 
 	transform_ = {{1.0f, 1.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}};
 
@@ -217,6 +218,6 @@ void Sprite::SetUvScale(const CalyxEngine::Vector2& scale) {
 	materialData_.uvScale = scale;
 }
 
-void Sprite::SetTexture(const std::string& tex) { handle = TextureManager::GetInstance()->LoadTexture(tex); }
+void Sprite::SetTexture(const std::string& tex) { handle = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture(tex); }
 
 const void Sprite::SetTextureHandle(D3D12_GPU_DESCRIPTOR_HANDLE newHandle) { handle = newHandle; }

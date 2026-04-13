@@ -59,7 +59,7 @@ void ParticleRenderer::Render(
 			if(!em) continue;
 
 			em->GetMaterialBuffer().SetCommand(cmdList,1);
-			auto tex = TextureManager::GetInstance()->LoadTexture("Textures/" + em->GetTexturePath());
+			auto tex = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture("Textures/" + em->GetTexturePath());
 			cmdList->SetGraphicsRootDescriptorTable(3,tex);
 			MeshResource& mesh = em->GetMeshResource();
 

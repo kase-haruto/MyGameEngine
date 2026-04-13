@@ -2,6 +2,8 @@
 /* ========================================================================
 /* include space
 /* ===================================================================== */
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <Engine/Assets/Texture/TextureManager.h>
 #include <Engine/Editor/SceneObjectEditor.h>
 #include <Engine/Foundation/Math/Matrix4x4.h>
@@ -15,12 +17,12 @@
 namespace CalyxEngine {
 
 	Manipulator::Manipulator() {
-		iconTranslate_.texture = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/translate.dds").ptr);
-		iconRotate_.texture	   = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/rotate.dds").ptr);
-		iconScale_.texture	   = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/scale.dds").ptr);
-		iconUniversal_.texture = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/universal.dds").ptr);
-		iconWorld_.texture	   = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/world.dds").ptr);
-		iconDrawGrid_.texture  = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/grid.dds").ptr);
+		iconTranslate_.texture = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/translate.dds").ptr);
+		iconRotate_.texture	   = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/rotate.dds").ptr);
+		iconScale_.texture	   = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/scale.dds").ptr);
+		iconUniversal_.texture = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/universal.dds").ptr);
+		iconWorld_.texture	   = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/world.dds").ptr);
+		iconDrawGrid_.texture  = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/grid.dds").ptr);
 		SetOverlayAlign(OverlayAlign::TopLeft);
 		SetOverlayOffset(overlayOffset_); // Viewport右上から左下に少しずらす
 	}

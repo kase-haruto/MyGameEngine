@@ -7,6 +7,7 @@
 #include <Engine/Foundation/Utility/Converter/EnumConverter.h>
 
 // externals
+#include "Engine/Assets/Manager/AssetManager.h"
 #include "Engine/System/Command/EditorCommand/GuiCommand/ImGuiHelper/GuiCmd.h"
 #include <externals/imgui/imgui.h>
 
@@ -25,7 +26,7 @@ namespace CalyxEngine {
 
 		// タブの初期化（マスターを保持）
 		if(allTabs_.empty()) {
-			auto& tm = *TextureManager::GetInstance();
+			auto& tm = *AssetManager::GetInstance()->GetTextureManager();
 			allTabs_ = {
 					{rootPath_ + "inspectorUI_Al.dds",ParamFilterSection::All},
 					{rootPath_ + "inspectorUI_Ob.dds",ParamFilterSection::Object},

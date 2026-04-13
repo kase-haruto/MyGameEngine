@@ -19,7 +19,7 @@ namespace CalyxEngine {
 		/**
 		 * \brief 初期化
 		 */
-		void Initialize();
+		void Initialize(class ImGuiManager* imgui);
 
 		/**
 		 * \brief 終了処理

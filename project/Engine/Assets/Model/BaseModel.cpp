@@ -70,11 +70,11 @@ void BaseModel::OnModelLoaded() {
 
 	// テクスチャ設定
 	if(!handle_) {
-		handle_ = TextureManager::GetInstance()->LoadTexture(
+		handle_ = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture(
 			"Textures/" + modelData_->meshResource.Material().textureFilePath);
 		textureName_ = "textures/" + modelData_->meshResource.Material().textureFilePath;
 		if(!handle_) { // 読み込み失敗・空文字列など
-			handle_ = TextureManager::GetInstance()->LoadTexture("textures/white1x1.dds");
+			handle_ = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture("textures/white1x1.dds");
 		}
 	}
 
@@ -114,13 +114,13 @@ void BaseModel::ShowImGuiInterface() {
 	if(GuiCmd::CollapsingHeader("Material")) {
 		materialData_.ShowImGui();
 
-		auto& textures = TextureManager::GetInstance()->GetLoadedTextures();
+		auto& textures = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->GetLoadedTextures();
 		if(ImGui::BeginCombo("Texture", textureName_.c_str())) {
 			for(const auto& texture : textures) {
 				bool is_selected = (textureName_ == texture.first);
 				if(ImGui::Selectable(texture.first.c_str(), is_selected)) {
 					textureName_ = texture.first;
-					handle_		 = TextureManager::GetInstance()->LoadTexture(texture.first);
+					handle_		 = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture(texture.first);
 				}
 				if(is_selected) {
 					ImGui::SetItemDefaultFocus();
@@ -154,7 +154,7 @@ void BaseModel::Draw(const WorldTransform& transform) {
 	cmdList->SetGraphicsRootDescriptorTable(2, handle_.value());
 
 	// 環境マップ
-	D3D12_GPU_DESCRIPTOR_HANDLE envMapHandle = TextureManager::GetInstance()->GetEnvironmentTextureSrvHandle();
+	D3D12_GPU_DESCRIPTOR_HANDLE envMapHandle = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->GetEnvironmentTextureSrvHandle();
 	cmdList->SetGraphicsRootDescriptorTable(6, envMapHandle);
 
 	// 描画
@@ -195,7 +195,7 @@ void BaseModel::ApplyConfig(const BaseModelConfig& config) {
 	}
 
 	if(!ok) {
-		handle_		 = TextureManager::GetInstance()->LoadTexture("textures/white1x1.dds");
+		handle_      = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture("textures/white1x1.dds");
 		textureGuid_ = Guid{}; // 未設定
 	}
 }
@@ -297,7 +297,7 @@ void BaseModel::ShowImGui(BaseModelConfig& config) {
 bool BaseModel::LoadTextureByGuid(const Guid& g) {
 	if(!g.isValid()) return false;
 
-	auto h = TextureManager::GetInstance()->LoadTexture(g);
+	auto h = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture(g);
 	if(!h.ptr) return false;
 
 	handle_		 = h;
@@ -309,7 +309,7 @@ ModelData* BaseModel::GetModelData() const { return modelData_; }
 
 // ======================================= renderer 専用 ==========================================
 
-void BaseModel::SetTex(const std::string& name) { handle_ = TextureManager::GetInstance()->LoadTexture("textures/" + name); }
+void BaseModel::SetTex(const std::string& name) { handle_ = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture("textures/" + name); }
 
 void BaseModel::EnsureInstanceCapacity(ID3D12Device* device, UINT needCount) {
 	if(!instanceBufferCreated_) {
@@ -343,7 +343,7 @@ void BaseModel::UploadInstanceMatrices(const std::vector<WorldTransform>& transf
 
 D3D12_GPU_DESCRIPTOR_HANDLE BaseModel::GetInstanceSrv() const { return instanceBuffer_.GetGpuSrvHandle(); }
 D3D12_GPU_DESCRIPTOR_HANDLE BaseModel::GetTexSrv() const { return handle_.value(); }
-D3D12_GPU_DESCRIPTOR_HANDLE BaseModel::GetEnvMapSrv() const { return TextureManager::GetInstance()->GetEnvironmentTextureSrvHandle(); }
+D3D12_GPU_DESCRIPTOR_HANDLE BaseModel::GetEnvMapSrv() const { return CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->GetEnvironmentTextureSrvHandle(); }
 
 void BaseModel::BindVertexIndexBuffers(ID3D12GraphicsCommandList* cmdList) const {
 	modelData_->meshResource.SetCommand(cmdList);

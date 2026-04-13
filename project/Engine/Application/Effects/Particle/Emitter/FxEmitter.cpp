@@ -15,6 +15,7 @@
 #include <Engine/Renderer/Primitive/PrimitiveDrawer.h>
 // externals
 #include "Engine/Application/UI/Panels/InspectorPanel.h"
+#include "Engine/Assets/Manager/AssetManager.h"
 #include "Engine/Assets/Texture/TextureManager.h"
 #include "Engine/Foundation/Math/MathUtil.h"
 #include "Engine/Foundation/Utility/Converter/EnumConverter.h"
@@ -586,7 +587,7 @@ namespace CalyxEngine {
 
 		material_.texturePath = config.texturePath;
 		textureGuid_          = config.textureGuid;
-		textureHandle_        = TextureManager::GetInstance()->LoadTexture(textureGuid_);
+		textureHandle_        = AssetManager::GetInstance()->GetTextureManager()->LoadTexture(textureGuid_);
 		SetFlag(DrawEnable,config.isDrawEnable);
 		SetFlag(Complement,config.isComplement);
 		moduleContainer_ = std::make_unique<CalyxEngine::FxModuleContainer>(config.modules);
@@ -669,7 +670,7 @@ namespace CalyxEngine {
 	bool FxEmitter::LoadTextureByGuid(const Guid& g) {
 		if(!g.isValid()) return false;
 
-		auto h = TextureManager::GetInstance()->LoadTexture(g);
+		auto h = AssetManager::GetInstance()->GetTextureManager()->LoadTexture(g);
 		if(!h.ptr) return false;
 
 		textureHandle_ = h;

@@ -1,5 +1,7 @@
 #include "SkyBox.h"
 
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <Engine/Graphics/Context/GraphicsGroup.h>
 #include <Engine/Graphics/Camera/Manager/CameraManager.h>
 #include <Engine/Graphics/Camera/Base/BaseCamera.h>
@@ -11,7 +13,7 @@ SkyBox::SkyBox(const std::string& fileName,
 			   std::optional<std::string> objectName){
 	textureName_ = fileName;
 	SceneObject::SetName(objectName.value(),ObjectType::GameObject);
-	TextureManager::GetInstance()->SetEnvironmentTexture("Textures/"+fileName);
+	CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->SetEnvironmentTexture("Textures/"+fileName);
 	isEnableRaycast_ = false;
 }
 
@@ -95,7 +97,7 @@ void SkyBox::AlwaysUpdate([[maybe_unused]] float dt){
 void SkyBox::Draw(ID3D12GraphicsCommandList* cmd){
 	// 環境テクスチャ SRV
 	D3D12_GPU_DESCRIPTOR_HANDLE envSrv =
-		TextureManager::GetInstance()->GetEnvironmentTextureSrvHandle();
+		CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->GetEnvironmentTextureSrvHandle();
 
 	// PSO / ブレンド 設定
 	GraphicsGroup::GetInstance()->SetCommand(

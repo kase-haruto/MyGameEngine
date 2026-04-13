@@ -18,6 +18,8 @@
 #include <Engine/Objects/LightObject/PointLight.h>
 
 // lib
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <externals/imgui/ImGuiFileDialog.h>
 
 #include <algorithm>
@@ -62,7 +64,7 @@ namespace CalyxEngine {
 	HierarchyPanel::HierarchyPanel()
 		: IEngineUI("Hierarchy") {
 
-		auto& tm = *TextureManager::GetInstance();
+		auto& tm = *AssetManager::GetInstance()->GetTextureManager();
 
 		iconEye_.tex	 = (ImTextureID)tm.LoadTexture("UI/Tool/Hierarchy/eyeIcon.dds").ptr;
 		iconEyeOff_.tex	 = (ImTextureID)tm.LoadTexture("UI/Tool/Hierarchy/closedEyeIcon.dds").ptr;
