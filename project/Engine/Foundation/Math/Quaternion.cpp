@@ -1,5 +1,6 @@
 #include "Quaternion.h"
 
+#include "MathUtil.h"
 #include "Matrix4x4.h"
 #include <Engine/Foundation/Utility/Func/CxUtils.h>
 

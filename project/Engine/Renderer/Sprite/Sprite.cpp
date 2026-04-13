@@ -16,6 +16,7 @@
 #include <stdint.h>
 /* externals */
 #include "Engine/Application/UI/Panels/InspectorPanel.h"
+#include "Engine/Foundation/Math/MathUtil.h"
 
 #include <externals/imgui/imgui.h>
 #include <Engine/System/Command/EditorCommand/GuiCommand/ImGuiHelper/GuiCmd.h>

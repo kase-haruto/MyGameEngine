@@ -15,6 +15,8 @@
 #include <memory>
 
 // external
+#include "Engine/Foundation/Math/Matrix4x4.h"
+
 #include <externals/imgui/imgui.h>
 
 namespace CalyxEngine {
@@ -26,6 +28,8 @@ namespace CalyxEngine {
 	struct Vector3;
 	struct Vector4;
 	struct Vector2;
+	CalyxEngine::Matrix4x4 MakeOrthographicMatrixLH(float left,float right,float bottom,float top,float nearZ,
+								 float farZ);
 } // namespace CalyxEngine
 
 /* ========================================================================

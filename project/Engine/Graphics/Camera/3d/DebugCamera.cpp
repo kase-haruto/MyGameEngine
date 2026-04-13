@@ -11,6 +11,8 @@
 #include <Engine/Foundation/Utility/Func/CxUtils.h>
 
 // C++
+#include "Engine/Foundation/Math/MathUtil.h"
+
 #include <algorithm>
 #include <numbers>
 

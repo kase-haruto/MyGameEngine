@@ -15,11 +15,14 @@
 #include <Engine/Foundation/Utility/Func/MyFunc.h>
 
 //external
+#include "Engine/Assets/Manager/AssetManager.h"
+#include "Engine/Foundation/Math/MathUtil.h"
 #include "externals/imgui/imgui.h"
 #include <Engine/System/Command/EditorCommand/GuiCommand/ImGuiHelper/GuiCmd.h>
 #include <algorithm>
 #include <Engine/Objects/3D/Details/BillboardParams.h>
 #include "Engine/Foundation/Utility/Func/CxUtils.h"
+#include "Engine/Graphics/Context/GraphicsGroup.h"
 
 
 const std::string BaseModel::directoryPath_ = "Resource/models";
@@ -27,9 +30,9 @@ const std::string BaseModel::directoryPath_ = "Resource/models";
 void BaseModel::Update(float deltaTime) {
 	// --- まだ modelData_ を取得していないなら、取得を試みる ---
 	if(!modelData_) {
-		if(ModelManager::GetInstance()->IsModelLoaded(fileName_)) {
-			ModelData& loaded = ModelManager::GetInstance()->GetModelData(fileName_);
-			modelData_		  = &loaded; // ModelData* を保持する
+		if(CalyxEngine::AssetManager::GetInstance()->GetModelManager()->IsModelLoaded(fileName_)) {
+			ModelData& loaded = CalyxEngine::AssetManager::GetInstance()->GetModelManager()->GetModelData(fileName_);
+			modelData_        = &loaded; // ModelData* を保持する
 
 			OnModelLoaded();
 		}

@@ -16,6 +16,8 @@
 #include <filesystem>
 
 // externals
+#include "Engine/Foundation/Math/MathUtil.h"
+
 #include<assimp/Importer.hpp>
 #include<assimp/postprocess.h>
 

@@ -16,6 +16,7 @@
 
 // c++
 #include "Engine/Application/UI/Panels/InspectorPanel.h"
+#include "Engine/Foundation/Math/MathUtil.h"
 
 #include <cmath>
 

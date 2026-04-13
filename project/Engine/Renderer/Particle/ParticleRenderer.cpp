@@ -1,5 +1,8 @@
 #include "ParticleRenderer.h"
 
+#include "Engine/Assets/Manager/AssetManager.h"
+#include "Engine/Graphics/Context/GraphicsGroup.h"
+
 #include <Engine/Application/Effects/Particle/Emitter/FxEmitter.h>
 #include <Engine/Assets/Model/Modelmanager.h>
 #include <Engine/Assets/Texture/TextureManager.h>
@@ -78,7 +81,7 @@ void ParticleRenderer::RenderGrouped(const std::string&                         
 									 ID3D12GraphicsCommandList*                            cmdList) {
 	if(gpuUnits.empty()) return;
 
-	ModelData& model = ModelManager::GetInstance()->GetModelData(modelPath);
+	ModelData& model = CalyxEngine::AssetManager::GetInstance()->GetModelManager()->GetModelData(modelPath);
 	if(model.meshResource.Indices().empty()) return;
 
 	auto device = GraphicsGroup::GetInstance()->GetDevice().Get();

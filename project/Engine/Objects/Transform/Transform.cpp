@@ -12,6 +12,7 @@
 
 // lib
 #include "Engine/Application/System/Environment.h"
+#include "Engine/Foundation/Math/MathUtil.h"
 
 #include <Engine/Foundation/Utility/Func/MyFunc.h>
 #include <externals/imgui/imgui.h>

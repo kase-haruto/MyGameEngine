@@ -1,13 +1,15 @@
 #include "ModelManager.h"
 
-#include <Engine/Foundation/Utility/Func/CxUtils.h>
+#include "Engine/Foundation/Math/MathUtil.h"
+#include "Engine/Graphics/Context/GraphicsGroup.h"
+
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
 #include <Engine/Graphics/Buffer/DxIndexBuffer.h>
 #include <Engine/Graphics/Buffer/DxVertexBuffer.h>
 #include <Engine/Graphics/Pipeline/PipelineDesc/Input/VertexLayout.h>
 
-// static 変数初期化
-std::unique_ptr<ModelManager> ModelManager::instance_	   = nullptr;
-const std::string			  ModelManager::directoryPath_ = "Resources/Assets/models";
+
 
 ModelManager::ModelManager() {
 	// スレッドを起動
@@ -27,25 +29,17 @@ ModelManager::~ModelManager() {
 	}
 }
 
-ModelManager* ModelManager::GetInstance() {
-	if(!instance_) {
-		instance_ = std::unique_ptr<ModelManager>(new ModelManager());
-	}
-	return instance_.get();
-}
+void ModelManager::Initialize() {  }
 
-void ModelManager::Initialize() { GetInstance(); }
-
-void ModelManager::Finalize() { instance_.reset(); }
 
 //----------------------------------------------------------------------------
 // 非同期ロード開始
 //----------------------------------------------------------------------------
 std::future<ModelData*> ModelManager::LoadModel(const std::string& fileName) {
 	{
-		std::lock_guard<std::mutex> lock(instance_->modelDataMutex_);
-		auto						it = instance_->modelDatas_.find(fileName);
-		if(it != instance_->modelDatas_.end()) {
+		std::lock_guard<std::mutex> lock(modelDataMutex_);
+		auto						it = modelDatas_.find(fileName);
+		if(it != modelDatas_.end()) {
 			std::promise<ModelData*> promise;
 			promise.set_value(it->second.get());
 			return promise.get_future();
@@ -57,10 +51,10 @@ std::future<ModelData*> ModelManager::LoadModel(const std::string& fileName) {
 	std::future<ModelData*> fut = request.promise.get_future();
 
 	{
-		std::lock_guard<std::mutex> lock(instance_->taskQueueMutex_);
-		instance_->requestQueue_.push(std::move(request));
+		std::lock_guard<std::mutex> lock(taskQueueMutex_);
+		requestQueue_.push(std::move(request));
 	}
-	instance_->taskQueueCv_.notify_one();
+	taskQueueCv_.notify_one();
 
 	return fut;
 }

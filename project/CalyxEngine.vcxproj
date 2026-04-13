@@ -241,6 +241,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(SolutionD
     <ClCompile Include="Engine\Application\UI\GUI\ImGuiJapaneaseFonts.cpp" />
     <ClCompile Include="Engine\Assets\File\AssetChange.cpp" />
     <ClCompile Include="Engine\Assets\File\IAssetChangeHandler.cpp" />
+    <ClCompile Include="Engine\Assets\Manager\AssetManager.cpp" />
     <ClCompile Include="Engine\Editor\ImguiLayoutService.cpp" />
     <ClCompile Include="Engine\Editor\ImGuiLayoutSwitcher.cpp" />
     <ClCompile Include="Engine\Editor\PickingPass.cpp" />
@@ -488,6 +489,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(SolutionD
     <ClInclude Include="Engine\Application\UI\GUI\ImGuiJapaneaseFonts.h" />
     <ClInclude Include="Engine\Assets\File\AssetChange.h" />
     <ClInclude Include="Engine\Assets\File\IAssetChangeHandler.h" />
+    <ClInclude Include="Engine\Assets\Manager\AssetManager.h" />
     <ClInclude Include="Engine\Editor\ImguiLayoutService.h" />
     <ClInclude Include="Engine\Editor\ImGuiLayoutSwitcher.h" />
     <ClInclude Include="Engine\Editor\PickingPass.h" />
