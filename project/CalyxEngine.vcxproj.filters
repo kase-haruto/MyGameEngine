@@ -2149,12 +2149,6 @@
     <ClInclude Include="Engine\Objects\Collider\SphereCollider.h">
       <Filter>Engine\Objects\Collider</Filter>
     </ClInclude>
-    <ClCompile Include="Game\3dObject\Actor\Bullet\EnemyBullet\EnemyHomingBullet.cpp">
-      <Filter>Game\3dObject\Actor\Bullet\EnemyBullet</Filter>
-    </ClCompile>
-    <ClInclude Include="Game\3dObject\Actor\Bullet\EnemyBullet\EnemyHomingBullet.h">
-      <Filter>Game\3dObject\Actor\Bullet\EnemyBullet</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Scene\System\SceneManager.h">
       <Filter>Engine\Scene\System</Filter>
     </ClInclude>
@@ -2439,6 +2433,7 @@
       <Filter>Engine\Application\UI\Panels</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Foundation\HotReload\LivePP\LivePPService.cpp" />
+    <ClCompile Include="FileDirectoryWatche.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Application\System\Environment.h" />
@@ -2460,6 +2455,7 @@
       <Filter>Engine\Application\UI\Panels</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Foundation\HotReload\LivePP\LivePPService.h" />
+    <ClInclude Include="FileDirectoryWatche.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\ObjectPicking.PS.hlsl" />
