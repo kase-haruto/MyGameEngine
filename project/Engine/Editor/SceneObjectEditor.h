@@ -9,7 +9,7 @@
 
 class SceneObject;
 class SceneContext;
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * SceneObjectEditor

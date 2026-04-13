@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 	/* ========================================================================
 	/*		uvアニメーションを行うモジュール
 	/* ===================================================================== */
@@ -19,8 +19,8 @@ namespace CalyxEffect {
 		//					structs
 		//===================================================================*/
 		struct FrameUV {
-			CalyxMath::Vector2 offset;
-			CalyxMath::Vector2 scale;
+			CalyxEngine::Vector2 offset;
+			CalyxEngine::Vector2 scale;
 		};
 
 	public:
@@ -61,4 +61,4 @@ namespace CalyxEffect {
 
 		std::vector<FrameUV> customFrameUVs_;
 	};
-} // namespace CalyxEffect
+} // namespace CalyxEngine

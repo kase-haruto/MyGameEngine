@@ -9,7 +9,7 @@
 #include <cmath>
 #include <iostream>
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 	BaseEmitter::BaseEmitter() = default;
 
 	void BaseEmitter::TransferParticleDataToGPU() {
@@ -39,8 +39,8 @@ namespace CalyxEffect {
 		return ModelManager::GetInstance()->GetMeshResource(modelPath);
 	}
 
-	CalyxMath::Vector3 BaseEmitter::GenerateSpawnPosition() {
-		using namespace CalyxMath;
+	CalyxEngine::Vector3 BaseEmitter::GenerateSpawnPosition() {
+		using namespace CalyxEngine;
 
 		const Vector3 absScale{
 			(std::max)(std::abs(worldScale_.x), 0.0001f),
@@ -119,4 +119,4 @@ namespace CalyxEffect {
 		return true;
 	}
 
-} // namespace CalyxEffect
+} // namespace CalyxEngine

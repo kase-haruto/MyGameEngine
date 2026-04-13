@@ -5,7 +5,7 @@
 //////////////////////////////////////////////////////////////////////////
 DebugTextOverlay::DebugTextOverlay() {
 	// 絶対値に表示
-	BaseOnViewportTool::SetPositionMode(CalyxEditor::OverlayPositionMode::Absolute);
+	BaseOnViewportTool::SetPositionMode(CalyxEngine::OverlayPositionMode::Absolute);
 }
 DebugTextOverlay::~DebugTextOverlay() = default;
 

@@ -5,7 +5,7 @@
 #include <Engine/Objects/3D/Actor/Registry/SceneObjectRegistry.h>
 #include <Engine/Scene/Utility/SceneUtility.h>
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 
 
 	namespace {
@@ -276,7 +276,7 @@ namespace CalyxEffect {
 	/////////////////////////////////////////////////////////////////////////////////////////
 	std::string_view FxObject::GetTypeName() const { return "FxObject"; }
 
-	void FxObject::SetWorldPosition(const CalyxMath::Vector3& pos) {
+	void FxObject::SetWorldPosition(const CalyxEngine::Vector3& pos) {
 		worldTransform_.translation = pos;
 	}
 
@@ -366,5 +366,5 @@ namespace CalyxEffect {
 		}
 	}
 
-} // namespace CalyxEffect
+} // namespace CalyxEngine
 

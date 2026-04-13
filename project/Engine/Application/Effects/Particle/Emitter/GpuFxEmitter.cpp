@@ -1,7 +1,7 @@
 #include "GpuFxEmitter.h"
 #include <Engine/Graphics/Context/GraphicsGroup.h>
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 	// ────────────────────────────────────────────────────────────────
 	//  ctor / dtor
 	// ────────────────────────────────────────────────────────────────
@@ -21,7 +21,7 @@ namespace CalyxEffect {
 		paramBuffer_.Initialize(dev);
 		paramBuffer_.TransferData(emitParam_);
 
-		material_.color = CalyxMath::Vector4(1, 1, 1, 1);
+		material_.color = CalyxEngine::Vector4(1, 1, 1, 1);
 		materialBuffer_.Initialize(dev);
 
 		instanceBuffer_.Initialize(dev, kMaxParticles);

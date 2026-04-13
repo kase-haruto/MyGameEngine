@@ -7,7 +7,7 @@
 #include <d3d12.h>
 #include <wrl.h>
 
-namespace CalyxGraphics {
+namespace CalyxEngine {
 
 	// 前方宣言
 	class RaytracingScene;
@@ -55,4 +55,4 @@ namespace CalyxGraphics {
 		uint32_t		 tlasCapacity_ = 0; //< TLASを確保した時のインスタンス容量
 	};
 
-} // namespace CalyxGraphics
+} // namespace CalyxEngine

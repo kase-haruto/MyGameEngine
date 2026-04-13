@@ -51,7 +51,7 @@ namespace CalyxEngine {
 		hInstance_ = hInstance;
 		hwnd_	   = winApp_->GetHWND();
 
-		dxCore_ = std::make_unique<CalyxGraphics::DxCore>();
+		dxCore_ = std::make_unique<CalyxEngine::DxCore>();
 		dxCore_->Initialize(winApp_.get(), clientWidth, clientHeight);
 
 		ComPtr<ID3D12Device> device = dxCore_->GetDevice();

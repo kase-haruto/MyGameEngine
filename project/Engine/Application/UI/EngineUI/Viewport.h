@@ -20,13 +20,13 @@
 #include <externals/imgui/imgui.h>
 
 // forward declaration
-namespace CalyxMath {
+namespace CalyxEngine {
 	struct Vector2;
 }
 class BaseCamera;
 class SceneObject;
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 	class PickingPass;
 
 	/*-----------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ namespace CalyxEditor {
 		Viewport(ViewportType type, const std::string& windowName);
 
 		void Update();						 //< ビューポートの更新処理
-		CalyxMath::Vector3 CalculateSpawnPosForPlace(const ImVec2& imagePos);
+		CalyxEngine::Vector3 CalculateSpawnPosForPlace(const ImVec2& imagePos);
 		void Render(const ImTextureID& tex); //< ImGui上への描画処理
 		void Render() {}
 
@@ -53,8 +53,8 @@ namespace CalyxEditor {
 		bool			   IsHovered() const;
 		bool			   IsClicked() const;
 		bool			   wasTriggered() const;
-		CalyxMath::Vector2 GetSize() const;
-		CalyxMath::Vector2 GetPosition() const; //< ビューポートの位置
+		CalyxEngine::Vector2 GetSize() const;
+		CalyxEngine::Vector2 GetPosition() const; //< ビューポートの位置
 		ViewportType	   GetType() const;
 		void			   SetCamera(BaseCamera* camera);
 		void			   SetPickingPass(PickingPass* pickingPass) { pickingPass_ = pickingPass; }
@@ -72,8 +72,8 @@ namespace CalyxEditor {
 		ImTextureID textureID_ = nullptr;
 
 		BaseCamera*		   camera_ = nullptr; //< ビューポートに関連付けられたカメラ
-		CalyxMath::Vector2 size_{};
-		CalyxMath::Vector2 viewOrigin_; //< ImGui上での描画開始位置
+		CalyxEngine::Vector2 size_{};
+		CalyxEngine::Vector2 viewOrigin_; //< ImGui上での描画開始位置
 		bool			   isHovered_	 = false;
 		bool			   isClicked_	 = false;
 		bool			   wasTriggered_ = false;
@@ -82,4 +82,4 @@ namespace CalyxEditor {
 		PickingPass*				 pickingPass_ = nullptr;
 	};
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

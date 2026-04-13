@@ -11,8 +11,8 @@
 //		パーティクル描画
 ///////////////////////////////////////////////////////////////////////////////////////////////
 void ParticleRenderer::Render(
-	const std::vector<std::shared_ptr<CalyxEffect::FxEmitter>>&    cpuEmitters,
-	const std::vector<std::shared_ptr<CalyxEffect::GpuFxEmitter>>& gpuEmitters,
+	const std::vector<std::shared_ptr<CalyxEngine::FxEmitter>>&    cpuEmitters,
+	const std::vector<std::shared_ptr<CalyxEngine::GpuFxEmitter>>& gpuEmitters,
 	PipelineService*                                               pipelineService,
 	ID3D12GraphicsCommandList*                                     cmdList) {
 	if(cpuEmitters.empty() && gpuEmitters.empty()) return;
@@ -64,7 +64,7 @@ void ParticleRenderer::Render(
 			//EnsureMeshIsReady(mesh,device);
 
 			DrawMeshInstanced(mesh,cmdList,
-							  CalyxEffect::GpuFxEmitter::kMaxParticles,
+							  CalyxEngine::GpuFxEmitter::kMaxParticles,
 							  em->GetParticleSrv());
 		}
 	}
@@ -74,7 +74,7 @@ void ParticleRenderer::Render(
 //		GPUパーティクルのまとめ描きユーティリティ
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ParticleRenderer::RenderGrouped(const std::string&                                    modelPath,
-									 const std::vector<CalyxEffect::ParticleConstantData>& gpuUnits,
+									 const std::vector<CalyxEngine::ParticleConstantData>& gpuUnits,
 									 ID3D12GraphicsCommandList*                            cmdList) {
 	if(gpuUnits.empty()) return;
 
@@ -85,7 +85,7 @@ void ParticleRenderer::RenderGrouped(const std::string&                         
 	EnsureMeshIsReady(model.meshResource,device);
 
 	// 一時バッファをローカルで作成
-	DxStructuredBuffer<CalyxEffect::ParticleConstantData> tempBuffer;
+	DxStructuredBuffer<CalyxEngine::ParticleConstantData> tempBuffer;
 	tempBuffer.Initialize(device,static_cast<UINT>(gpuUnits.size()));
 	tempBuffer.TransferVectorData(gpuUnits);
 	tempBuffer.CreateSrv(device);

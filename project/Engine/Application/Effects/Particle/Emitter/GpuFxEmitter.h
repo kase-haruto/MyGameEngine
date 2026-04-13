@@ -5,8 +5,8 @@
 #include <Engine/Graphics/Buffer/DxConstantBuffer.h>
 #include <Engine/Graphics/Buffer/DxStructuredBuffer.h>
 
-struct CalyxMath::Vector3;
-namespace CalyxEffect {
+struct CalyxEngine::Vector3;
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * GpuFxEmitter
@@ -20,7 +20,7 @@ namespace CalyxEffect {
 		/* ===================================================================== */
 		struct EmitterParam {
 			float	deltaTime	 = 0.f;
-			CalyxMath::Vector3 acceleration = CalyxMath::Vector3(0, 0, 0);
+			CalyxEngine::Vector3 acceleration = CalyxEngine::Vector3(0, 0, 0);
 		};
 
 		struct PerFrame {
@@ -29,7 +29,7 @@ namespace CalyxEffect {
 		};
 
 		struct EmitterSphere {
-			CalyxMath::Vector3	 translate;
+			CalyxEngine::Vector3	 translate;
 			float	 radius;
 			uint32_t count;
 			float	 frequency;
@@ -66,10 +66,10 @@ namespace CalyxEffect {
 		D3D12_GPU_DESCRIPTOR_HANDLE GetParticleSrv() const;
 
 		// setter
-		void SetPosition(const CalyxMath::Vector3& pos) { position_ = pos; }
+		void SetPosition(const CalyxEngine::Vector3& pos) { position_ = pos; }
 
 	private:
-		CalyxMath::Vector3 position_{0, 0, 0};
+		CalyxEngine::Vector3 position_{0, 0, 0};
 		bool	isInitialized = false;
 
 		// SBuff

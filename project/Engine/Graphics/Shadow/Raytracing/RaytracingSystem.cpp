@@ -7,7 +7,7 @@
 
 #include <cassert>
 
-namespace CalyxGraphics {
+namespace CalyxEngine {
 
 	namespace {
 
@@ -166,4 +166,4 @@ namespace CalyxGraphics {
 
 	ID3D12Resource* RaytracingSystem::GetTLAS() const { return tlas_.Get(); }
 
-} // namespace CalyxGraphics
+} // namespace CalyxEngine

@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <cmath>
 
-namespace CalyxMath {
+namespace CalyxEngine {
 
 	Vector3::Vector3(float scaler)
 		: x(scaler), y(scaler), z(scaler) {}
@@ -281,4 +281,4 @@ namespace CalyxMath {
 		return Vector3(vec.x - scalar, vec.y - scalar, vec.z - scalar);
 	}
 
-} // namespace CalyxMath
+} // namespace CalyxEngine

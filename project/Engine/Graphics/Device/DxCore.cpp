@@ -16,7 +16,7 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dxcompiler.lib")
 
-namespace CalyxGraphics {
+namespace CalyxEngine {
 	
 	DxCore::~DxCore() {
 		ReleaseResources();
@@ -169,4 +169,4 @@ namespace CalyxGraphics {
 #endif // _DEBUG
 	}
 	
-} // namespace CalyxGraphics
+} // namespace CalyxEngine

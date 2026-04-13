@@ -10,7 +10,7 @@
 #include "Engine/System/Command/EditorCommand/GuiCommand/ImGuiHelper/GuiCmd.h"
 #include <externals/imgui/imgui.h>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//		コンストラクタ
 	/////////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +159,7 @@ namespace CalyxEditor {
 			ImGui::PushID(i);
 
 			if(ImGui::ImageButton(tab.iconTex,ImVec2(20,20))) { currentTabIndex_ = i; }
-			std::string_view enumcon = CalyxUtil::EnumConverter<ParamFilterSection>::ToString(tab.filterSection);
+			std::string_view enumcon = CalyxEngine::EnumConverter<ParamFilterSection>::ToString(tab.filterSection);
 			if(ImGui::IsItemHovered()) { ImGui::SetTooltip("%s",enumcon.data()); }
 
 			if(isSelected) { ImGui::PopStyleColor(); }
@@ -198,4 +198,4 @@ namespace CalyxEditor {
 			}
 		}
 	}
-} // namespace CalyxEditor
+} // namespace CalyxEngine

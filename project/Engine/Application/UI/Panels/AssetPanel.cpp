@@ -9,7 +9,7 @@
 #include <system_error>
 #include <vector>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	void AssetPanel::Initialize(const std::filesystem::path& assetsRoot) {
 		assetsRootAbs_	  = std::filesystem::weakly_canonical(assetsRoot);
@@ -465,4 +465,4 @@ namespace CalyxEditor {
 				  [](const auto& a, const auto& b) { return a.filename().string() < b.filename().string(); });
 	}
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

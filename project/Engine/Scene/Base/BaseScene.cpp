@@ -17,7 +17,7 @@
 BaseScene::BaseScene() {
 	spriteRenderer_	 = std::make_unique<SpriteRenderer>();
 	modelRenderer_	 = std::make_unique<ModelRenderer>();
-	shadowMapSystem_ = std::make_unique<CalyxGraphics::ShadowMapSystem>();
+	shadowMapSystem_ = std::make_unique<CalyxEngine::ShadowMapSystem>();
 	shadowMapSystem_->Initialize(
 		GraphicsGroup::GetInstance()->GetDevice().Get(),
 		4096);

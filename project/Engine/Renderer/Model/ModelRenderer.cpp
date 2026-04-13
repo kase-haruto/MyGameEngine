@@ -21,7 +21,7 @@ ModelRenderer::ModelRenderer() {
 	GraphicsGroup::GetInstance()->GetDevice()->QueryInterface(IID_PPV_ARGS(&device5));
 
 	if(device5) {
-		raytracingSystem_ = std::make_unique<CalyxGraphics::RaytracingSystem>();
+		raytracingSystem_ = std::make_unique<CalyxEngine::RaytracingSystem>();
 		raytracingSystem_->Initialize(device5.Get());
 	}
 }
@@ -42,7 +42,7 @@ void ModelRenderer::RegisterStatic(BaseModel* model, const WorldTransform& trans
 /////////////////////////////////////////////////////////////////////////////////////////
 //		アニメーションモデル登録
 /////////////////////////////////////////////////////////////////////////////////////////
-void ModelRenderer::RegisterSkinned(CalyxAssets::AnimationModel* model, const WorldTransform& transform, SceneObject* owner) {
+void ModelRenderer::RegisterSkinned(CalyxEngine::AnimationModel* model, const WorldTransform& transform, SceneObject* owner) {
 	InstanceSkinned inst{};
 	inst.tf		 = transform;
 	inst.dirty	 = true;
@@ -95,7 +95,7 @@ void ModelRenderer::MarkStaticDirty(BaseModel* model, size_t index) {
 	it->second[index].dirty = true;
 }
 
-void ModelRenderer::MarkSkinnedDirty(CalyxAssets::AnimationModel* model, size_t index) {
+void ModelRenderer::MarkSkinnedDirty(CalyxEngine::AnimationModel* model, size_t index) {
 	auto it = skinnedModels_.find(model);
 	if(it == skinnedModels_.end()) return;
 	if(index >= it->second.size()) return;
@@ -124,8 +124,8 @@ void ModelRenderer::PreCullAndBatch(const Camera3d* camera) {
 			hasSceneBounds_ = true;
 			return;
 		}
-		sceneBounds_.min_ = CalyxMath::Vector3::Min(sceneBounds_.min_, aabb.min_);
-		sceneBounds_.max_ = CalyxMath::Vector3::Max(sceneBounds_.max_, aabb.max_);
+		sceneBounds_.min_ = CalyxEngine::Vector3::Min(sceneBounds_.min_, aabb.min_);
+		sceneBounds_.max_ = CalyxEngine::Vector3::Max(sceneBounds_.max_, aabb.max_);
 	};
 
 	// =========================================================
@@ -269,7 +269,7 @@ void ModelRenderer::DrawAll(ID3D12GraphicsCommandList*		cmdList,
 							IRenderTarget*					rt,
 							PipelineService*				psoService,
 							LightLibrary*					lightLibrary,
-							CalyxGraphics::ShadowMapSystem* shadowMapSystem) {
+							CalyxEngine::ShadowMapSystem* shadowMapSystem) {
 
 	// Raytracing TLAS Build
 	if(raytracingSystem_) {
@@ -290,7 +290,7 @@ void ModelRenderer::DrawAll(ID3D12GraphicsCommandList*		cmdList,
 				if(model->HasBLAS()) {
 					for(const auto& tf : transforms) {
 						raytracingScene_.AddInstance(
-							CalyxMath::Matrix3x4::ToMatrix3x4(tf.matrix.world),
+							CalyxEngine::Matrix3x4::ToMatrix3x4(tf.matrix.world),
 							model->GetBLAS(),
 							0);
 					}
@@ -306,7 +306,7 @@ void ModelRenderer::DrawAll(ID3D12GraphicsCommandList*		cmdList,
 				if(model->HasBLAS()) {
 					for(const auto& tf : transforms) {
 						raytracingScene_.AddInstance(
-							CalyxMath::Matrix3x4::ToMatrix3x4(tf.matrix.world),
+							CalyxEngine::Matrix3x4::ToMatrix3x4(tf.matrix.world),
 							model->GetBLAS(),
 							0);
 					}
@@ -472,7 +472,7 @@ void ModelRenderer::DrawAll(ID3D12GraphicsCommandList*		cmdList,
 
 					auto					 oldColor		 = model->GetColor();
 					auto					 oldLighting	 = model->GetLightingMode();
-					const CalyxMath::Vector4 orangeWireframe = {1.0f, 0.5f, 0.0f, 1.0f};
+					const CalyxEngine::Vector4 orangeWireframe = {1.0f, 0.5f, 0.0f, 1.0f};
 					model->SetColor(orangeWireframe);
 					model->SetLightingMode(LightingMode::UnlitColor);
 					model->TransferMaterial();
@@ -526,7 +526,7 @@ void ModelRenderer::DrawAll(ID3D12GraphicsCommandList*		cmdList,
 
 					auto					 oldColor		 = model->GetColor();
 					auto					 oldLighting	 = model->GetLightingMode();
-					const CalyxMath::Vector4 orangeWireframe = {1.0f, 0.5f, 0.0f, 1.0f};
+					const CalyxEngine::Vector4 orangeWireframe = {1.0f, 0.5f, 0.0f, 1.0f};
 					model->SetColor(orangeWireframe);
 					model->SetLightingMode(LightingMode::UnlitColor);
 					model->TransferMaterial();

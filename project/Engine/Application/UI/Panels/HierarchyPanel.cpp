@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	/* ========================================================================
 	 *  include space
@@ -200,7 +200,7 @@ namespace CalyxEditor {
 						ImGui::EndMenu();
 					}
 					if(ImGui::MenuItem("Mesh Object")) createRoot(std::make_shared<BaseGameObject>());
-					if(ImGui::MenuItem("Particle System")) createRoot(std::make_shared<CalyxEffect::ParticleSystemObject>());
+					if(ImGui::MenuItem("Particle System")) createRoot(std::make_shared<CalyxEngine::ParticleSystemObject>());
 					ImGui::EndMenu();
 				}
 				ImGui::Separator();
@@ -420,7 +420,7 @@ namespace CalyxEditor {
 						ImGui::EndMenu();
 					}
 					if(ImGui::MenuItem("Mesh Object")) createChild(std::make_shared<BaseGameObject>());
-					if(ImGui::MenuItem("Particle System")) createChild(std::make_shared<CalyxEffect::ParticleSystemObject>());
+					if(ImGui::MenuItem("Particle System")) createChild(std::make_shared<CalyxEngine::ParticleSystemObject>());
 
 					ImGui::EndMenu();
 				}
@@ -573,4 +573,4 @@ namespace CalyxEditor {
 		CancelRename();
 	}
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

@@ -24,5 +24,5 @@ struct DangerSenseConfig :
 
 	// UI
 	std::string        uiTex  = "Textures/UI/dodgeUI.dds";
-	CalyxMath::Vector2 uiSize = {128.0f,64.0f};
+	CalyxEngine::Vector2 uiSize = {128.0f,64.0f};
 };

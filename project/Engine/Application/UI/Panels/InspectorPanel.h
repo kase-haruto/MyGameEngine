@@ -9,7 +9,7 @@
 #include <string>
 
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	class BaseEditor;
 	class SceneObjectEditor;

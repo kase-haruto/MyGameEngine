@@ -3,7 +3,7 @@
 #include "AnimationStruct.h"
 #include <externals/imgui/imgui.h>
 
-namespace CalyxAssets {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * AnimationModel
@@ -59,7 +59,7 @@ namespace CalyxAssets {
 		std::string                         GetCurrentAnimationName() const;
 		float                               GetAnimationSpeed() const { return animationSpeed_; }
 		std::vector<std::string>            GetAnimationNodeNames() const;
-		std::optional<CalyxMath::Matrix4x4> GetJointMatrix(const std::string& name) const;
+		std::optional<CalyxEngine::Matrix4x4> GetJointMatrix(const std::string& name) const;
 		D3D12_GPU_DESCRIPTOR_HANDLE         GetJointMatrixSrv() const;
 		void                                SetAnimationSpeed(float speed) { animationSpeed_ = speed; }
 
@@ -80,8 +80,8 @@ namespace CalyxAssets {
 
 
 		/// アニメーションCurveを適用
-		CalyxMath::Quaternion CalculateValue(const AnimationCurve<CalyxMath::Quaternion>& curve,float time, size_t& hint);
-		CalyxMath::Vector3    CalculateValue(const AnimationCurve<CalyxMath::Vector3>& curve,float time, size_t& hint);
+		CalyxEngine::Quaternion CalculateValue(const AnimationCurve<CalyxEngine::Quaternion>& curve,float time, size_t& hint);
+		CalyxEngine::Vector3    CalculateValue(const AnimationCurve<CalyxEngine::Vector3>& curve,float time, size_t& hint);
 
 		/// スケルトン計算
 		void SkinningStep();

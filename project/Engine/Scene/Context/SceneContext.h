@@ -71,7 +71,7 @@ public:
 	// getter
 	SceneObjectLibrary*	   GetObjectLibrary() const { return objectLibrary_.get(); }
 	LightLibrary*		   GetLightLibrary() const { return lightLibrary_.get(); }
-	CalyxEffect::FxSystem* GetFxSystem() const { return fxSystem_.get(); }
+	CalyxEngine::FxSystem* GetFxSystem() const { return fxSystem_.get(); }
 	std::string			   GetSceneName() const { return sceneName_; }
 	bool				   IsRuntime() const { return isRuntime_; }
 	CameraManager*		   GetCameraMgr() { return cameraMgr_.get(); }
@@ -109,7 +109,7 @@ public:
 private:
 	std::unique_ptr<SceneObjectLibrary>	   objectLibrary_;
 	std::unique_ptr<LightLibrary>		   lightLibrary_;
-	std::unique_ptr<CalyxEffect::FxSystem> fxSystem_;
+	std::unique_ptr<CalyxEngine::FxSystem> fxSystem_;
 	std::unique_ptr<CameraManager>		   cameraMgr_;
 
 	ObjectRemovedCallback			   onEditorObjectRemoved_;

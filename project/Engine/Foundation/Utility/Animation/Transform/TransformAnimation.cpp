@@ -15,7 +15,7 @@ void CalyxEngine::TransformAnimation::Update(float dt) {
 
 	float t = loop_.LoopedT(rawT);
 
-	float eased = CalyxEase::ApplyEase(easeType_, t);
+	float eased = CalyxEngine::ApplyEase(easeType_, t);
 
 	QuaternionTransform result = LerpTransform(startTransform_, endTransform_, eased);
 
@@ -31,7 +31,7 @@ void CalyxEngine::TransformAnimation::Update(float dt) {
 void CalyxEngine::TransformAnimation::ShowGui() {
 }
 bool CalyxEngine::TransformAnimation::EaseTypeCombo() {
-	return  CalyxUtil::EnumConverter<CalyxEase::EaseType>::Combo("easeType", easeType_);
+	return  CalyxEngine::EnumConverter<CalyxEngine::EaseType>::Combo("easeType", easeType_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -47,10 +47,10 @@ QuaternionTransform CalyxEngine::TransformAnimation::LerpTransform(const Quatern
 																   float					  t) const {
 	QuaternionTransform r;
 
-	r.translate = CalyxMath::Vector3::Lerp(start.translate, end.translate, t);
-	r.scale		= CalyxMath::Vector3::Lerp(start.scale, end.scale, t);
+	r.translate = CalyxEngine::Vector3::Lerp(start.translate, end.translate, t);
+	r.scale		= CalyxEngine::Vector3::Lerp(start.scale, end.scale, t);
 
-	r.rotate = CalyxMath::Quaternion::Slerp(
+	r.rotate = CalyxEngine::Quaternion::Slerp(
 		start.rotate,
 		end.rotate,
 		t);

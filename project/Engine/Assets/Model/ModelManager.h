@@ -120,8 +120,8 @@ private:
 	void LoadSkinData(const aiMesh* mesh, ModelData& modelData);
 
 	/// アニメーション評価
-	CalyxMath::Vector3    Evaluate(const AnimationCurve<CalyxMath::Vector3>& curve, float time);
-	CalyxMath::Quaternion Evaluate(const AnimationCurve<CalyxMath::Quaternion>& curve, float time);
+	CalyxEngine::Vector3    Evaluate(const AnimationCurve<CalyxEngine::Vector3>& curve, float time);
+	CalyxEngine::Quaternion Evaluate(const AnimationCurve<CalyxEngine::Quaternion>& curve, float time);
 
 private:
 	//===================================================================

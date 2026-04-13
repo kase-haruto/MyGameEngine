@@ -9,7 +9,7 @@
 
 struct Guid;
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 	/*-----------------------------------------------------------------------------------------
 	 * FxSystem
 	 * - エフェクト管理システムクラス
@@ -103,4 +103,4 @@ namespace CalyxEffect {
 		EventBus::Connection connAdd_; //< 追加イベントコネクション
 		EventBus::Connection connRem_; //< 削除イベントコネクション
 	};
-} // namespace CalyxEffect
+} // namespace CalyxEngine

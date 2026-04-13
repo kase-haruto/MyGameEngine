@@ -13,10 +13,10 @@
 #include <string>
 #include <vector>
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 	struct EmitterConfig {
-		CalyxMath::Vector3 position{};
-		CalyxMath::Vector4 color{1.0f, 1.0f, 1.0f, 1.0f};
+		CalyxEngine::Vector3 position{};
+		CalyxEngine::Vector4 color{1.0f, 1.0f, 1.0f, 1.0f};
 		Vector3ParamConfig scale;
 		Vector3ParamConfig velocity;
 		FxFloatParamConfig lifetime;
@@ -36,7 +36,7 @@ namespace CalyxEffect {
 		BlendMode	  blendMode		 = BlendMode::ADD;
 		EmitterShape emitterShape	 = EmitterShape::Point;
 		// 既存データ互換: キー未定義時は BaseEmitter と同じ既定値を使う
-		CalyxMath::Vector3 shapeSize{1.0f, 1.0f, 1.0f};
+		CalyxEngine::Vector3 shapeSize{1.0f, 1.0f, 1.0f};
 		float shapeRadius = 1.0f;
 		float shapeAngle  = 30.0f;
 
@@ -54,9 +54,9 @@ namespace CalyxEffect {
 	};
 
 	inline void EmitterConfig::FromJson(const nlohmann::json& j) {
-		position	   = j.value("position", CalyxMath::Vector3{0, 0, 0});
+		position	   = j.value("position", CalyxEngine::Vector3{0, 0, 0});
 		scale		   = j.value("scale", Vector3ParamConfig{});
-		color		   = j.value("color", CalyxMath::Vector4{1, 1, 1, 1});
+		color		   = j.value("color", CalyxEngine::Vector4{1, 1, 1, 1});
 		velocity	   = j.value("velocity", Vector3ParamConfig{});
 		lifetime	   = j.value("lifetime", FxFloatParamConfig{});
 		emitRate	   = j.value("emitRate", 1.0f);
@@ -67,7 +67,7 @@ namespace CalyxEffect {
 		randomSpinEmit = j.value("randomSpinEmit", false);
 		followOneShot  = j.value("followOneShot", false);
 		emitterShape   = j.value("emitterShape", EmitterShape::Point);
-		shapeSize      = j.value("shapeSize", CalyxMath::Vector3{1.0f, 1.0f, 1.0f});
+		shapeSize      = j.value("shapeSize", CalyxEngine::Vector3{1.0f, 1.0f, 1.0f});
 		shapeRadius    = j.value("shapeRadius", 1.0f);
 		shapeAngle     = j.value("shapeAngle", 30.0f);
 
@@ -147,4 +147,4 @@ namespace CalyxEffect {
 
 	inline void to_json(nlohmann::json& j, const EmitterConfig& c) { j = c.ToJson(); }
 	inline void from_json(const nlohmann::json& j, EmitterConfig& c) { c.FromJson(j); }
-} // namespace CalyxEffect
+} // namespace CalyxEngine

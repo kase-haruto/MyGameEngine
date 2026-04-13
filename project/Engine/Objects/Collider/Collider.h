@@ -79,7 +79,7 @@ public:
 	 * \param position 座標
 	 * \param rotate 回転
 	 */
-	virtual void Update(const CalyxMath::Vector3& position, const CalyxMath::Quaternion& rotate) = 0;
+	virtual void Update(const CalyxEngine::Vector3& position, const CalyxEngine::Quaternion& rotate) = 0;
 
 	/**
 	 * \brief 描画処理
@@ -182,9 +182,9 @@ protected:
 
 	ColliderType	   type_;							//< 自身のタイプ
 	ColliderType	   targetType_;						//< 衝突相手のタイプ
-	CalyxMath::Vector4 color_ = {1.0, 0.0, 0.0, 1.0};	//< 描画色
-	CalyxMath::Vector3 offset_{0.0f, 0.0f, 0.0f};		//< オフセット座標
-	CalyxMath::Vector3 rotateOffset_{0.0f, 0.0f, 0.0f}; //< 回転オフセット (Euler)
+	CalyxEngine::Vector4 color_ = {1.0, 0.0, 0.0, 1.0};	//< 描画色
+	CalyxEngine::Vector3 offset_{0.0f, 0.0f, 0.0f};		//< オフセット座標
+	CalyxEngine::Vector3 rotateOffset_{0.0f, 0.0f, 0.0f}; //< 回転オフセット (Euler)
 
 	bool isCollisionEnabled_ = false; //< 衝突判定を行うかどうか
 	bool isDraw_			 = true;  //< 描画を行うかどうか
@@ -219,7 +219,7 @@ public:
 	 * \brief 中心座標を取得
 	 * \return 中心座標
 	 */
-	virtual const CalyxMath::Vector3& GetCenter() const = 0;
+	virtual const CalyxEngine::Vector3& GetCenter() const = 0;
 
 	/**
 	 * \brief 衝突形状を取得
@@ -231,7 +231,7 @@ public:
 	 * \brief ワールド座標を取得
 	 * \return ワールド座標
 	 */
-	CalyxMath::Vector3 GetWorldPos() const;
+	CalyxEngine::Vector3 GetWorldPos() const;
 
 	/**
 	 * \brief 名前を取得
@@ -273,7 +273,7 @@ public:
 	 * \brief 描画色を設定
 	 * \param color 描画色
 	 */
-	void SetColor(const CalyxMath::Vector4& color) { color_ = color; }
+	void SetColor(const CalyxEngine::Vector4& color) { color_ = color; }
 
 	/**
 	 * \brief 衝突判定が有効かを取得
@@ -297,31 +297,31 @@ public:
 	 * \brief オフセットを設定
 	 * \param off オフセット
 	 */
-	void SetOffset(const CalyxMath::Vector3& off) { offset_ = off; }
+	void SetOffset(const CalyxEngine::Vector3& off) { offset_ = off; }
 
 	/**
 	 * \brief オフセットを取得
 	 * \return オフセット
 	 * /
-	const CalyxMath::Vector3& GetOffset() const { return offset_; }
+	const CalyxEngine::Vector3& GetOffset() const { return offset_; }
 
 	/**
 	 * \brief 回転オフセットを設定
 	 * \param rot 回転オフセット
 	 */
-	void SetRotateOffset(const CalyxMath::Vector3& rot) { rotateOffset_ = rot; }
+	void SetRotateOffset(const CalyxEngine::Vector3& rot) { rotateOffset_ = rot; }
 
 	/**
 	 * \brief 回転オフセットを取得
 	 * \return 回転オフセット
 	 */
-	const CalyxMath::Vector3& GetRotateOffset() const { return rotateOffset_; }
+	const CalyxEngine::Vector3& GetRotateOffset() const { return rotateOffset_; }
 
 	/**
 	 * \brief オフセットを加算
 	 * \param d 加算量
 	 */
-	void AddOffset(const CalyxMath::Vector3& d) { offset_ += d; }
+	void AddOffset(const CalyxEngine::Vector3& d) { offset_ += d; }
 
 private:
 	//===================================================================*/

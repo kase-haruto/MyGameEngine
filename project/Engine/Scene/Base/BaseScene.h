@@ -104,7 +104,7 @@ public:
 	 * \brief 遷移リクエスタを設定
 	 * \param requestor 遷移リクエスタ
 	 */
-	void SetTransitionRequestor(CalyxScene::ISceneTransitionRequestor* requestor)override{
+	void SetTransitionRequestor(CalyxEngine::ISceneTransitionRequestor* requestor)override{
 		transitionRequestor_ = requestor;
 	}
 
@@ -120,7 +120,7 @@ public:
 	 * \brief ペイロード受取
 	 * \param payload ペイロード
 	 */
-	virtual void OnPayload(std::unique_ptr<CalyxScene::IScenePayload> payload) {
+	virtual void OnPayload(std::unique_ptr<CalyxEngine::IScenePayload> payload) {
 		(void)payload;
 	}
 
@@ -138,7 +138,7 @@ protected:
 	//===================================================================*/
 	std::unique_ptr<SpriteRenderer> spriteRenderer_ = nullptr; //< スプライトレンダラ
 	std::unique_ptr<ModelRenderer> modelRenderer_ = nullptr; //< モデルレンダラ
-	std::unique_ptr<CalyxGraphics::ShadowMapSystem> shadowMapSystem_ = nullptr; //< シャドウマップシステム
+	std::unique_ptr<CalyxEngine::ShadowMapSystem> shadowMapSystem_ = nullptr; //< シャドウマップシステム
 
-	CalyxScene::ISceneTransitionRequestor* transitionRequestor_ = nullptr; //< 遷移リクエスタ
+	CalyxEngine::ISceneTransitionRequestor* transitionRequestor_ = nullptr; //< 遷移リクエスタ
 };

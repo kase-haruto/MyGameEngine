@@ -15,12 +15,12 @@
 class SceneContext;
 class PipelineService;
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 	class PlaySession;
 	class PickingPass;
-} // namespace CalyxEditor
+} // namespace CalyxEngine
 
-namespace CalyxScene {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * SceneManager
@@ -29,7 +29,7 @@ namespace CalyxScene {
 	 *---------------------------------------------------------------------------------------*/
 	class SceneManager {
 	public:
-		explicit SceneManager(CalyxGraphics::DxCore* dx);
+		explicit SceneManager(CalyxEngine::DxCore* dx);
 		~SceneManager();
 
 		void Initialize();
@@ -44,7 +44,7 @@ namespace CalyxScene {
 		void DrawNotAffectedFromPE(ID3D12GraphicsCommandList* cmd,
 								   PipelineService*			  pso);
 
-		void BindPlaySession(CalyxEditor::PlaySession* ps) { pPlaySession_ = ps; }
+		void BindPlaySession(CalyxEngine::PlaySession* ps) { pPlaySession_ = ps; }
 
 		SceneContext* ActiveCtx() const;
 		bool		  ActiveRuntimeFlag() const;
@@ -64,9 +64,9 @@ namespace CalyxScene {
 		SceneContext* GetCurrentSceneContext() const;
 		size_t		  GetCurrentIndex() const { return currentIdx_; }
 
-		CalyxScene::ISceneTransitionRequestor& GetTransitionRequestor();
+		CalyxEngine::ISceneTransitionRequestor& GetTransitionRequestor();
 
-		CalyxEditor::PickingPass* GetPickingPass() const { return pickingPass_.get(); }
+		CalyxEngine::PickingPass* GetPickingPass() const { return pickingPass_.get(); }
 
 	private:
 		// ---- internal transition entry ----
@@ -110,8 +110,8 @@ namespace CalyxScene {
 		std::optional<size_t>		   pendingSwitchIndex_;
 		std::unique_ptr<IScenePayload> pendingPayload_;
 
-		CalyxGraphics::DxCore*	  dx_			= nullptr;
-		CalyxEditor::PlaySession* pPlaySession_ = nullptr;
+		CalyxEngine::DxCore*	  dx_			= nullptr;
+		CalyxEngine::PlaySession* pPlaySession_ = nullptr;
 
 		SceneContext* lastBoundCtx_	  = nullptr;
 		uint64_t	  lastRuntimeGen_ = 0;
@@ -120,7 +120,7 @@ namespace CalyxScene {
 
 		std::vector<SceneId> registeredSceneIds_;
 
-		std::unique_ptr<CalyxEditor::PickingPass> pickingPass_;
+		std::unique_ptr<CalyxEngine::PickingPass> pickingPass_;
 	};
 
-} // namespace CalyxScene
+} // namespace CalyxEngine

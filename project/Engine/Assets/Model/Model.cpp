@@ -80,10 +80,10 @@ void Model::ShowImGuiInterface() {
 void Model::CreateMaterialBuffer() {
 	ID3D12Device* device = GraphicsGroup::GetInstance()->GetDevice().Get();
 	// materialData_ に初期値をセットする
-	materialData_.color        = CalyxMath::Vector4(1.0f,1.0f,1.0f,1.0f);
+	materialData_.color        = CalyxEngine::Vector4(1.0f,1.0f,1.0f,1.0f);
 	materialData_.shininess    = 20.0f;
 	materialData_.lightingMode = LightingMode::HalfLambert;
-	materialData_.uvTransform  = CalyxMath::Matrix4x4::MakeIdentity();
+	materialData_.uvTransform  = CalyxEngine::Matrix4x4::MakeIdentity();
 
 	materialBuffer_.Initialize(device);
 }
