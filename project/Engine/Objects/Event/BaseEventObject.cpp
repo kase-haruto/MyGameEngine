@@ -19,7 +19,7 @@ BaseEventObject::BaseEventObject() {
 	// 衝突の設定(boxで初期化
 	std::unique_ptr<BoxCollider> box = std::make_unique<BoxCollider>(true);
 	box->SetName(GetName() + "BoxCollider");   //< コライダー名前設定
-	box->Initialize(CalyxMath::Vector3(1.0f)); //< サイズ設定
+	box->Initialize(CalyxEngine::Vector3(1.0f)); //< サイズ設定
 	collider_ = std::move(box);
 	collider_->SetType(ColliderType::Type_EventObject);
 	collider_->SetTargetType(ColliderType::Type_Player);
@@ -30,7 +30,7 @@ BaseEventObject::BaseEventObject() {
 
 	model_ = std::make_unique<Model>("debugCube.obj");
 	model_->SetBlendMode(BlendMode::ALPHA);
-	model_->SetColor(CalyxMath::Vector4(0.0f, 1.0f, 0.0f, 0.5f));
+	model_->SetColor(CalyxEngine::Vector4(0.0f, 1.0f, 0.0f, 0.5f));
 
 	isCastShadow_ = false; // 影を落とさない
 
@@ -48,7 +48,7 @@ BaseEventObject::BaseEventObject(const std::string& name) {
 	// 衝突の設定(boxで初期化
 	std::unique_ptr<BoxCollider> box = std::make_unique<BoxCollider>(true);
 	box->SetName(name + "BoxCollider");		   //< コライダー名前設定
-	box->Initialize(CalyxMath::Vector3(1.0f)); //< サイズ設定
+	box->Initialize(CalyxEngine::Vector3(1.0f)); //< サイズ設定
 	collider_ = std::move(box);
 	collider_->SetType(ColliderType::Type_EventObject);
 	collider_->SetTargetType(ColliderType::Type_Player);
@@ -59,7 +59,7 @@ BaseEventObject::BaseEventObject(const std::string& name) {
 
 	model_ = std::make_unique<Model>("debugCube.obj");
 	model_->SetBlendMode(BlendMode::ALPHA);
-	model_->SetColor(CalyxMath::Vector4(0.0f, 1.0f, 0.0f, 0.5f));
+	model_->SetColor(CalyxEngine::Vector4(0.0f, 1.0f, 0.0f, 0.5f));
 
 	isCastShadow_ = false; // 影を落とさない
 
@@ -101,8 +101,8 @@ void BaseEventObject::AlwaysUpdate([[maybe_unused]] float dt) {
 		model_->SetIsDrawEnable(isDrawEnable_);
 	}
 
-	CalyxMath::Vector3	  worldPos = worldTransform_.GetWorldPosition();
-	CalyxMath::Quaternion rot	   = worldTransform_.rotation;
+	CalyxEngine::Vector3	  worldPos = worldTransform_.GetWorldPosition();
+	CalyxEngine::Quaternion rot	   = worldTransform_.rotation;
 
 	// collider の更新
 	if(collider_) {

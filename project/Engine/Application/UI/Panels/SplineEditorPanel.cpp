@@ -15,7 +15,7 @@
 #include <cfloat>
 
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 	// -------------------- ツールバー --------------------
 	void SplineEditorPanel::DrawToolbar() {
 		if(ImGui::Button("New")) {
@@ -126,13 +126,13 @@ namespace CalyxEditor {
 		if(data_.points.size() < 2) return;
 
 		float minx = 1e9f, minz = 1e9f, maxx = -1e9f, maxz = -1e9f;
-		auto  scan = [&](const CalyxMath::Vector3& v) { minx = (std::min)(minx, v.x); minz = (std::min)(minz, v.z); maxx = (std::max)(maxx, v.x); maxz = (std::max)(maxz, v.z); };
+		auto  scan = [&](const CalyxEngine::Vector3& v) { minx = (std::min)(minx, v.x); minz = (std::min)(minz, v.z); maxx = (std::max)(maxx, v.x); maxz = (std::max)(maxz, v.z); };
 		for(auto& pt : data_.points) scan(pt.pos);
 		const int steps = (std::max)(2, data_.SegmentCount() * 16);
 		for(int i = 0; i <= steps; i++) scan(data_.Evaluate(i / (float)steps));
 
 		float dx = (std::max)(1e-3f, maxx - minx), dz = (std::max)(1e-3f, maxz - minz);
-		auto  map = [&](const CalyxMath::Vector3& v) {
+		auto  map = [&](const CalyxEngine::Vector3& v) {
 			 float u = (v.x - minx) / dx, w = (v.z - minz) / dz;
 			 return ImVec2(p0.x + u * (p1.x - p0.x - 6) + 3, p1.y - (w * (p1.y - p0.y - 6) + 3));
 		};
@@ -154,7 +154,7 @@ namespace CalyxEditor {
 		auto* cam = CameraManager::GetDebug();
 
 		ImVec2			   m = ImGui::GetMousePos();
-		CalyxMath::Vector2 mouseLocal{m.x - vpPos_.x, m.y - vpPos_.y};
+		CalyxEngine::Vector2 mouseLocal{m.x - vpPos_.x, m.y - vpPos_.y};
 
 		// ビューポート外なら前方へ（当たらないレイ）
 		if(mouseLocal.x < 0 || mouseLocal.y < 0 || mouseLocal.x > vpSize_.x || mouseLocal.y > vpSize_.y) {
@@ -165,7 +165,7 @@ namespace CalyxEditor {
 
 	// 交差判定（点のAABB）
 	struct LocalAABB {
-		CalyxMath::Vector3 min, max;
+		CalyxEngine::Vector3 min, max;
 	};
 	static bool IntersectRayAABB_Local(const Ray& ray, const LocalAABB& aabb, float& tOut) {
 		float tmin = 0.0f, tmax = tOut;
@@ -187,8 +187,8 @@ namespace CalyxEditor {
 		int	  best	= -1;
 		float bestT = FLT_MAX;
 		for(int i = 0; i < (int)data_.points.size(); ++i) {
-			const CalyxMath::Vector3& p = data_.points[i].pos;
-			LocalAABB				  box{p - CalyxMath::Vector3{halfSize, halfSize, halfSize}, p + CalyxMath::Vector3{halfSize, halfSize, halfSize}};
+			const CalyxEngine::Vector3& p = data_.points[i].pos;
+			LocalAABB				  box{p - CalyxEngine::Vector3{halfSize, halfSize, halfSize}, p + CalyxEngine::Vector3{halfSize, halfSize, halfSize}};
 			float					  t = 1e6f;
 			if(IntersectRayAABB_Local(ray, box, t) && t < bestT) {
 				bestT = t;
@@ -199,10 +199,10 @@ namespace CalyxEditor {
 		return best;
 	}
 
-	bool SplineEditorPanel::IntersectPlane(const Ray& ray, const CalyxMath::Vector3& n, float d, CalyxMath::Vector3& out) const {
-		float denom = CalyxMath::Vector3::Dot(n, ray.direction);
+	bool SplineEditorPanel::IntersectPlane(const Ray& ray, const CalyxEngine::Vector3& n, float d, CalyxEngine::Vector3& out) const {
+		float denom = CalyxEngine::Vector3::Dot(n, ray.direction);
 		if(std::abs(denom) < 1e-6f) return false;
-		float t = -(CalyxMath::Vector3::Dot(n, ray.origin) + d) / denom;
+		float t = -(CalyxEngine::Vector3::Dot(n, ray.origin) + d) / denom;
 		if(t < 0) return false;
 		out = ray.origin + ray.direction * t;
 		return true;
@@ -214,13 +214,13 @@ namespace CalyxEditor {
 		auto* drawer = PrimitiveDrawer::GetInstance();
 
 		// ---- AABBスケールの基準（全体境界の1%）----
-		CalyxMath::Vector3 minP{FLT_MAX, FLT_MAX, FLT_MAX}, maxP{-FLT_MAX, -FLT_MAX, -FLT_MAX};
-		auto			   expand = [&](const CalyxMath::Vector3& v) { minP = CalyxMath::Vector3::Min(minP, v); maxP = CalyxMath::Vector3::Max(maxP, v); };
+		CalyxEngine::Vector3 minP{FLT_MAX, FLT_MAX, FLT_MAX}, maxP{-FLT_MAX, -FLT_MAX, -FLT_MAX};
+		auto			   expand = [&](const CalyxEngine::Vector3& v) { minP = CalyxEngine::Vector3::Min(minP, v); maxP = CalyxEngine::Vector3::Max(maxP, v); };
 		for(auto& pt : data_.points) expand(pt.pos);
 		const int steps = (std::max)(2, data_.SegmentCount() * 16);
 		for(int i = 0; i <= steps; ++i) expand(data_.Evaluate(i / (float)steps));
 
-		CalyxMath::Vector3 diag		= maxP - minP;
+		CalyxEngine::Vector3 diag		= maxP - minP;
 		float			   aabbHalf = (std::max)({diag.x, diag.y, diag.z}) * 0.01f;
 		if(aabbHalf <= 0.0f) aabbHalf = 0.05f;
 
@@ -258,11 +258,11 @@ namespace CalyxEditor {
 
 		// ---- Manipulator で選択点を移動（選択があるときだけターゲットを結び付ける）----
 		if(gizmoOn && manipulator_ && selectedPoint_ >= 0 && selectedPoint_ < (int)data_.points.size()) {
-			CalyxMath::Vector3& pos = data_.points[selectedPoint_].pos;
+			CalyxEngine::Vector3& pos = data_.points[selectedPoint_].pos;
 
 			gizmoTf_.translation = pos;
 			gizmoTf_.scale		 = {1, 1, 1};
-			gizmoTf_.rotation	 = CalyxMath::Quaternion::MakeIdentity();
+			gizmoTf_.rotation	 = CalyxEngine::Quaternion::MakeIdentity();
 			gizmoTf_.Update();
 
 			manipulator_->SetTarget(&gizmoTf_);
@@ -276,21 +276,21 @@ namespace CalyxEditor {
 		}
 
 		// ---- 3Dプレビュー ----
-		drawer->DrawAABB(minP, maxP, CalyxMath::Vector4(1.0f, 0.0f, 0.498f, 1.0f)); // 全体AABB
+		drawer->DrawAABB(minP, maxP, CalyxEngine::Vector4(1.0f, 0.0f, 0.498f, 1.0f)); // 全体AABB
 
-		CalyxMath::Vector3 prev = data_.Evaluate(0.0f);
+		CalyxEngine::Vector3 prev = data_.Evaluate(0.0f);
 		for(int i = 1; i <= steps; i++) {
-			CalyxMath::Vector3 cur = data_.Evaluate(i / (float)steps);
-			drawer->DrawLine3d(prev, cur, CalyxMath::Vector4(0.0f, 0.8f, 0.9f, 1.0f)); // 曲線ライン
+			CalyxEngine::Vector3 cur = data_.Evaluate(i / (float)steps);
+			drawer->DrawLine3d(prev, cur, CalyxEngine::Vector4(0.0f, 0.8f, 0.9f, 1.0f)); // 曲線ライン
 			prev = cur;
 		}
 
 		int sel = GetSelectedIndex();
 		for(int i = 0; i < (int)data_.points.size(); ++i) {
-			const CalyxMath::Vector3& p	   = data_.points[i].pos;
-			CalyxMath::Vector3		  pmin = p - CalyxMath::Vector3{aabbHalf, aabbHalf, aabbHalf};
-			CalyxMath::Vector3		  pmax = p + CalyxMath::Vector3{aabbHalf, aabbHalf, aabbHalf};
-			CalyxMath::Vector4		  col  = (i == sel) ? CalyxMath::Vector4(1.0f, 0.85f, 0.0f, 1.0f) : CalyxMath::Vector4(1.0f, 1.0f, 1.0f, 0.9f);
+			const CalyxEngine::Vector3& p	   = data_.points[i].pos;
+			CalyxEngine::Vector3		  pmin = p - CalyxEngine::Vector3{aabbHalf, aabbHalf, aabbHalf};
+			CalyxEngine::Vector3		  pmax = p + CalyxEngine::Vector3{aabbHalf, aabbHalf, aabbHalf};
+			CalyxEngine::Vector4		  col  = (i == sel) ? CalyxEngine::Vector4(1.0f, 0.85f, 0.0f, 1.0f) : CalyxEngine::Vector4(1.0f, 1.0f, 1.0f, 0.9f);
 			drawer->DrawAABB(pmin, pmax, col); // 点のAABB
 		}
 	}
@@ -303,7 +303,7 @@ namespace CalyxEditor {
 			manipulator_		 = std::make_unique<Manipulator>();
 			gizmoTf_.translation = {0, 0, 0};
 			gizmoTf_.scale		 = {1, 1, 1};
-			gizmoTf_.rotation	 = CalyxMath::Quaternion::MakeIdentity();
+			gizmoTf_.rotation	 = CalyxEngine::Quaternion::MakeIdentity();
 			gizmoTf_.Update();
 
 			// --- 起動時ロード ---
@@ -328,4 +328,4 @@ namespace CalyxEditor {
 		if(!open) SetShow(false);
 	}
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

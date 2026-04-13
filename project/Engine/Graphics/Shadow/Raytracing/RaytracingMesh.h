@@ -4,7 +4,7 @@
 #include <d3d12.h>
 #include <wrl.h>
 
-namespace CalyxGraphics {
+namespace CalyxEngine {
 
 	/*----------------------------------------------------------------
 	 *	Raytracing Mesh
@@ -36,4 +36,4 @@ namespace CalyxGraphics {
 		Microsoft::WRL::ComPtr<ID3D12Resource> scratch_;	//< スクラッチバッファ
 	};
 
-} // namespace CalyxGraphics
+} // namespace CalyxEngine

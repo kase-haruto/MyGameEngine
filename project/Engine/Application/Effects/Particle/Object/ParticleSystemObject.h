@@ -13,7 +13,7 @@
 #include <memory>
 #include <string>
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * ParticleSystemObject
@@ -55,16 +55,16 @@ namespace CalyxEffect {
 
 		/* -------- accessors -------- */
 		void			 SetDrawEnable(bool isDrawEnable) override;
-		void			 SetPosition(const CalyxMath::Vector3& pos);
+		void			 SetPosition(const CalyxEngine::Vector3& pos);
 		std::string_view GetTypeName() const override { return "ParticleSystemObject"; }
 
 		const ConfigurableObject<ParticleSystemObjectConfig>& GetConfigObject() const { return config_; }
 
-		std::shared_ptr<CalyxEffect::FxEmitter> GetEmitter() const { return emitter_; }
+		std::shared_ptr<CalyxEngine::FxEmitter> GetEmitter() const { return emitter_; }
 
 	private:
 		ConfigurableObject<ParticleSystemObjectConfig> config_;
 
-		std::shared_ptr<CalyxEffect::FxEmitter> emitter_;
+		std::shared_ptr<CalyxEngine::FxEmitter> emitter_;
 	};
-} // namespace CalyxEffect
+} // namespace CalyxEngine

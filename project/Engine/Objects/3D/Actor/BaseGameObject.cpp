@@ -25,7 +25,7 @@ BaseGameObject::BaseGameObject(const std::string&		  modelName,
 		// gltf
 		else if(extension == ".gltf") {
 			objectModelType_ = ObjectModelType::ModelType_Animation;
-			model_			 = std::make_unique<CalyxAssets::AnimationModel>(modelName);
+			model_			 = std::make_unique<CalyxEngine::AnimationModel>(modelName);
 		} else {
 			objectModelType_ = ObjectModelType::ModelType_Unknown;
 		}
@@ -67,8 +67,8 @@ void BaseGameObject::AlwaysUpdate(float dt) {
 	// collider の更新
 	if(collider_) {
 		if(collider_->IsCollisionEnubled()) {
-			CalyxMath::Vector3	  worldPos = GetCenterPos();
-			CalyxMath::Quaternion worldRot = worldTransform_.rotation;
+			CalyxEngine::Vector3	  worldPos = GetCenterPos();
+			CalyxEngine::Quaternion worldRot = worldTransform_.rotation;
 			collider_->Update(worldPos, worldRot);
 			collider_->Draw();
 		}
@@ -89,7 +89,7 @@ void BaseGameObject::InitializeCollider(ColliderKind kind) {
 	case ColliderKind::Box: {
 		auto box = std::make_unique<BoxCollider>(true);
 		box->SetName(GetName() + "_BoxCollider");
-		box->Initialize(CalyxMath::Vector3(1.0f, 1.0f, 1.0f)); // 適当な初期サイズ
+		box->Initialize(CalyxEngine::Vector3(1.0f, 1.0f, 1.0f)); // 適当な初期サイズ
 		collider_ = std::move(box);
 		break;
 	}
@@ -119,27 +119,27 @@ void BaseGameObject::ShowGui() {
 	ImGui::Separator();
 
 	// --- トランスフォーム ---
-	if(GuiCmd::BeginSection(CalyxEditor::ParamFilterSection::Object)) {
+	if(GuiCmd::BeginSection(CalyxEngine::ParamFilterSection::Object)) {
 		worldTransform_.ShowImGui("world");
 		GuiCmd::EndSection();
 	}
 
 	// --- マテリアル・モデル ---
-	if(GuiCmd::BeginSection(CalyxEditor::ParamFilterSection::Material)) {
+	if(GuiCmd::BeginSection(CalyxEngine::ParamFilterSection::Material)) {
 		model_->ShowImGui(config_.GetConfig().modelConfig);
 		GuiCmd::EndSection();
 	}
 
 	// --- コライダー ---
 	if(collider_) {
-		if(GuiCmd::BeginSection(CalyxEditor::ParamFilterSection::Collider)) {
+		if(GuiCmd::BeginSection(CalyxEngine::ParamFilterSection::Collider)) {
 			collider_->ShowGui();
 			GuiCmd::EndSection();
 		}
 	}
 
 	// --- 描画設定 ---
-	if(GuiCmd::BeginSection(CalyxEditor::ParamFilterSection::Object)) {
+	if(GuiCmd::BeginSection(CalyxEngine::ParamFilterSection::Object)) {
 		if(ImGui::TreeNodeEx("Billboard Mode", ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen)) {
 			int			mode	= static_cast<int>(billboardMode_);
 			const char* items[] = {"None", "Full", "AxisY"};
@@ -152,13 +152,13 @@ void BaseGameObject::ShowGui() {
 	}
 
 	// --- パラメータデータ ---
-	if(GuiCmd::BeginSection(CalyxEditor::ParamFilterSection::ParameterData)) {
+	if(GuiCmd::BeginSection(CalyxEngine::ParamFilterSection::ParameterData)) {
 		HeaderGui();
 		GuiCmd::EndSection();
 	}
 
 	// --- 派生クラス用パラメータ ---
-	if(GuiCmd::BeginSection(CalyxEditor::ParamFilterSection::ParameterData)) {
+	if(GuiCmd::BeginSection(CalyxEngine::ParamFilterSection::ParameterData)) {
 		DerivativeGui();
 		GuiCmd::EndSection();
 	}
@@ -176,7 +176,7 @@ void BaseGameObject::ApplyConfig() {
 		auto dot = modelPath.find_last_of('.');
 		if(dot != std::string::npos && modelPath.substr(dot) == ".gltf") {
 			objectModelType_ = ObjectModelType::ModelType_Animation;
-			model_			 = std::make_unique<CalyxAssets::AnimationModel>(modelPath);
+			model_			 = std::make_unique<CalyxEngine::AnimationModel>(modelPath);
 		} else {
 			objectModelType_ = ObjectModelType::ModelType_Static;
 			model_			 = std::make_unique<Model>(modelPath);
@@ -241,23 +241,23 @@ void BaseGameObject::ExtractConfigToJson(nlohmann::json& j) const {
 
 void BaseGameObject::SetName(const std::string& name) { SceneObject::SetName(name, ObjectType::GameObject); }
 
-void BaseGameObject::SetTranslate(const CalyxMath::Vector3& pos) {
+void BaseGameObject::SetTranslate(const CalyxEngine::Vector3& pos) {
 	if(model_) {
 		worldTransform_.translation = pos;
 	}
 }
-void BaseGameObject::SetRotate(const CalyxMath::Quaternion& rot) {
+void BaseGameObject::SetRotate(const CalyxEngine::Quaternion& rot) {
 	if(model_) {
 		worldTransform_.rotation = rot;
 	}
 }
-void BaseGameObject::SetRotate(const CalyxMath::Vector3& euler) {
+void BaseGameObject::SetRotate(const CalyxEngine::Vector3& euler) {
 	if(model_) {
 		worldTransform_.eulerRotation = euler;
 	}
 }
 
-void BaseGameObject::SetScale(const CalyxMath::Vector3& scale) {
+void BaseGameObject::SetScale(const CalyxEngine::Vector3& scale) {
 	if(model_) {
 		worldTransform_.scale = scale;
 	}
@@ -268,13 +268,13 @@ void BaseGameObject::SetDrawEnable(bool isDrawEnable) {
 	model_->SetIsDrawEnable(isDrawEnable);
 }
 
-const CalyxMath::Vector3 BaseGameObject::GetCenterPos() const {
-	const CalyxMath::Vector3 offset	  = {0.0f, 0.5f, 0.0f};
-	CalyxMath::Vector3		 worldPos = CalyxMath::Vector3::Transform(offset, worldTransform_.matrix.world);
+const CalyxEngine::Vector3 BaseGameObject::GetCenterPos() const {
+	const CalyxEngine::Vector3 offset	  = {0.0f, 0.5f, 0.0f};
+	CalyxEngine::Vector3		 worldPos = CalyxEngine::Vector3::Transform(offset, worldTransform_.matrix.world);
 	return worldPos;
 }
 
-void BaseGameObject::SetColor(const CalyxMath::Vector4& color) {
+void BaseGameObject::SetColor(const CalyxEngine::Vector4& color) {
 	if(model_) {
 		model_->SetColor(color);
 	}
@@ -292,29 +292,29 @@ Model* BaseGameObject::GetStaticModel() {
 			   : nullptr;
 }
 
-CalyxAssets::AnimationModel* BaseGameObject::AnimationModel() {
+CalyxEngine::AnimationModel* BaseGameObject::AnimationModel() {
 	return (objectModelType_ == ObjectModelType::ModelType_Animation)
-			   ? static_cast<CalyxAssets::AnimationModel*>(model_.get())
+			   ? static_cast<CalyxEngine::AnimationModel*>(model_.get())
 			   : nullptr;
 }
 
-const CalyxAssets::AnimationModel* BaseGameObject::AnimationModel() const {
+const CalyxEngine::AnimationModel* BaseGameObject::AnimationModel() const {
 	return (objectModelType_ == ObjectModelType::ModelType_Animation)
-			   ? static_cast<CalyxAssets::AnimationModel*>(model_.get())
+			   ? static_cast<CalyxEngine::AnimationModel*>(model_.get())
 			   : nullptr;
 }
 
-static inline AABB TransformAabb(const AABB& local, const CalyxMath::Matrix4x4& W) {
-	const CalyxMath::Vector3 lc	 = (local.min_ + local.max_) * 0.5f;
-	const CalyxMath::Vector3 le0 = (local.max_ - local.min_) * 0.5f;
+static inline AABB TransformAabb(const AABB& local, const CalyxEngine::Matrix4x4& W) {
+	const CalyxEngine::Vector3 lc	 = (local.min_ + local.max_) * 0.5f;
+	const CalyxEngine::Vector3 le0 = (local.max_ - local.min_) * 0.5f;
 
-	const CalyxMath::Vector3 wc = (W * CalyxMath::Vector4(lc, 1.0f)).xyz();
+	const CalyxEngine::Vector3 wc = (W * CalyxEngine::Vector4(lc, 1.0f)).xyz();
 
 	const float m00 = std::fabs(W.m[0][0]), m01 = std::fabs(W.m[0][1]), m02 = std::fabs(W.m[0][2]);
 	const float m10 = std::fabs(W.m[1][0]), m11 = std::fabs(W.m[1][1]), m12 = std::fabs(W.m[1][2]);
 	const float m20 = std::fabs(W.m[2][0]), m21 = std::fabs(W.m[2][1]), m22 = std::fabs(W.m[2][2]);
 
-	const CalyxMath::Vector3 we = {
+	const CalyxEngine::Vector3 we = {
 		m00 * le0.x + m01 * le0.y + m02 * le0.z,
 		m10 * le0.x + m11 * le0.y + m12 * le0.z,
 		m20 * le0.x + m21 * le0.y + m22 * le0.z};
@@ -322,7 +322,7 @@ static inline AABB TransformAabb(const AABB& local, const CalyxMath::Matrix4x4& 
 }
 
 AABB BaseGameObject::GetWorldAABB() const {
-	const CalyxMath::Matrix4x4& W = worldTransform_.matrix.world;
+	const CalyxEngine::Matrix4x4& W = worldTransform_.matrix.world;
 
 	if(objectModelType_ == ModelType_Static) {
 		if(model_ && model_->GetModelData()) {
@@ -345,14 +345,14 @@ bool BaseGameObject::Save() const {
 	if(path.empty()) return false;
 	nlohmann::json j;
 	ExtractConfigToJson(j);
-	return CalyxUtil::JsonUtils::Save(path, j);
+	return CalyxEngine::JsonUtils::Save(path, j);
 }
 
 bool BaseGameObject::Load() {
 	const std::string& path = GetConfigPath();
 	if(path.empty()) return false;
 	nlohmann::json j;
-	if(!CalyxUtil::JsonUtils::Load(path, j)) return false;
+	if(!CalyxEngine::JsonUtils::Load(path, j)) return false;
 	ApplyConfigFromJson(j);
 	return true;
 }

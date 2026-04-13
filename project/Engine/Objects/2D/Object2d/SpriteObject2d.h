@@ -13,7 +13,7 @@
 class SpriteRenderer;
 class Sprite;
 
-namespace Calyx2D {
+namespace CalyxEngine {
 
 	//==============================================
 	// アニメーション構造体（1スプライトシート用）
@@ -81,23 +81,23 @@ namespace Calyx2D {
 	public:
 		// getter
 		const std::pair<int32_t, int32_t>& GetDivision() const;
-		const CalyxMath::Vector2&		   GetPosition() const;
-		const CalyxMath::Vector2&		   GetScale() const;
+		const CalyxEngine::Vector2&		   GetPosition() const;
+		const CalyxEngine::Vector2&		   GetScale() const;
 		Sprite*							   GetSprite() const;
-		CalyxMath::Vector2 GetUvTranslate() const;
+		CalyxEngine::Vector2 GetUvTranslate() const;
 		float GetUvRotate() const;
 
 		// setter
 		void SetDivision(const std::pair<int32_t, int32_t>& division);
-		void SetPosition(const CalyxMath::Vector2& position) const;
-		void SetScale(const CalyxMath::Vector2& scale) const;
+		void SetPosition(const CalyxEngine::Vector2& position) const;
+		void SetScale(const CalyxEngine::Vector2& scale) const;
 		void SetRotation(float rotation) const;
 		void SetAlpha(float alpha) const;
-		void SetColor(const CalyxMath::Vector4 & color) const;
+		void SetColor(const CalyxEngine::Vector4 & color) const;
 		void SetVisibility(bool visible) const;
-		void SetUvTranslate(const CalyxMath::Vector2& uv) const;
+		void SetUvTranslate(const CalyxEngine::Vector2& uv) const;
 		void SetUvRotate(float rot) const;
-		void SetUvOffset(const CalyxMath::Vector2& offset) const; // 加算したいなら
+		void SetUvOffset(const CalyxEngine::Vector2& offset) const; // 加算したいなら
 		void SetFrameDuration(float duration) ;
 
 	private:
@@ -127,4 +127,4 @@ namespace Calyx2D {
 		float	frameDuration_ = 0.1f;
 	};
 
-} // namespace Calyx2D
+} // namespace CalyxEngine

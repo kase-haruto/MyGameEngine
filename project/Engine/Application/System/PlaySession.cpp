@@ -2,7 +2,7 @@
 #include <Engine/Assets/Texture/TextureManager.h>
 #include <Engine/Scene/Serializer/SceneSerializer.h>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	void PlaySession::Initialize(SceneContext* editorContext) {
 		editorContext_ = editorContext;
@@ -216,4 +216,4 @@ namespace CalyxEditor {
 		}
 	}
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

@@ -14,14 +14,14 @@ struct MeshResource;
 class ParticleRenderer{
 public:
 	// ── CPU と GPU を一緒に描画 ─────────────────────
-	void Render(const std::vector<std::shared_ptr<CalyxEffect::FxEmitter>>& cpuEmitters,
-				const std::vector<std::shared_ptr<CalyxEffect::GpuFxEmitter>>& gpuEmitters,
+	void Render(const std::vector<std::shared_ptr<CalyxEngine::FxEmitter>>& cpuEmitters,
+				const std::vector<std::shared_ptr<CalyxEngine::GpuFxEmitter>>& gpuEmitters,
 				PipelineService* pipelineService,
 				ID3D12GraphicsCommandList* cmdList);
 
 	// （CPU 用のまとめ描きユーティリティは残す）
 	void RenderGrouped(const std::string& modelPath,
-					   const std::vector<CalyxEffect::ParticleConstantData>& gpuUnits,
+					   const std::vector<CalyxEngine::ParticleConstantData>& gpuUnits,
 					   ID3D12GraphicsCommandList* cmdList);
 
 private:
@@ -44,5 +44,5 @@ private:
 							D3D12_GPU_DESCRIPTOR_HANDLE handle);
 
 private:
-	DxStructuredBuffer<CalyxEffect::ParticleConstantData> instanceBuffer_;
+	DxStructuredBuffer<CalyxEngine::ParticleConstantData> instanceBuffer_;
 };

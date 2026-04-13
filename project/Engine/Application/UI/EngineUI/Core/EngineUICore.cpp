@@ -17,7 +17,7 @@
 #include <externals/imgui/ImGuizmo.h>
 #include <externals/imgui/imgui.h>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 	////////////////////////////////////////////////////////////////////////////////////////////
 	//						初期化
 	////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,4 +117,4 @@ namespace CalyxEditor {
 		}
 		pickingViewportTextureID_ = textureID;
 	}
-} // namespace CalyxEditor
+} // namespace CalyxEngine

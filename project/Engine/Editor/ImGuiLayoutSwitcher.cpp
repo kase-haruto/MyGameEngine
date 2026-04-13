@@ -1,7 +1,7 @@
 #include "ImGuiLayoutSwitcher.h"
 #include <externals/imgui/imgui.h>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	ImGuiLayoutSwitcher::ImGuiLayoutSwitcher(std::vector<LayoutEntry> presets,
 											 std::string			  defaultPath)
@@ -62,4 +62,4 @@ namespace CalyxEditor {
 		currentIniPath_ = iniPath;
 	}
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

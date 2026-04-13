@@ -5,7 +5,7 @@
 #include "Engine/Foundation/Utility/Ease/CxEase.h"
 #include <cstdint>
 
-namespace Calyx2D {
+namespace CalyxEngine {
 
 	/* ----------------------------------------------------
 	 * HudTransformMotionConfig
@@ -20,19 +20,19 @@ namespace Calyx2D {
 		// Position (Vector2)
 		//=========================================================
 		bool               posEnabled  = true;
-		CalyxMath::Vector2 posStart    = {};
-		CalyxMath::Vector2 posEnd      = {};
+		CalyxEngine::Vector2 posStart    = {};
+		CalyxEngine::Vector2 posEnd      = {};
 		float              posDuration = 0.5f;
-		int32_t            posEaseInt  = static_cast<int32_t>(CalyxEase::EaseType::EaseOutSine);
+		int32_t            posEaseInt  = static_cast<int32_t>(CalyxEngine::EaseType::EaseOutSine);
 
 		//=========================================================
 		// Scale (Vector2)
 		//=========================================================
 		bool               scaleEnabled  = false;
-		CalyxMath::Vector2 scaleStart    = {1.0f,1.0f};
-		CalyxMath::Vector2 scaleEnd      = {1.0f,1.0f};
+		CalyxEngine::Vector2 scaleStart    = {1.0f,1.0f};
+		CalyxEngine::Vector2 scaleEnd      = {1.0f,1.0f};
 		float              scaleDuration = 0.5f;
-		int32_t            scaleEaseInt  = static_cast<int32_t>(CalyxEase::EaseType::Linear);
+		int32_t            scaleEaseInt  = static_cast<int32_t>(CalyxEngine::EaseType::Linear);
 
 		//=========================================================
 		// Rotation (float)
@@ -41,7 +41,7 @@ namespace Calyx2D {
 		float   rotStart    = 0.0f;
 		float   rotEnd      = 0.0f;
 		float   rotDuration = 0.5f;
-		int32_t rotEaseInt  = static_cast<int32_t>(CalyxEase::EaseType::Linear);
+		int32_t rotEaseInt  = static_cast<int32_t>(CalyxEngine::EaseType::Linear);
 
 		//=========================================================
 		// Alpha (float)
@@ -50,10 +50,10 @@ namespace Calyx2D {
 		float   alphaStart    = 1.0f;
 		float   alphaEnd      = 1.0f;
 		float   alphaDuration = 0.5f;
-		int32_t alphaEaseInt  = static_cast<int32_t>(CalyxEase::EaseType::Linear);
+		int32_t alphaEaseInt  = static_cast<int32_t>(CalyxEngine::EaseType::Linear);
 
 		// NOTE:
 		// GetParamPath() は派生クラスで実装する（HUDごとに保存先を分ける）
 	};
 
-} // namespace Calyx2D
+} // namespace CalyxEngine

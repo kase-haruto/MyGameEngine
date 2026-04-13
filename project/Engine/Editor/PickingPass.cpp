@@ -13,7 +13,7 @@
 #include <d3dx12.h>
 #include <stdexcept>
 
-using namespace CalyxEditor;
+using namespace CalyxEngine;
 
 namespace {
 	inline void ThrowIfFailed(HRESULT hr) {
@@ -375,7 +375,7 @@ void PickingPass::Render(
 			inst.transform->SetCommand(cmd, 1);
 
 			// [3] Skinning Buffer (SRV Table)
-			if(auto* animModel = dynamic_cast<CalyxAssets::AnimationModel*>(inst.model)) {
+			if(auto* animModel = dynamic_cast<CalyxEngine::AnimationModel*>(inst.model)) {
 				animModel->SetCommandPalletSrv(3, cmd);
 			}
 

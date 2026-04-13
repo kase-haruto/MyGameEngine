@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	/// <summary>
 	/// レイアウトエントリ
@@ -53,4 +53,4 @@ namespace CalyxEditor {
 		std::string				 autoSavePath_;	  ///< 自動保存用の.iniファイルパス
 	};
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

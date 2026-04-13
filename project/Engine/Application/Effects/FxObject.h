@@ -10,7 +10,7 @@
 // config
 #include <Data/Engine/Configs/Scene/Objects/Particle/EffectConfig.h>
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * FxObject
@@ -70,7 +70,7 @@ namespace CalyxEffect {
 
 		//--------- accessor --------------------------------------------------
 		std::string_view GetTypeName() const override;
-		void			 SetWorldPosition(const CalyxMath::Vector3& pos);
+		void			 SetWorldPosition(const CalyxEngine::Vector3& pos);
 
 	private:
 		//===================================================================*/
@@ -92,4 +92,4 @@ namespace CalyxEffect {
 		std::vector<std::weak_ptr<ParticleSystemObject>> emitters_;
 	};
 
-} // namespace CalyxEffect
+} // namespace CalyxEngine

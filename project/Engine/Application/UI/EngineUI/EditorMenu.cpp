@@ -1,7 +1,7 @@
 #include "EditorMenu.h"
 
 #include <externals/imgui/imgui.h>
-namespace CalyxEditor {
+namespace CalyxEngine {
 	void EditorMenu::Add(MenuCategory category, const MenuItem& item) {
 		items_[category].push_back(item);
 	}
@@ -38,4 +38,4 @@ namespace CalyxEditor {
 			ImGui::EndMainMenuBar();
 		}
 	}
-} // namespace CalyxEditor
+} // namespace CalyxEngine

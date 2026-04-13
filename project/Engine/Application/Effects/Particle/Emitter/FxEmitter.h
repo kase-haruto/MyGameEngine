@@ -14,9 +14,9 @@
 #include <vector>
 
 // forward declaration
-struct CalyxMath::Vector3;
+struct CalyxEngine::Vector3;
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * FxEmitter
@@ -65,7 +65,7 @@ namespace CalyxEffect {
 
 		//--------- Timed Preview（一定間隔での自動再生） ---------------//
 		void	  SetTimedPreview(bool v) { timedPreview_ = v; }
-		void	  SetPosition(const CalyxMath::Vector3& pos) { position_ = pos; }
+		void	  SetPosition(const CalyxEngine::Vector3& pos) { position_ = pos; }
 		bool	  GetTimedPreview() const { return timedPreview_; }
 		void	  SetPreviewInterval(float sec) { previewIntervalSec_ = (sec < 0.01f ? 0.01f : sec); }
 		float	  GetPreviewInterval() const { return previewIntervalSec_; }
@@ -85,7 +85,7 @@ namespace CalyxEffect {
 		//===================================================================*/
 		// 発生
 		void Emit();
-		void Emit(const CalyxMath::Vector3& pos);
+		void Emit(const CalyxEngine::Vector3& pos);
 		void RestartOneShot();
 
 		// ---- flags helpers ----
@@ -111,12 +111,12 @@ namespace CalyxEffect {
 		//===================================================================*/
 		//					public variable
 		//===================================================================*/
-		CalyxMath::Vector3 prevPostion_;		//< 前回の座標
+		CalyxEngine::Vector3 prevPostion_;		//< 前回の座標
 		float			   emitRate_	= 0.1f; //< パーティクル生成レート
 		float			   defaultSize_ = 1.0f; //< パーティクルのデフォルトサイズ
 
-		FxParam<CalyxMath::Vector3> scale_;	   //< パーティクルのスケール（定数またはランダム）
-		FxParam<CalyxMath::Vector3> velocity_; //< パーティクルの速度（定数またはランダム）
+		FxParam<CalyxEngine::Vector3> scale_;	   //< パーティクルのスケール（定数またはランダム）
+		FxParam<CalyxEngine::Vector3> velocity_; //< パーティクルの速度（定数またはランダム）
 		FxParam<float>				lifetime_; //< パーティクルの寿命（定数またはランダム）
 		FxParam<float>				spin_;	   //< パーティクルのスピン（定数またはランダム）
 
@@ -162,4 +162,4 @@ namespace CalyxEffect {
 		std::function<void()> onFinished_;				   // 終了時コールバック
 		bool				  isFinishedNotified_ = false; // すでに通知したかどうか
 	};
-} // namespace CalyxEffect
+} // namespace CalyxEngine

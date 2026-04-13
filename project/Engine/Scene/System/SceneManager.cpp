@@ -17,15 +17,15 @@
 
 #include <Engine/Editor/PickingPass.h>
 
-namespace CalyxScene {
-	SceneManager::SceneManager(CalyxGraphics::DxCore* dx)
+namespace CalyxEngine {
+	SceneManager::SceneManager(CalyxEngine::DxCore* dx)
 		: dx_(dx) {
 		transitionService_ = std::make_unique<SceneTransitionService>(*this);
 	}
 
 	SceneManager::~SceneManager() = default;
 
-	CalyxScene::ISceneTransitionRequestor& SceneManager::GetTransitionRequestor() {
+	CalyxEngine::ISceneTransitionRequestor& SceneManager::GetTransitionRequestor() {
 		return *transitionService_;
 	}
 
@@ -39,7 +39,7 @@ namespace CalyxScene {
 			GameSceneUtil::ToSceneId(SceneType::TEST)));
 
 #if defined(_DEBUG) || defined(DEVELOP)
-		pickingPass_ = std::make_unique<CalyxEditor::PickingPass>();
+		pickingPass_ = std::make_unique<CalyxEngine::PickingPass>();
 		pickingPass_->Initialize(1280, 720);
 #endif
 	}
@@ -267,4 +267,4 @@ namespace CalyxScene {
 		return slots_[index].scene->GetSceneName();
 	}
 
-} // namespace CalyxScene
+} // namespace CalyxEngine

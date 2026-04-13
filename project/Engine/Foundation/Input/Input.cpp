@@ -176,31 +176,31 @@ namespace CalyxFoundation {
 		return !PushMouseButton(button) && ((instance_->mouseStatePre_.rgbButtons[static_cast<int>(button)] & 0x80) != 0);
 	}
 
-	CalyxMath::Vector2 Input::GetMousePosition() {
+	CalyxEngine::Vector2 Input::GetMousePosition() {
 		return instance_->mousePos_;
 	}
 
-	CalyxMath::Vector2 Input::GetMousePosInDebugWindow() {
-		CalyxMath::Vector2 m_ImagePos  = CalyxMath::Vector2(0, 38);
-		CalyxMath::Vector2 m_ImageSize = kExecuteWindowSize;
-		CalyxMath::Vector2 m_GameSize  = kWindowSize;
+	CalyxEngine::Vector2 Input::GetMousePosInDebugWindow() {
+		CalyxEngine::Vector2 m_ImagePos  = CalyxEngine::Vector2(0, 38);
+		CalyxEngine::Vector2 m_ImageSize = kExecuteWindowSize;
+		CalyxEngine::Vector2 m_GameSize  = kWindowSize;
 
-		CalyxMath::Vector2 mousePos	 = GetMousePosition();
+		CalyxEngine::Vector2 mousePos	 = GetMousePosition();
 		float			   relativeX = mousePos.x - m_ImagePos.x;
 		float			   relativeY = mousePos.y - m_ImagePos.y;
 
 		float scaleX = m_GameSize.x / m_ImageSize.x;
 		float scaleY = m_GameSize.y / m_ImageSize.y;
 
-		return CalyxMath::Vector2(relativeX * scaleX, relativeY * scaleY);
+		return CalyxEngine::Vector2(relativeX * scaleX, relativeY * scaleY);
 	}
 
 	float Input::GetMouseWheel() {
 		return instance_->mouseWheel_;
 	}
 
-	CalyxMath::Vector2 Input::GetMouseDelta() {
-		return CalyxMath::Vector2(
+	CalyxEngine::Vector2 Input::GetMouseDelta() {
+		return CalyxEngine::Vector2(
 			static_cast<float>(instance_->mouseState_.lX),
 			static_cast<float>(instance_->mouseState_.lY));
 	}
@@ -250,8 +250,8 @@ namespace CalyxFoundation {
 	float Input::GetLeftTrigger() { return instance_->leftTrigger_; }
 	float Input::GetRightTrigger() { return instance_->rightTrigger_; }
 
-	CalyxMath::Vector2 Input::GetLeftStick() { return {instance_->leftThumbX_, instance_->leftThumbY_}; }
-	CalyxMath::Vector2 Input::GetRightStick() { return {instance_->rightThumbX_, instance_->rightThumbY_}; }
+	CalyxEngine::Vector2 Input::GetLeftStick() { return {instance_->leftThumbX_, instance_->leftThumbY_}; }
+	CalyxEngine::Vector2 Input::GetRightStick() { return {instance_->rightThumbX_, instance_->rightThumbY_}; }
 
 	StickState Input::GetStickState() {
 		return {GetLeftStick(), GetRightStick()};
