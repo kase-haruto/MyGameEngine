@@ -4,7 +4,7 @@
 
 #include <cassert>
 
-namespace CalyxGraphics {
+namespace CalyxEngine {
 
 	namespace {
 		/////////////////////////////////////////////////////////////////////////////////////
@@ -159,4 +159,4 @@ namespace CalyxGraphics {
 				   : 0;
 	}
 
-} // namespace CalyxGraphics
+} // namespace CalyxEngine

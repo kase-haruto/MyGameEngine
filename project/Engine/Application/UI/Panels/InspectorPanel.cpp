@@ -7,10 +7,11 @@
 #include <Engine/Foundation/Utility/Converter/EnumConverter.h>
 
 // externals
+#include "Engine/Assets/Manager/AssetManager.h"
 #include "Engine/System/Command/EditorCommand/GuiCommand/ImGuiHelper/GuiCmd.h"
 #include <externals/imgui/imgui.h>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//		コンストラクタ
 	/////////////////////////////////////////////////////////////////////////////////////////
@@ -25,7 +26,7 @@ namespace CalyxEditor {
 
 		// タブの初期化（マスターを保持）
 		if(allTabs_.empty()) {
-			auto& tm = *TextureManager::GetInstance();
+			auto& tm = *AssetManager::GetInstance()->GetTextureManager();
 			allTabs_ = {
 					{rootPath_ + "inspectorUI_Al.dds",ParamFilterSection::All},
 					{rootPath_ + "inspectorUI_Ob.dds",ParamFilterSection::Object},
@@ -159,7 +160,7 @@ namespace CalyxEditor {
 			ImGui::PushID(i);
 
 			if(ImGui::ImageButton(tab.iconTex,ImVec2(20,20))) { currentTabIndex_ = i; }
-			std::string_view enumcon = CalyxUtil::EnumConverter<ParamFilterSection>::ToString(tab.filterSection);
+			std::string_view enumcon = CalyxEngine::EnumConverter<ParamFilterSection>::ToString(tab.filterSection);
 			if(ImGui::IsItemHovered()) { ImGui::SetTooltip("%s",enumcon.data()); }
 
 			if(isSelected) { ImGui::PopStyleColor(); }
@@ -198,4 +199,4 @@ namespace CalyxEditor {
 			}
 		}
 	}
-} // namespace CalyxEditor
+} // namespace CalyxEngine

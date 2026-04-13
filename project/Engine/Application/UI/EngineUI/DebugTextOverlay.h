@@ -10,7 +10,7 @@
  * - ビューポート上に任意のデバッグテキストを表示するためのクラス
  *---------------------------------------------------------------------------------------*/
 class DebugTextOverlay final
-	: public CalyxEditor::BaseOnViewportTool {
+	: public CalyxEngine::BaseOnViewportTool {
 public:
 	//===================================================================*/
 	//					methods

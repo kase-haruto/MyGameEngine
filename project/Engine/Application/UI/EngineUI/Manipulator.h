@@ -12,9 +12,9 @@
 
 class WorldTransform;
 class BaseCamera;
-struct CalyxMath::Matrix4x4;
+struct CalyxEngine::Matrix4x4;
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * Manipulator
@@ -56,8 +56,8 @@ namespace CalyxEditor {
 		/// </summary>
 		/// <param name="m"></param>
 		/// <param name="out"></param>
-		void				 RowToColumnArray(const CalyxMath::Matrix4x4& m, float out[16]);
-		CalyxMath::Matrix4x4 ColumnArrayToRow(const float in_[16]);
+		void				 RowToColumnArray(const CalyxEngine::Matrix4x4& m, float out[16]);
+		CalyxEngine::Matrix4x4 ColumnArrayToRow(const float in_[16]);
 
 		/// <summary>
 		/// ImGuizmo による操作・描画処理
@@ -94,4 +94,4 @@ namespace CalyxEditor {
 		Icon iconDrawGrid_;
 	};
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

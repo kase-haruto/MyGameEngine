@@ -26,7 +26,7 @@
 /*		Internal Helpers (Custom Rendering)
 /* ======================================================================================================== */
 namespace {
-	using namespace CalyxMath;
+	using namespace CalyxEngine;
 
 	// テーブルレイアウトの使用フラグ
 	static bool useTableLayout_ = false;
@@ -326,11 +326,11 @@ namespace GuiCmd {
 		return changed;
 	}
 
-	bool DragFloat2(const char* label, CalyxMath::Vector2& value, float speed, float min, float max) {
+	bool DragFloat2(const char* label, CalyxEngine::Vector2& value, float speed, float min, float max) {
 		BeginPropertyRow(label);
 
-		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxMath::Vector2> computer;
-		CalyxMath::Vector2 temp = value;
+		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxEngine::Vector2> computer;
+		CalyxEngine::Vector2 temp = value;
 		
 		std::string widgetLabel = GetWidgetLabel(label);
 		ImGui::PushID(widgetLabel.c_str());
@@ -371,7 +371,7 @@ namespace GuiCmd {
 		if (any_activated) computer.Begin(value);
 		if (ImGui::IsItemDeactivatedAfterEdit()) {
 			std::string labelStr(label);
-			auto cmd = computer.End(value, [&value](const CalyxMath::Vector2& v) { value = v; }, labelStr);
+			auto cmd = computer.End(value, [&value](const CalyxEngine::Vector2& v) { value = v; }, labelStr);
 			if (cmd) CommandManager::GetInstance()->Execute(std::move(cmd));
 		}
 		
@@ -379,11 +379,11 @@ namespace GuiCmd {
 	}
 
 	// Float3
-	bool DragFloat3(const char* label, CalyxMath::Vector3& value, float speed, float min, float max) {
+	bool DragFloat3(const char* label, CalyxEngine::Vector3& value, float speed, float min, float max) {
 		BeginPropertyRow(label);
 
-		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxMath::Vector3> computer;
-		CalyxMath::Vector3 temp = value;
+		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxEngine::Vector3> computer;
+		CalyxEngine::Vector3 temp = value;
 
 		std::string widgetLabel = GetWidgetLabel(label);
 		ImGui::PushID(widgetLabel.c_str());
@@ -422,18 +422,18 @@ namespace GuiCmd {
 		if (any_activated) computer.Begin(value);
 		if (ImGui::IsItemDeactivatedAfterEdit()) {
 			std::string labelStr(label);
-			auto cmd = computer.End(value, [&value](const CalyxMath::Vector3& v) { value = v; }, labelStr);
+			auto cmd = computer.End(value, [&value](const CalyxEngine::Vector3& v) { value = v; }, labelStr);
 			if (cmd) CommandManager::GetInstance()->Execute(std::move(cmd));
 		}
 		return changed;
 	}
 
 	// Float4
-	bool DragFloat4(const char* label, CalyxMath::Vector4& value, float speed, float min, float max) {
+	bool DragFloat4(const char* label, CalyxEngine::Vector4& value, float speed, float min, float max) {
 		BeginPropertyRow(label);
 
-		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxMath::Vector4> computer;
-		CalyxMath::Vector4 temp = value;
+		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxEngine::Vector4> computer;
+		CalyxEngine::Vector4 temp = value;
 
 		std::string widgetLabel = GetWidgetLabel(label);
 		ImGui::PushID(widgetLabel.c_str());
@@ -475,13 +475,13 @@ namespace GuiCmd {
 		if (any_activated) computer.Begin(value);
 		if (ImGui::IsItemDeactivatedAfterEdit()) {
 			std::string labelStr(label);
-			auto cmd = computer.End(value, [&value](const CalyxMath::Vector4& v) { value = v; }, labelStr);
+			auto cmd = computer.End(value, [&value](const CalyxEngine::Vector4& v) { value = v; }, labelStr);
 			if (cmd) CommandManager::GetInstance()->Execute(std::move(cmd));
 		}
 		return changed;
 	}
 
-	bool ColoredDragFloat3(const char* label, CalyxMath::Vector3& value, float speed, float min, float max, const char* , const char* ) {
+	bool ColoredDragFloat3(const char* label, CalyxEngine::Vector3& value, float speed, float min, float max, const char* , const char* ) {
 		return DragFloat3(label, value, speed, min, max); 
 	}
 #pragma endregion
@@ -509,11 +509,11 @@ namespace GuiCmd {
 		return changed;
 	}
 
-	bool SliderFloat2(const char* label, CalyxMath::Vector2& value, float min, float max) {
+	bool SliderFloat2(const char* label, CalyxEngine::Vector2& value, float min, float max) {
 		BeginPropertyRow(label);
 
-		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxMath::Vector2> computer;
-		CalyxMath::Vector2 temp = value;
+		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxEngine::Vector2> computer;
+		CalyxEngine::Vector2 temp = value;
 		
 		std::string widgetLabel = GetWidgetLabel(label);
 		bool changed = ImGui::SliderFloat2(widgetLabel.c_str(), &temp.x, min, max);
@@ -522,17 +522,17 @@ namespace GuiCmd {
 		if (ImGui::IsItemActivated()) computer.Begin(value);
 		if (ImGui::IsItemDeactivatedAfterEdit()) {
 			std::string labelStr(label);
-			auto cmd = computer.End(value, [&value](const CalyxMath::Vector2& v) { value = v; }, labelStr);
+			auto cmd = computer.End(value, [&value](const CalyxEngine::Vector2& v) { value = v; }, labelStr);
 			if (cmd) CommandManager::GetInstance()->Execute(std::move(cmd));
 		}
 		return changed;
 	}
 
-	bool SliderFloat3(const char* label, CalyxMath::Vector3& value, float min, float max) {
+	bool SliderFloat3(const char* label, CalyxEngine::Vector3& value, float min, float max) {
 		BeginPropertyRow(label);
 
-		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxMath::Vector3> computer;
-		CalyxMath::Vector3 temp = value;
+		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxEngine::Vector3> computer;
+		CalyxEngine::Vector3 temp = value;
 		
 		std::string widgetLabel = GetWidgetLabel(label);
 		bool changed = ImGui::SliderFloat3(widgetLabel.c_str(), &temp.x, min, max);
@@ -541,17 +541,17 @@ namespace GuiCmd {
 		if (ImGui::IsItemActivated()) computer.Begin(value);
 		if (ImGui::IsItemDeactivatedAfterEdit()) {
 			std::string labelStr(label);
-			auto cmd = computer.End(value, [&value](const CalyxMath::Vector3& v) { value = v; }, labelStr);
+			auto cmd = computer.End(value, [&value](const CalyxEngine::Vector3& v) { value = v; }, labelStr);
 			if (cmd) CommandManager::GetInstance()->Execute(std::move(cmd));
 		}
 		return changed;
 	}
 
-	bool SliderFloat4(const char* label, CalyxMath::Vector4& value, float min, float max) {
+	bool SliderFloat4(const char* label, CalyxEngine::Vector4& value, float min, float max) {
 		BeginPropertyRow(label);
 
-		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxMath::Vector4> computer;
-		CalyxMath::Vector4 temp = value;
+		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxEngine::Vector4> computer;
+		CalyxEngine::Vector4 temp = value;
 		
 		std::string widgetLabel = GetWidgetLabel(label);
 		bool changed = ImGui::SliderFloat4(widgetLabel.c_str(), &temp.x, min, max);
@@ -560,7 +560,7 @@ namespace GuiCmd {
 		if (ImGui::IsItemActivated()) computer.Begin(value);
 		if (ImGui::IsItemDeactivatedAfterEdit()) {
 			std::string labelStr(label);
-			auto cmd = computer.End(value, [&value](const CalyxMath::Vector4& v) { value = v; }, labelStr);
+			auto cmd = computer.End(value, [&value](const CalyxEngine::Vector4& v) { value = v; }, labelStr);
 			if (cmd) CommandManager::GetInstance()->Execute(std::move(cmd));
 		}
 		return changed;
@@ -568,11 +568,11 @@ namespace GuiCmd {
 #pragma endregion
 
 #pragma region ColorEdit
-	bool ColorEdit4(const char* label, CalyxMath::Vector4& value, ImGuiColorEditFlags flags) {
+	bool ColorEdit4(const char* label, CalyxEngine::Vector4& value, ImGuiColorEditFlags flags) {
 		BeginPropertyRow(label);
 
-		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxMath::Vector4> computer;
-		CalyxMath::Vector4 temp = value;
+		static GuiCmdInternal::GuiCmdSetValueComputer<CalyxEngine::Vector4> computer;
+		CalyxEngine::Vector4 temp = value;
 		
 		std::string widgetLabel = GetWidgetLabel(label);
 		bool changed = ImGui::ColorEdit4(widgetLabel.c_str(), &temp.x, flags);
@@ -581,7 +581,7 @@ namespace GuiCmd {
 		if (ImGui::IsItemActivated()) computer.Begin(value);
 		if (ImGui::IsItemDeactivatedAfterEdit()) {
 			std::string labelStr(label);
-			auto cmd = computer.End(value, [&value](const CalyxMath::Vector4& v) { value = v; }, labelStr);
+			auto cmd = computer.End(value, [&value](const CalyxEngine::Vector4& v) { value = v; }, labelStr);
 			if (cmd) CommandManager::GetInstance()->Execute(std::move(cmd));
 		}
 		return changed;
@@ -698,17 +698,17 @@ namespace GuiCmd {
 	//===================================================================*/
 	//		Section Filter Helpers
 	//===================================================================*/
-	CalyxEditor::ParamFilterSection currentFilter_ = CalyxEditor::ParamFilterSection::All;
+	CalyxEngine::ParamFilterSection currentFilter_ = CalyxEngine::ParamFilterSection::All;
 	// セクションが表示対象か
 	static bool isSectionActive_ = true; 
 	static bool isSectionHeaderOpen_ = true;
 
-	void SetSectionFilter(CalyxEditor::ParamFilterSection sectionType) {
+	void SetSectionFilter(CalyxEngine::ParamFilterSection sectionType) {
 		currentFilter_ = sectionType;
 	}
 
-	bool BeginSection(CalyxEditor::ParamFilterSection sectionType) {
-		bool isAll = (currentFilter_ == CalyxEditor::ParamFilterSection::All);
+	bool BeginSection(CalyxEngine::ParamFilterSection sectionType) {
+		bool isAll = (currentFilter_ == CalyxEngine::ParamFilterSection::All);
 		
 		// フィルタリング判定
 		if (!isAll) {

@@ -5,7 +5,7 @@
 #include <Engine/Application/Effects/Particle/Object/ParticleSystemObject.h>
 #include <Engine/Scene/Context/SceneContext.h>
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 	CreateParticleSystemObjectCommand::CreateParticleSystemObjectCommand(
 		SceneContext* context,
 		ObjectFactory factory,

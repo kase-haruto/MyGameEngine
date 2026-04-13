@@ -16,12 +16,14 @@
 #include <filesystem>
 
 // externals
+#include "Engine/Foundation/Math/MathUtil.h"
+
 #include<assimp/Importer.hpp>
 #include<assimp/postprocess.h>
 
 
-CalyxMath::Matrix4x4 MakeOrthographicMatrix(float l, float t, float r, float b, float nearClip, float farClip) {
-	CalyxMath::Matrix4x4 result;
+CalyxEngine::Matrix4x4 MakeOrthographicMatrix(float l, float t, float r, float b, float nearClip, float farClip) {
+	CalyxEngine::Matrix4x4 result;
 	result = {
 		2 / (r - l), 0, 0, 0,
 		0, 2 / (t - b), 0, 0,
@@ -141,7 +143,7 @@ ModelData LoadObjFile(const std::string& directoryPath, const std::string& filen
 		aiQuaternion rotate;
 		offsetMatrixAssimp.Decompose(scale, rotate, translate);
 
-		CalyxMath::Matrix4x4 inverseBindPoseMatrix = CalyxMath::MakeAffineMatrix(
+		CalyxEngine::Matrix4x4 inverseBindPoseMatrix = CalyxEngine::MakeAffineMatrix(
 			{ scale.x, scale.y, scale.z },
 			{ rotate.x, -rotate.y, -rotate.z, rotate.w }, // 左手変換
 			{ -translate.x, translate.y, translate.z }     // 左手変換
@@ -193,9 +195,9 @@ MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const st
 		if (identifer == "map_Kd") {// ファイル名
 
 			std::string textureFilename;
-			CalyxMath::Vector3 scale = { 1.0f,1.0f,1.0f };
-			CalyxMath::Vector3 offset = { 0.0f,0.0f,0.0f };
-			CalyxMath::Vector3 translate = { 0.0f,0.0f,0.0f };
+			CalyxEngine::Vector3 scale = { 1.0f,1.0f,1.0f };
+			CalyxEngine::Vector3 offset = { 0.0f,0.0f,0.0f };
+			CalyxEngine::Vector3 translate = { 0.0f,0.0f,0.0f };
 
 			// ファイル名を格納
 			while (s >> textureFilename) {
@@ -284,7 +286,7 @@ DirectX::ScratchImage LoadTextureImage(const std::string& filePath) {
 }
 
 
-bool IsCollision(const AABB& aabb, const CalyxMath::Vector3& point) {
+bool IsCollision(const AABB& aabb, const CalyxEngine::Vector3& point) {
 	// pointがaabbのminとmaxの範囲内にあるかチェック
 	return (point.x >= aabb.min_.x && point.x <= aabb.max_.x) &&
 		(point.y >= aabb.min_.y && point.y <= aabb.max_.y) &&
@@ -366,7 +368,7 @@ int32_t CreateJoint(const Node& node, const std::optional<int32_t>& parent, std:
 	Joint joint;
 	joint.name = node.name;
 	joint.localMatrix = node.localMatrix;
-	joint.skeletonSpaceMatrix = CalyxMath::Matrix4x4::MakeIdentity();
+	joint.skeletonSpaceMatrix = CalyxEngine::Matrix4x4::MakeIdentity();
 	joint.transform = node.transform;
 	joint.index = static_cast<int32_t>(joints.size());	//現在登録されているjointの数をindexにする
 	joint.parent = parent;
@@ -395,7 +397,7 @@ Node ConvertAssimpNode(const aiNode* node) {
 	result.transform.translate = { -translate.x, translate.y, translate.z }; // 左手系
 
 	result.localMatrix =
-		CalyxMath::MakeAffineMatrix(result.transform.scale, result.transform.rotate, result.transform.translate);
+		CalyxEngine::MakeAffineMatrix(result.transform.scale, result.transform.rotate, result.transform.translate);
 
 	result.name = node->mName.C_Str();
 	result.children.resize(node->mNumChildren);
@@ -466,7 +468,7 @@ SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device
 	std::generate(
 		skinCluster.inverseBindPoseMatrices.begin(),
 		skinCluster.inverseBindPoseMatrices.end(),
-		[] (){ return CalyxMath::Matrix4x4::MakeIdentity(); }
+		[] (){ return CalyxEngine::Matrix4x4::MakeIdentity(); }
 	);
 
 	//===================================================================*/
@@ -494,29 +496,29 @@ SkinCluster CreateSkinCluster(const Microsoft::WRL::ComPtr<ID3D12Device>& device
 }
 
 
-CalyxMath::Matrix4x4 MakeYAxisBillboard(const CalyxMath::Matrix4x4& cameraMatrix) {
-	CalyxMath::Vector3 camZ = { cameraMatrix.m[0][2], 0.0f, cameraMatrix.m[2][2] };
+CalyxEngine::Matrix4x4 MakeYAxisBillboard(const CalyxEngine::Matrix4x4& cameraMatrix) {
+	CalyxEngine::Vector3 camZ = { cameraMatrix.m[0][2], 0.0f, cameraMatrix.m[2][2] };
 	camZ = camZ.Normalize();
-	CalyxMath::Vector3 camX = CalyxMath::Vector3::Cross({ 0, 1, 0 }, camZ).Normalize();
-	CalyxMath::Vector3 camY = CalyxMath::Vector3::Cross(camZ, camX);
-	CalyxMath::Vector3 cam = (camX, camY, camZ);
-	return CalyxMath::MakeAffineMatrix(CalyxMath::Vector3::One(), cam, {});
+	CalyxEngine::Vector3 camX = CalyxEngine::Vector3::Cross({ 0, 1, 0 }, camZ).Normalize();
+	CalyxEngine::Vector3 camY = CalyxEngine::Vector3::Cross(camZ, camX);
+	CalyxEngine::Vector3 cam = (camX, camY, camZ);
+	return CalyxEngine::MakeAffineMatrix(CalyxEngine::Vector3::One(), cam, {});
 }
 
-CalyxMath::Matrix4x4 MakeXAxisBillboard(const CalyxMath::Matrix4x4& cameraMatrix) {
-	CalyxMath::Vector3 camZ = { 0.0f, cameraMatrix.m[1][2], cameraMatrix.m[2][2] };
+CalyxEngine::Matrix4x4 MakeXAxisBillboard(const CalyxEngine::Matrix4x4& cameraMatrix) {
+	CalyxEngine::Vector3 camZ = { 0.0f, cameraMatrix.m[1][2], cameraMatrix.m[2][2] };
 	camZ = camZ.Normalize();
-	CalyxMath::Vector3 camY = CalyxMath::Vector3::Cross(camZ, { 1, 0, 0 }).Normalize();
-	CalyxMath::Vector3 camX = CalyxMath::Vector3::Cross(camY, camZ);
-	CalyxMath::Vector3 cam = (camX, camY, camZ);
-	return CalyxMath::MakeAffineMatrix(CalyxMath::Vector3::One(), cam, {});
+	CalyxEngine::Vector3 camY = CalyxEngine::Vector3::Cross(camZ, { 1, 0, 0 }).Normalize();
+	CalyxEngine::Vector3 camX = CalyxEngine::Vector3::Cross(camY, camZ);
+	CalyxEngine::Vector3 cam = (camX, camY, camZ);
+	return CalyxEngine::MakeAffineMatrix(CalyxEngine::Vector3::One(), cam, {});
 }
 
-CalyxMath::Matrix4x4 MakeZAxisBillboard(const CalyxMath::Matrix4x4& cameraMatrix) {
-	CalyxMath::Vector3 camY = { cameraMatrix.m[0][1], cameraMatrix.m[1][1], 0.0f };
+CalyxEngine::Matrix4x4 MakeZAxisBillboard(const CalyxEngine::Matrix4x4& cameraMatrix) {
+	CalyxEngine::Vector3 camY = { cameraMatrix.m[0][1], cameraMatrix.m[1][1], 0.0f };
 	camY = camY.Normalize();
-	CalyxMath::Vector3 camX = CalyxMath::Vector3::Cross(camY, { 0, 0, 1 }).Normalize();
-	CalyxMath::Vector3 camZ = CalyxMath::Vector3::Cross(camX, camY);
-	CalyxMath::Vector3 cam = (camX, camY, camZ);
-	return CalyxMath::MakeAffineMatrix(CalyxMath::Vector3::One(), cam, {});
+	CalyxEngine::Vector3 camX = CalyxEngine::Vector3::Cross(camY, { 0, 0, 1 }).Normalize();
+	CalyxEngine::Vector3 camZ = CalyxEngine::Vector3::Cross(camX, camY);
+	CalyxEngine::Vector3 cam = (camX, camY, camZ);
+	return CalyxEngine::MakeAffineMatrix(CalyxEngine::Vector3::One(), cam, {});
 }

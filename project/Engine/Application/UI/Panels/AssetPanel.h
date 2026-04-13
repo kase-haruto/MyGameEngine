@@ -16,7 +16,7 @@
 #include <vector>
 
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * AssetPanel
@@ -101,4 +101,4 @@ namespace CalyxEditor {
 		size_t							   cacheItemsCount_ = 0;
 		bool							   cacheValid_		= false;
 	};
-} // namespace CalyxEditor
+} // namespace CalyxEngine

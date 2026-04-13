@@ -2,7 +2,7 @@
 #include <Data/Engine/Configs/Scene/Objects/SceneObject/SceneObjectConfig.h>
 #include <Data/Engine/Configs/Scene/Objects/Particle/EmitterConfig.h>
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 	/* -------------------------------------------------------------
 	エフェクト内の1エミッタノード
 	------------------------------------------------------------- */
@@ -37,4 +37,4 @@ namespace CalyxEffect {
 									   transform,
 									   emitters)
 
-} // namespace CalyxEffect
+} // namespace CalyxEngine

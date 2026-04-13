@@ -16,9 +16,11 @@
 // event
 
 // --- externals --------------------------------------------------------------
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <externals/imgui/imgui.h>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 	// ============================================================================
 	//  ctor
 	// ============================================================================
@@ -49,9 +51,9 @@ namespace CalyxEditor {
 
 			shapeItems.push_back({PlaceItemCategory::Shape,
 								  objName,
-								  TextureManager::GetInstance()->LoadTexture("UI/Tool/" + name + ".dds"),
+								  AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/" + name + ".dds"),
 								  {64, 64},
-								  [modelName, objName](const CalyxMath::Vector3& pos) {
+								  [modelName, objName](const CalyxEngine::Vector3& pos) {
 									  auto factory = [modelName, objName, pos]() {
 										  auto obj = SceneAPI::Instantiate<BaseGameObject>(modelName, objName);
 										  obj->Initialize();
@@ -77,22 +79,22 @@ namespace CalyxEditor {
 			auto& particleItems = categoryItems_[PlaceItemCategory::Particle];
 			particleItems.push_back({PlaceItemCategory::Particle,
 									 "ParticleSystem",
-									 TextureManager::GetInstance()->LoadTexture("UI/Tool/particle.dds"),
+									 AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/particle.dds"),
 									 {64, 64},
-									 [](const CalyxMath::Vector3& pos) {
+									 [](const CalyxEngine::Vector3& pos) {
 										 const std::string name	   = "ParticleSystem";
 										 auto			   factory = [name, pos]() {
-											  auto obj = SceneAPI::Instantiate<CalyxEffect::ParticleSystemObject>(name);
+											  auto obj = SceneAPI::Instantiate<CalyxEngine::ParticleSystemObject>(name);
 											  obj->Initialize();
 											  obj->GetWorldTransform().translation = pos;
 											  return obj;
 										 };
 										 CommandManager::GetInstance()->Execute(
-											 std::make_unique<CreateObjectCommand<CalyxEffect::ParticleSystemObject>>(
+											 std::make_unique<CreateObjectCommand<CalyxEngine::ParticleSystemObject>>(
 												 SceneContext::Current(), factory, "Create ParticleSystem"));
 									 },
 									 []() {
-										 auto obj = SceneAPI::Instantiate<CalyxEffect::ParticleSystemObject>("ParticleSystem");
+										 auto obj = SceneAPI::Instantiate<CalyxEngine::ParticleSystemObject>("ParticleSystem");
 										 obj->Initialize();
 										 obj->SetTransient(true);
 										 return obj;
@@ -103,22 +105,22 @@ namespace CalyxEditor {
 			auto& particleItems = categoryItems_[PlaceItemCategory::Particle];
 			particleItems.push_back({PlaceItemCategory::Particle,
 									 "EffectObject",
-									 TextureManager::GetInstance()->LoadTexture("UI/Tool/particle.dds"),
+									 AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/particle.dds"),
 									 {64, 64},
-									 [](const CalyxMath::Vector3& pos) {
+									 [](const CalyxEngine::Vector3& pos) {
 										 const std::string name	   = "EffectObject";
 										 auto			   factory = [name, pos]() {
-											  auto obj = SceneAPI::Instantiate<CalyxEffect::FxObject>(name);
+											  auto obj = SceneAPI::Instantiate<CalyxEngine::FxObject>(name);
 											  obj->Initialize();
 											  obj->GetWorldTransform().translation = pos;
 											  return obj;
 										 };
 										 CommandManager::GetInstance()->Execute(
-											 std::make_unique<CreateObjectCommand<CalyxEffect::FxObject>>(
+											 std::make_unique<CreateObjectCommand<CalyxEngine::FxObject>>(
 												 SceneContext::Current(), factory, "Create EffectObject"));
 									 },
 									 []() {
-										 auto obj = SceneAPI::Instantiate<CalyxEffect::FxObject>("EffectObject");
+										 auto obj = SceneAPI::Instantiate<CalyxEngine::FxObject>("EffectObject");
 										 obj->Initialize();
 										 obj->SetTransient(true);
 										 return obj;
@@ -268,7 +270,7 @@ namespace CalyxEditor {
 					}
 
 					if(clicked) {
-						item.createFunc(CalyxMath::Vector3::Zero());
+						item.createFunc(CalyxEngine::Vector3::Zero());
 					}
 
 					ImGui::PopID();
@@ -300,4 +302,4 @@ namespace CalyxEditor {
 		}
 		ImGui::EndChild();
 	}
-} // namespace CalyxEditor
+} // namespace CalyxEngine

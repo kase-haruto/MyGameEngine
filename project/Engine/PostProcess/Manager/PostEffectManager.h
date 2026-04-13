@@ -54,7 +54,7 @@ public:
 	void Execute(ID3D12GraphicsCommandList* cmd,
 				 DxGpuResource* input,
 				 IRenderTarget* finalTarget,
-				 CalyxGraphics::DxCore* dxCore);
+				 CalyxEngine::DxCore* dxCore);
 
 	void TweenFloat(const std::string& passName,
 					std::function<float()> getter,
@@ -62,7 +62,7 @@ public:
 					std::optional<float> from,
 					float to,
 					float durationSec,
-					CalyxEase::EaseType ease = CalyxEase::EaseType::EaseOutSine,
+					CalyxEngine::EaseType ease = CalyxEngine::EaseType::EaseOutSine,
 					bool autoDisableIfZero = true,
 					std::function<void()> onComplete = nullptr);
 
@@ -91,7 +91,7 @@ private:
 		float end = 0.f;
 		float t = 0.f;
 		float dur = 1.f;
-		CalyxEase::EaseType ease = CalyxEase::EaseType::Linear;
+		CalyxEngine::EaseType ease = CalyxEngine::EaseType::Linear;
 		bool autoDisableIfZero = true;
 		std::function<void()> onComplete;
 	};
@@ -101,7 +101,7 @@ private:
 	bool initialized_ = false;
 	bool dirty_ = true;
 
-	CalyxGraphics::DxCore* dxCore_ = nullptr;
+	CalyxEngine::DxCore* dxCore_ = nullptr;
 
 	PostProcessCollection collection_;
 	PostEffectGraph graph_{&collection_};

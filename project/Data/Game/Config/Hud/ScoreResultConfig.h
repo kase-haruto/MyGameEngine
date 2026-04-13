@@ -9,7 +9,7 @@
  * ---------------------------------------------------*/
 
 class ScoreResultConfig final
-	: public Calyx2D::HudTransformMotionConfig {
+	: public CalyxEngine::HudTransformMotionConfig {
 public:
 	ScoreResultConfig();
 	CalyxEngine::ParamPath GetParamPath() const override;
@@ -17,5 +17,5 @@ public:
 	// スコア固有
 	float    delaySec   = 0.5f;
 	float    countUpSec = 1.0f;
-	int32_t  countEaseInt = static_cast<int32_t>(CalyxEase::EaseType::EaseOutCubic);
+	int32_t  countEaseInt = static_cast<int32_t>(CalyxEngine::EaseType::EaseOutCubic);
 };

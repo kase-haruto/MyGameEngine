@@ -18,13 +18,15 @@
 #include <Engine/Objects/LightObject/PointLight.h>
 
 // lib
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <externals/imgui/ImGuiFileDialog.h>
 
 #include <algorithm>
 #include <string>
 #include <vector>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	/* ========================================================================
 	 *  include space
@@ -62,7 +64,7 @@ namespace CalyxEditor {
 	HierarchyPanel::HierarchyPanel()
 		: IEngineUI("Hierarchy") {
 
-		auto& tm = *TextureManager::GetInstance();
+		auto& tm = *AssetManager::GetInstance()->GetTextureManager();
 
 		iconEye_.tex	 = (ImTextureID)tm.LoadTexture("UI/Tool/Hierarchy/eyeIcon.dds").ptr;
 		iconEyeOff_.tex	 = (ImTextureID)tm.LoadTexture("UI/Tool/Hierarchy/closedEyeIcon.dds").ptr;
@@ -200,7 +202,7 @@ namespace CalyxEditor {
 						ImGui::EndMenu();
 					}
 					if(ImGui::MenuItem("Mesh Object")) createRoot(std::make_shared<BaseGameObject>());
-					if(ImGui::MenuItem("Particle System")) createRoot(std::make_shared<CalyxEffect::ParticleSystemObject>());
+					if(ImGui::MenuItem("Particle System")) createRoot(std::make_shared<CalyxEngine::ParticleSystemObject>());
 					ImGui::EndMenu();
 				}
 				ImGui::Separator();
@@ -420,7 +422,7 @@ namespace CalyxEditor {
 						ImGui::EndMenu();
 					}
 					if(ImGui::MenuItem("Mesh Object")) createChild(std::make_shared<BaseGameObject>());
-					if(ImGui::MenuItem("Particle System")) createChild(std::make_shared<CalyxEffect::ParticleSystemObject>());
+					if(ImGui::MenuItem("Particle System")) createChild(std::make_shared<CalyxEngine::ParticleSystemObject>());
 
 					ImGui::EndMenu();
 				}
@@ -573,4 +575,4 @@ namespace CalyxEditor {
 		CancelRename();
 	}
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

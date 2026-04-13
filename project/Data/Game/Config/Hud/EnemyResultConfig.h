@@ -16,7 +16,7 @@
  *	- 敵撃破数リザルトHUD設定クラス
  * ---------------------------------------------------*/
 class EnemyResultConfig final
-	: public Calyx2D::HudTransformMotionConfig {
+	: public CalyxEngine::HudTransformMotionConfig {
 public:
 	EnemyResultConfig();
 	CalyxEngine::ParamPath GetParamPath() const override;
@@ -27,7 +27,7 @@ public:
 	float   delaySec     = 0.5f; //< 最初の行の遅延
 	float   countUpSec   = 0.6f; //< 1行あたりのカウント時間
 	int32_t countEaseInt =
-		static_cast<int32_t>(CalyxEase::EaseType::EaseOutCubic);
+		static_cast<int32_t>(CalyxEngine::EaseType::EaseOutCubic);
 
 	//====================================================
 	// EnemyResult
@@ -36,10 +36,10 @@ public:
 	float perRowDelaySec = 0.15f; //< 行ごとの追加ディレイ
 
 	// レイアウト（アンカー基準）
-	CalyxMath::Vector2 iconOffset   = {-80.0f,0.0f};
-	CalyxMath::Vector2 numberOffset = {80.0f,0.0f};
+	CalyxEngine::Vector2 iconOffset   = {-80.0f,0.0f};
+	CalyxEngine::Vector2 numberOffset = {80.0f,0.0f};
 
 	// サイズ
-	CalyxMath::Vector2 iconSize  = {64.0f,64.0f};
-	CalyxMath::Vector2 digitSize = {32.0f,32.0f};
+	CalyxEngine::Vector2 iconSize  = {64.0f,64.0f};
+	CalyxEngine::Vector2 digitSize = {32.0f,32.0f};
 };

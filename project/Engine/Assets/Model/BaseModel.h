@@ -54,8 +54,8 @@ public:
 	BlendMode GetBlendMode() const { return blendMode_; }
 	void SetBlendMode(BlendMode mode) { blendMode_ = mode; }
 	ModelData* GetModelData()const;
-	const CalyxMath::Vector4& GetColor() const { return materialData_.color; }
-	void SetColor(const CalyxMath::Vector4& color) { materialData_.color = color; }
+	const CalyxEngine::Vector4& GetColor() const { return materialData_.color; }
+	void SetColor(const CalyxEngine::Vector4& color) { materialData_.color = color; }
 	void SetIsDrawEnable(bool drawEnable) { isDrawEnable_ = drawEnable; }
 	bool GetIsDrawEnable()const { return isDrawEnable_; }
 	void SetTex(const std::string& name);
@@ -129,6 +129,6 @@ protected:
 	UINT billboardCapacity_ = 0;
 
 
-	CalyxGraphics::RaytracingMesh rayMesh_;
+	CalyxEngine::RaytracingMesh rayMesh_;
 	bool blasBuilt_ = false;
 };

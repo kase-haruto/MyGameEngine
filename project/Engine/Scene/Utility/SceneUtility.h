@@ -13,7 +13,7 @@ namespace SceneAPI{
 	}
 }
 
-namespace CalyxScene {
+namespace CalyxEngine {
 	// scene識別id
 	using SceneId = uint8_t;
 }

@@ -10,7 +10,7 @@
 // c++
 #include <memory>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * PlaySession

@@ -19,10 +19,10 @@
 
 #include <cmath>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 namespace {
-    inline bool IsPointInRect(const CalyxMath::Vector2& p, const CalyxMath::Vector2& size) {
+    inline bool IsPointInRect(const CalyxEngine::Vector2& p, const CalyxEngine::Vector2& size) {
         return (p.x >= 0.0f && p.y >= 0.0f && p.x < size.x && p.y < size.y);
     }
 
@@ -39,10 +39,10 @@ Viewport::Viewport(ViewportType type, const std::string& windowName)
 
 void Viewport::Update() {}
 
-CalyxMath::Vector3 Viewport::CalculateSpawnPosForPlace(const ImVec2& imagePos) {
+CalyxEngine::Vector3 Viewport::CalculateSpawnPosForPlace(const ImVec2& imagePos) {
     // マウス位置（Viewportローカル）
     const ImVec2 mousePos = ImGui::GetMousePos();
-    const CalyxMath::Vector2 localMouse(mousePos.x - imagePos.x, mousePos.y - imagePos.y);
+    const CalyxEngine::Vector2 localMouse(mousePos.x - imagePos.x, mousePos.y - imagePos.y);
 
     // レイ生成
     const ::Ray ray = ::Raycastor::ConvertMouseToRay(
@@ -52,7 +52,7 @@ CalyxMath::Vector3 Viewport::CalculateSpawnPosForPlace(const ImVec2& imagePos) {
         size_);
 
     // デフォルト：カメラ前方 10（ここが「10奥」）
-    CalyxMath::Vector3 spawnPos = ray.origin + ray.direction * 10.0f;
+    CalyxEngine::Vector3 spawnPos = ray.origin + ray.direction * 10.0f;
 
     // ---- GPU picking（成功したら上書き）----
     SceneContext* ctx = SceneContext::Current();
@@ -70,12 +70,12 @@ CalyxMath::Vector3 Viewport::CalculateSpawnPosForPlace(const ImVec2& imagePos) {
             const float ndcX = (localMouse.x / size_.x) * 2.0f - 1.0f;
             const float ndcY = 1.0f - (localMouse.y / size_.y) * 2.0f;
 
-            const CalyxMath::Vector4 ndcPos(ndcX, ndcY, depth, 1.0f);
-            const CalyxMath::Matrix4x4 invVP = CalyxMath::Matrix4x4::Inverse(camera_->GetViewProjectionMatrix());
-            const CalyxMath::Vector4 worldH  = invVP * ndcPos;
+            const CalyxEngine::Vector4 ndcPos(ndcX, ndcY, depth, 1.0f);
+            const CalyxEngine::Matrix4x4 invVP = CalyxEngine::Matrix4x4::Inverse(camera_->GetViewProjectionMatrix());
+            const CalyxEngine::Vector4 worldH  = invVP * ndcPos;
 
             if(std::fabs(worldH.w) > 1e-5f) {
-                const CalyxMath::Vector3 worldPos = (worldH / worldH.w).xyz();
+                const CalyxEngine::Vector3 worldPos = (worldH / worldH.w).xyz();
                 spawnPos = worldPos;
             }
         }
@@ -117,10 +117,10 @@ void Viewport::Render(const ImTextureID& tex) {
 
     // ---------------- viewport size ----------------
     const ImVec2 contentSize = ImGui::GetContentRegionAvail();
-    size_ = CalyxMath::Vector2(contentSize.x, contentSize.y);
+    size_ = CalyxEngine::Vector2(contentSize.x, contentSize.y);
 
     const ImVec2 imagePos = ImGui::GetCursorScreenPos();
-    viewOrigin_ = CalyxMath::Vector2(imagePos.x, imagePos.y);
+    viewOrigin_ = CalyxEngine::Vector2(imagePos.x, imagePos.y);
 
     if(size_.y > 0.0f && type_ != ViewportType::VIEWPORT_PICKING) {
         camera_->SetAspectRatio(size_.x / size_.y);
@@ -145,7 +145,7 @@ void Viewport::Render(const ImTextureID& tex) {
             if(const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("DND_PLACE_ITEM")) {
                 const PlaceToolPanel::PlaceItem* item = ReadPlaceItemFromPayload(payload);
                 if(item && hoverImageRect) {
-                    const CalyxMath::Vector3 spawnPos = CalculateSpawnPosForPlace(imagePos);
+                    const CalyxEngine::Vector3 spawnPos = CalculateSpawnPosForPlace(imagePos);
                     item->createFunc(spawnPos);
 
                     if(ghost_) {
@@ -171,7 +171,7 @@ void Viewport::Render(const ImTextureID& tex) {
             const PlaceToolPanel::PlaceItem* item = ReadPlaceItemFromPayload(dragPayload);
             if(item && item->ghostFactory) {
 
-                const CalyxMath::Vector3 spawnPos = CalculateSpawnPosForPlace(imagePos);
+                const CalyxEngine::Vector3 spawnPos = CalculateSpawnPosForPlace(imagePos);
 
                 if(!ghost_) {
                     ghost_ = item->ghostFactory();
@@ -243,9 +243,9 @@ void Viewport::AddTool(IOnViewportTool* tool) { tools_.push_back(tool); }
 bool Viewport::IsHovered() const { return isHovered_; }
 bool Viewport::IsClicked() const { return isClicked_; }
 bool Viewport::wasTriggered() const { return wasTriggered_; }
-CalyxMath::Vector2 Viewport::GetSize() const { return size_; }
-CalyxMath::Vector2 Viewport::GetPosition() const { return viewOrigin_; }
+CalyxEngine::Vector2 Viewport::GetSize() const { return size_; }
+CalyxEngine::Vector2 Viewport::GetPosition() const { return viewOrigin_; }
 ViewportType Viewport::GetType() const { return type_; }
 void Viewport::SetCamera(BaseCamera* camera) { camera_ = camera; }
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

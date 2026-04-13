@@ -6,7 +6,7 @@
 
 #include <cassert>
 
-namespace Calyx2D {
+namespace CalyxEngine {
 
     void Renderer2D::Initialize(Microsoft::WRL::ComPtr<ID3D12Device> device) {
         device_ = device;
@@ -106,4 +106,4 @@ namespace Calyx2D {
     	}
     }
 
-} // namespace Calyx2D
+} // namespace CalyxEngine

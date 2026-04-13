@@ -19,7 +19,7 @@
 class SceneObject;
 class SceneObjectLibrary;
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * HierarchyPanel
@@ -112,4 +112,4 @@ namespace CalyxEditor {
 		using IEngineUI::panelName_;
 	};
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

@@ -41,7 +41,7 @@ namespace {
 
 } // namespace
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	//=============================================================================
 	// Initialize
@@ -63,11 +63,11 @@ namespace CalyxEditor {
 
 		// レイアウトスイッチャーの初期化 --------------------------------------
 		std::string				 layoutDir = "Resources/Assets/Configs/Editor/Layout/";
-		auto					 files	   = CalyxUtil::FileScanner::ScanFiles(layoutDir, ".ini");
+		auto					 files	   = CalyxEngine::FileScanner::ScanFiles(layoutDir, ".ini");
 		std::vector<LayoutEntry> layouts;
 
 		for(const auto& file : files) {
-			layouts.push_back({CalyxUtil::FileScanner::GetFileName(file), file.generic_string()});
+			layouts.push_back({CalyxEngine::FileScanner::GetFileName(file), file.generic_string()});
 		}
 		// ファイルが見つからなかった場合のフォールバック（念のため）
 		if(layouts.empty()) {
@@ -478,7 +478,7 @@ namespace CalyxEditor {
 
 		// パーティクルなら FxSystem 側にも登録
 		if(obj->GetObjectType() == ObjectType::Effect) {
-			if(auto fxObj = std::dynamic_pointer_cast<CalyxEffect::ParticleSystemObject>(obj)) {
+			if(auto fxObj = std::dynamic_pointer_cast<CalyxEngine::ParticleSystemObject>(obj)) {
 				if(auto* fxSys = ctx->GetFxSystem()) {
 					fxSys->AddEmitter(fxObj->GetEmitter(), fxObj->GetGuid());
 				}
@@ -503,7 +503,7 @@ namespace CalyxEditor {
 
 		// ── パーティクルシステムなら FxSystem からも削除 ─────────────
 		if(sp->GetObjectType() == ObjectType::Effect) {
-			if(auto fxObj = std::dynamic_pointer_cast<CalyxEffect::ParticleSystemObject>(sp)) {
+			if(auto fxObj = std::dynamic_pointer_cast<CalyxEngine::ParticleSystemObject>(sp)) {
 				if(auto* fxSys = ctx->GetFxSystem()) {
 					fxSys->RemoveEmitter(fxObj->GetEmitter().get());
 				}
@@ -549,15 +549,15 @@ namespace CalyxEditor {
 	//=============================================================================
 	// Picking
 	//=============================================================================
-	void LevelEditor::TryPickObjectFromMouse(const CalyxMath::Vector2&	 mouse,
-											 const CalyxMath::Vector2&	 viewportSize,
-											 const CalyxMath::Matrix4x4& view,
-											 const CalyxMath::Matrix4x4& proj) {
+	void LevelEditor::TryPickObjectFromMouse(const CalyxEngine::Vector2&	 mouse,
+											 const CalyxEngine::Vector2&	 viewportSize,
+											 const CalyxEngine::Matrix4x4& view,
+											 const CalyxEngine::Matrix4x4& proj) {
 		SceneContext* ctx = SceneContext::Current();
 		if(!ctx || !debugViewport_) return;
 
 		// ビューポート内ローカル座標へ変換
-		CalyxMath::Vector2 mouseLocal = mouse - debugViewport_->GetPosition();
+		CalyxEngine::Vector2 mouseLocal = mouse - debugViewport_->GetPosition();
 
 		Ray ray = Raycastor::ConvertMouseToRay(mouseLocal, view, proj, viewportSize);
 
@@ -588,8 +588,8 @@ namespace CalyxEditor {
 		SceneContext* current = SceneContext::Current();
 		if(!current) return;
 
-		CalyxMath::Vector2 origin = debugViewport_->GetPosition();
-		CalyxMath::Vector2 size	  = debugViewport_->GetSize();
+		CalyxEngine::Vector2 origin = debugViewport_->GetPosition();
+		CalyxEngine::Vector2 size	  = debugViewport_->GetSize();
 
 		ImVec2 mouse	 = ImGui::GetMousePos();
 		float  relativeX = mouse.x - origin.x;
@@ -622,9 +622,9 @@ namespace CalyxEditor {
 		}
 
 		// --- Raycast Picking (Fallback) ---
-		CalyxMath::Vector2	 mousePos(relativeX, relativeY);
-		CalyxMath::Matrix4x4 view = CameraManager::GetDebug()->GetViewMatrix();
-		CalyxMath::Matrix4x4 proj = CameraManager::GetDebug()->GetProjectionMatrix();
+		CalyxEngine::Vector2	 mousePos(relativeX, relativeY);
+		CalyxEngine::Matrix4x4 view = CameraManager::GetDebug()->GetViewMatrix();
+		CalyxEngine::Matrix4x4 proj = CameraManager::GetDebug()->GetProjectionMatrix();
 
 		Ray ray = Raycastor::ConvertMouseToRay(mousePos, view, proj, size);
 		if(SceneObject* picked = PickSceneObjectByRay(ray)) {
@@ -648,7 +648,7 @@ namespace CalyxEditor {
 	//=============================================================================
 	// SceneContext の変更検出
 	//=============================================================================
-	void LevelEditor::SetSceneManager(CalyxScene::SceneManager* manager) {
+	void LevelEditor::SetSceneManager(CalyxEngine::SceneManager* manager) {
 		sceneManager_ = manager;
 
 		if(manager) {
@@ -704,4 +704,4 @@ namespace CalyxEditor {
 		}
 	}
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

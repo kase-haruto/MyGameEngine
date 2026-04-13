@@ -6,8 +6,8 @@
 #include <Engine/PostProcess/Slot/PostEffectSlot.h>
 #include <vector>
 
-namespace CalyxGraphics {
-	class CalyxGraphics::DxCore;
+namespace CalyxEngine {
+	class CalyxEngine::DxCore;
 }
 class PostProcessCollection;
 class IRenderTarget;
@@ -27,7 +27,7 @@ public:
 	void Execute(ID3D12GraphicsCommandList* cmd,
 				 DxGpuResource* input,
 				 IRenderTarget* finalTarget,
-				 CalyxGraphics::DxCore* dxCore);
+				 CalyxEngine::DxCore* dxCore);
 
 private:
 	std::vector<IPostEffectPass*> passes_;

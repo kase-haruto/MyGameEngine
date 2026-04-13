@@ -8,9 +8,9 @@
 #include <string>
 
 struct Ray;
-struct CalyxMath::Vector3;
+struct CalyxEngine::Vector3;
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * SplineEditorPanel
@@ -28,7 +28,7 @@ namespace CalyxEditor {
 
 		void Render() override;
 
-		void SyncViewportRect(const CalyxMath::Vector2& pos, const CalyxMath::Vector2& size) {
+		void SyncViewportRect(const CalyxEngine::Vector2& pos, const CalyxEngine::Vector2& size) {
 			vpPos_	= pos;
 			vpSize_ = size;
 		}
@@ -45,7 +45,7 @@ namespace CalyxEditor {
 		void HandleGizmoUpdateAndDraw3D();
 		Ray	 MakeMouseRay() const;
 		int	 PickPointByRayAABB(const Ray& ray, float halfSize, float& outT) const;
-		bool IntersectPlane(const Ray& ray, const CalyxMath::Vector3& n, float d, CalyxMath::Vector3& out) const;
+		bool IntersectPlane(const Ray& ray, const CalyxEngine::Vector3& n, float d, CalyxEngine::Vector3& out) const;
 
 	private:
 		SplineData data_;
@@ -54,14 +54,14 @@ namespace CalyxEditor {
 		std::string currentPath_;
 		bool		gizmoEnabled_ = true;
 
-		CalyxMath::Vector2 vpPos_{0, 0};
-		CalyxMath::Vector2 vpSize_{1280, 720};
+		CalyxEngine::Vector2 vpPos_{0, 0};
+		CalyxEngine::Vector2 vpSize_{1280, 720};
 
 		bool			   dragging_ = false;
-		CalyxMath::Vector3 dragPlaneN_{0, 1, 0};
+		CalyxEngine::Vector3 dragPlaneN_{0, 1, 0};
 		float			   dragPlaneD_ = 0.0f;
 
 		std::unique_ptr<Manipulator> manipulator_;
 		WorldTransform				 gizmoTf_;
 	};
-} // namespace CalyxEditor
+} // namespace CalyxEngine

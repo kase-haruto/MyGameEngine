@@ -11,7 +11,7 @@
 #include <dxgidebug.h>
 #include <format>
 
-namespace CalyxGraphics {
+namespace CalyxEngine {
 	DxDevice::~DxDevice() =default;
 
 	/////////////////////////////////////////////////////////////////////////////////
@@ -143,4 +143,4 @@ namespace CalyxGraphics {
 		Log(std::format("RaytracingTier:{}\n", static_cast<int>(caps_.raytracingTier)));
 		Log(std::format("ShaderModel6_5:{}\n", caps_.shaderModel6_5 ? "true" : "false"));
 	}
-} // namespace CalyxGraphics
+} // namespace CalyxEngine

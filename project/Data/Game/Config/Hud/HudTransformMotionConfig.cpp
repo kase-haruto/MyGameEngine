@@ -1,6 +1,6 @@
 #include "HudTransformMotionConfig.h"
 
-namespace Calyx2D {
+namespace CalyxEngine {
 
 	HudTransformMotionConfig::HudTransformMotionConfig() {
 		// Position
@@ -32,4 +32,4 @@ namespace Calyx2D {
 		AddField("alphaEaseInt",  alphaEaseInt);
 	}
 
-} // namespace Calyx2D
+} // namespace CalyxEngine

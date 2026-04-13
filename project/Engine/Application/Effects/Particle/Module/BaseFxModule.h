@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace CalyxEffect {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * BaseFxModule

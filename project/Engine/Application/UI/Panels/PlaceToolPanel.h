@@ -20,7 +20,7 @@
 class SceneContext;
 class SceneObject;
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * PlaceToolPanel
@@ -56,8 +56,8 @@ namespace CalyxEditor {
 			PlaceItemCategory							   category;
 			std::string									   name;
 			D3D12_GPU_DESCRIPTOR_HANDLE					   texture;
-			CalyxMath::Vector2							   iconSize{64.0f, 64.0f};
-			std::function<void(const CalyxMath::Vector3&)> createFunc;
+			CalyxEngine::Vector2							   iconSize{64.0f, 64.0f};
+			std::function<void(const CalyxEngine::Vector3&)> createFunc;
 			std::function<std::shared_ptr<SceneObject>()>  ghostFactory;
 		};
 
@@ -81,4 +81,4 @@ namespace CalyxEditor {
 		PlaceItemCategory selectedCategory_ = PlaceItemCategory::Shape;
 		ImGuiTextFilter	  filter_;
 	};
-} // namespace CalyxEditor
+} // namespace CalyxEngine

@@ -32,15 +32,15 @@ class BaseEditor;
 class SceneContext;
 class SceneObject;
 class BaseCamera;
-struct CalyxMath::Vector2;
-struct CalyxMath::Matrix4x4;
+struct CalyxEngine::Vector2;
+struct CalyxEngine::Matrix4x4;
 struct Ray;
 
-namespace CalyxScene {
+namespace CalyxEngine {
 	class SceneManager;
 }
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	class PlaySession;
 	class SceneSwitchOverlay;
@@ -59,8 +59,8 @@ namespace CalyxEditor {
 		void RenderMenu();
 		void ClearSelection();
 		~LevelEditor();
-		CalyxScene::SceneManager* GetSceneManager() const { return sceneManager_; }
-		void					  SetSceneManager(CalyxScene::SceneManager* sceneManager);
+		CalyxEngine::SceneManager* GetSceneManager() const { return sceneManager_; }
+		void					  SetSceneManager(CalyxEngine::SceneManager* sceneManager);
 
 		// 編集対象 ----------------------------------------------------------------
 		void SetSelectedEditor(BaseEditor* editor);
@@ -87,10 +87,10 @@ namespace CalyxEditor {
 	private:
 		// マウスピッキング関連 ----------------------------------------------------
 		void		 TryPickUnderCursor();
-		void		 TryPickObjectFromMouse(const CalyxMath::Vector2&	mouse,
-											const CalyxMath::Vector2&	viewportSize,
-											const CalyxMath::Matrix4x4& view,
-											const CalyxMath::Matrix4x4& proj);
+		void		 TryPickObjectFromMouse(const CalyxEngine::Vector2&	mouse,
+											const CalyxEngine::Vector2&	viewportSize,
+											const CalyxEngine::Matrix4x4& view,
+											const CalyxEngine::Matrix4x4& proj);
 		SceneObject* PickSceneObjectByRay(const Ray& ray);
 
 		// シーン管理 --------------------------------------------------------------
@@ -120,7 +120,7 @@ namespace CalyxEditor {
 		std::unique_ptr<SceneSwitchOverlay>	 sceneSwitchOverlay_;
 		std::unique_ptr<ImGuiLayoutSwitcher> layoutSwitcher_;
 		PlaySession*						 pPlaySesseion_ = nullptr;
-		CalyxScene::SceneManager*			 sceneManager_	= nullptr;
+		CalyxEngine::SceneManager*			 sceneManager_	= nullptr;
 
 		// メニュー
 		std::unique_ptr<EditorMenu> menu_; //< エディターメニュー
@@ -145,4 +145,4 @@ namespace CalyxEditor {
 		std::vector<IEngineUI*> editorPanels_;
 	};
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

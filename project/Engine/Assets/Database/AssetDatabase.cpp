@@ -1,5 +1,7 @@
 #include "AssetDatabase.h"
 
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <Engine/Assets/Texture/TextureManager.h>
 #include <externals/nlohmann/json.hpp>
 
@@ -112,7 +114,7 @@ AssetGUID AssetDatabase::LoadOrCreateMeta(const std::filesystem::path& absPath, 
 //		アセットのプレビュー用テクスチャを構築
 /////////////////////////////////////////////////////////////////////////////////////////
 void AssetDatabase::BuildPreview(AssetRecord& rec) {
-	auto& tm = *TextureManager::GetInstance();
+	auto& tm = *CalyxEngine::AssetManager::GetInstance()->GetTextureManager();
 	try {
 		if(rec.type == AssetType::Texture) {
 			// モデルフォルダ内のテクスチャはプレビュー生成をスキップ（ロード失敗の可能性があるため）

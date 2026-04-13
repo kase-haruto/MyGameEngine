@@ -7,7 +7,7 @@
 #include <string>
 struct MaterialConfig final{
 	 //========================= variable =========================
-	CalyxMath::Vector4 color = { 1.0f, 1.0f, 1.0f, 1.0f };	//< 色
+	CalyxEngine::Vector4 color = { 1.0f, 1.0f, 1.0f, 1.0f };	//< 色
 	int32_t enableLighting = 0;					//< ライティング有無
 	float shininess = 20.0f;					//< 光沢
 	float enviromentCoefficient = 0.5f;			//< 環境光の強さ

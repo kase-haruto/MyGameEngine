@@ -17,7 +17,6 @@
 
 // manager
 #include <Engine/Assets/Database/AssetDatabase.h>
-#include <Engine/Assets/Model/ModelManager.h>
 #include <Engine/Assets/Texture/TextureManager.h>
 #include <Engine/Foundation/Clock/ClockManager.h>
 #include <Engine/PostProcess/Manager/PostEffectManager.h>
@@ -25,6 +24,7 @@
 // editor
 
 // lib
+#include "Engine/Assets/Manager/AssetManager.h"
 #include "Engine/Scene/System/SceneManager.h"
 #include <Engine/Editor/PickingPass.h>
 
@@ -51,7 +51,7 @@ namespace CalyxEngine {
 		hInstance_ = hInstance;
 		hwnd_	   = winApp_->GetHWND();
 
-		dxCore_ = std::make_unique<CalyxGraphics::DxCore>();
+		dxCore_ = std::make_unique<CalyxEngine::DxCore>();
 		dxCore_->Initialize(winApp_.get(), clientWidth, clientHeight);
 
 		ComPtr<ID3D12Device> device = dxCore_->GetDevice();
@@ -90,13 +90,7 @@ namespace CalyxEngine {
 		PrimitiveDrawer::GetInstance()->Initialize();
 
 		// モデル管理クラスの初期化(インスタンス生成)
-		ModelManager::Initialize();
-		ModelManager::StartUpLoad();
-
-		// textureManagerの初期化
-		TextureManager::GetInstance()->Initialize(imguiManager_.get());
-		// スタート時に読み込み
-		TextureManager::GetInstance()->StartUpLoad();
+		AssetManager::GetInstance()->Initialize(imguiManager_.get());
 
 		auto* db = AssetDatabase::GetInstance();
 		// 実行ファイルの場所からプロジェクトルートを解決して Assets へ
@@ -130,7 +124,7 @@ namespace CalyxEngine {
 		// ImGui受付開始
 		imguiManager_->Begin();
 
-		ModelManager::GetInstance()->ProcessLoadingTasks();
+		AssetManager::GetInstance()->GetModelManager()->ProcessLoadingTasks();
 		// オフスクリーンレンダーターゲットの開始
 		dxCore_->PreDrawOffscreen();
 
@@ -214,9 +208,9 @@ namespace CalyxEngine {
 		// imgui終了処理
 		imguiManager_->Finalize();
 		// textureの終了処理
-		TextureManager::GetInstance()->Finalize();
+		AssetManager::GetInstance()->GetTextureManager()->Finalize();
 		// モデルマネージャーの開放
-		ModelManager::GetInstance()->Finalize();
+		AssetManager::GetInstance()->Finalize();
 		PrimitiveDrawer::GetInstance()->Finalize();
 		// カメラの開放
 		// pipelineの終了処理

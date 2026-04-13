@@ -1,4 +1,7 @@
 #include "AssetPanel.h"
+
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <Engine/Assets/Database/AssetDatabase.h>
 
 #include <externals/imgui/ImGuiFileDialog.h>
@@ -9,14 +12,14 @@
 #include <system_error>
 #include <vector>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	void AssetPanel::Initialize(const std::filesystem::path& assetsRoot) {
 		assetsRootAbs_	  = std::filesystem::weakly_canonical(assetsRoot);
 		currentFolderAbs_ = assetsRootAbs_;
 
 		// アイコン（存在しなければ任意の代替に差し替え）
-		auto& tm	 = *TextureManager::GetInstance();
+		auto& tm	 = *AssetManager::GetInstance()->GetTextureManager();
 		iconFolder_	 = (ImTextureID)tm.LoadTexture("UI/Tool/AssetPanel/folder.dds").ptr;
 		iconGeneric_ = (ImTextureID)tm.LoadTexture("UI/Tool/AssetPanel/generic.dds").ptr;
 
@@ -465,4 +468,4 @@ namespace CalyxEditor {
 				  [](const auto& a, const auto& b) { return a.filename().string() < b.filename().string(); });
 	}
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

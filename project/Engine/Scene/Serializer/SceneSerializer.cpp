@@ -14,7 +14,7 @@
 #include <memory>
 #include <unordered_map>
 
-using namespace CalyxUtil;
+using namespace CalyxEngine;
 
 // -----------------------------------------------------------------------------
 // Save (to file)
@@ -154,7 +154,7 @@ bool SceneSerializer::LoadJson(SceneContext&		 context,
 			context.GetLightLibrary()->SetDirectionalLight(dir);
 		} else if(auto pt = std::dynamic_pointer_cast<PointLight>(sp)) {
 			context.GetLightLibrary()->SetPointLight(pt);
-		} else if(auto fx = std::dynamic_pointer_cast<CalyxEffect::ParticleSystemObject>(sp)) {
+		} else if(auto fx = std::dynamic_pointer_cast<CalyxEngine::ParticleSystemObject>(sp)) {
 			context.GetFxSystem()->AddEmitter(fx->GetEmitter(), fx->GetGuid());
 		} else if(auto camDbg = std::dynamic_pointer_cast<DebugCamera>(sp)) {
 			context.GetCameraMgr()->SetDebugCamera(camDbg);

@@ -13,7 +13,7 @@
 #include <externals/imgui/imgui.h>
 
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 	SceneObjectEditor::SceneObjectEditor(const std::string& name) : BaseEditor(name) {
 		manipulator_ = std::make_unique<Manipulator>();
 	}
@@ -57,4 +57,4 @@ namespace CalyxEditor {
 		sceneObject_ = nullptr;
 		manipulator_->SetTarget(nullptr);
 	}
-} // namespace CalyxEditor
+} // namespace CalyxEngine

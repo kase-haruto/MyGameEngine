@@ -20,8 +20,8 @@ enum class RotationSource {
 };
 
 struct TransformationMatrix {
-	CalyxMath::Matrix4x4 world				   = CalyxMath::Matrix4x4::MakeIdentity(); //< ワールド行列
-	CalyxMath::Matrix4x4 WorldInverseTranspose = CalyxMath::Matrix4x4::MakeIdentity(); //< ワールド逆転置行列
+	CalyxEngine::Matrix4x4 world				   = CalyxEngine::Matrix4x4::MakeIdentity(); //< ワールド行列
+	CalyxEngine::Matrix4x4 WorldInverseTranspose = CalyxEngine::Matrix4x4::MakeIdentity(); //< ワールド逆転置行列
 };
 
 /*-----------------------------------------------------------------------------------------
@@ -29,9 +29,9 @@ struct TransformationMatrix {
  * - オイラー角ベースのトランスフォーム構造体
  *---------------------------------------------------------------------------------------*/
 struct EulerTransform {
-	CalyxMath::Vector3 scale;	  //< スケール
-	CalyxMath::Vector3 rotate;	  //< 回転(オイラー角)
-	CalyxMath::Vector3 translate; //< 座標
+	CalyxEngine::Vector3 scale;	  //< スケール
+	CalyxEngine::Vector3 rotate;	  //< 回転(オイラー角)
+	CalyxEngine::Vector3 translate; //< 座標
 
 	/**
 	 * \brief 初期化
@@ -54,9 +54,9 @@ struct EulerTransform {
  * - 2D空間のトランスフォーム構造体
  *---------------------------------------------------------------------------------------*/
 struct Transform2D {
-	CalyxMath::Vector2 scale;	  //< スケール
+	CalyxEngine::Vector2 scale;	  //< スケール
 	float			   rotate;	  //< 回転
-	CalyxMath::Vector2 translate; //< 座標
+	CalyxEngine::Vector2 translate; //< 座標
 
 	/**
 	 * \brief 初期化
@@ -70,7 +70,7 @@ struct Transform2D {
 	 * \brief 行列を取得
 	 * \return 行列
 	 */
-	CalyxMath::Matrix4x4 GetMatrix() const;
+	CalyxEngine::Matrix4x4 GetMatrix() const;
 	/**
 	 * \brief ImGui表示
 	 * \param lavel ラベル名
@@ -95,9 +95,9 @@ struct Transform2D {
 };
 
 struct QuaternionTransform {
-	CalyxMath::Vector3	  scale;	 //< スケール
-	CalyxMath::Quaternion rotate;	 //< 回転(クォータニオン)
-	CalyxMath::Vector3	  translate; //< 座標
+	CalyxEngine::Vector3	  scale;	 //< スケール
+	CalyxEngine::Quaternion rotate;	 //< 回転(クォータニオン)
+	CalyxEngine::Vector3	  translate; //< 座標
 };
 
 /*-----------------------------------------------------------------------------------------
@@ -128,7 +128,7 @@ public:
 	 * \brief 更新処理 (ビュープロジェクション行列を考慮)
 	 * \param viewProMatrix ビュープロジェクション行列
 	 */
-	virtual void Update([[maybe_unused]] const CalyxMath::Matrix4x4& viewProMatrix) {}
+	virtual void Update([[maybe_unused]] const CalyxEngine::Matrix4x4& viewProMatrix) {}
 	/**
 	 * \brief 更新処理
 	 */
@@ -155,17 +155,17 @@ public:
 	 * \brief ワールド座標を取得
 	 * \return ワールド座標
 	 */
-	virtual CalyxMath::Vector3 GetWorldPosition() const;
+	virtual CalyxEngine::Vector3 GetWorldPosition() const;
 
 public:
 	//========================================================================*/
 	//	public variables
 	//========================================================================*/
-	CalyxMath::Vector3	  scale;	   //< スケール
-	CalyxMath::Quaternion rotation;	   //< 回転(クォータニオン)
-	CalyxMath::Vector3	  translation; //< 座標
+	CalyxEngine::Vector3	  scale;	   //< スケール
+	CalyxEngine::Quaternion rotation;	   //< 回転(クォータニオン)
+	CalyxEngine::Vector3	  translation; //< 座標
 
-	CalyxMath::Vector3 eulerRotation; //< 回転(オイラー角)
+	CalyxEngine::Vector3 eulerRotation; //< 回転(オイラー角)
 
 	TransformationMatrix matrix;		   //< 行列データ
 	BaseTransform*		 parent = nullptr; //< 親トランスフォーム
@@ -195,7 +195,7 @@ public:
 	 * \brief 更新処理 (ビュープロジェクション行列を考慮)
 	 * \param viewProMatrix ビュープロジェクション行列
 	 */
-	virtual void Update(const CalyxMath::Matrix4x4& viewProMatrix) override;
+	virtual void Update(const CalyxEngine::Matrix4x4& viewProMatrix) override;
 
 	/**
 	 * \brief 更新処理
@@ -206,13 +206,13 @@ public:
 	 * \brief 継承設定を考慮した親行列を取得
 	 * \return 親行列
 	 */
-	CalyxMath::Matrix4x4 GetEffectiveParentMatrix() const;
+	CalyxEngine::Matrix4x4 GetEffectiveParentMatrix() const;
 
 	/**
 	 * \brief 前方ベクトルを取得
 	 * \return 前方ベクトル
 	 */
-	CalyxMath::Vector3 GetForward() const;
+	CalyxEngine::Vector3 GetForward() const;
 
 	/**
 	 * \brief ImGui表示オーバーライド（親への継承設定用）

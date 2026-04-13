@@ -18,7 +18,7 @@
 #include <externals/imgui/imgui_impl_win32.h>
 
 
-void ImGuiManager::Initialize(WinApp* winApp, const CalyxGraphics::DxCore* dxCore){
+void ImGuiManager::Initialize(WinApp* winApp, const CalyxEngine::DxCore* dxCore){
 	pDxCore_ =dxCore;
 
 	ID3D12DescriptorHeap* heap = DescriptorAllocator::GetHeap(DescriptorUsage::CbvSrvUav);

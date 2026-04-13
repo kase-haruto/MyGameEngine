@@ -6,7 +6,7 @@
 #include <d3d12.h>
 #include <wrl.h>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 	/*-----------------------------------------------------------
 	 * PickingPath
 	 * - ピッキングパス定義クラス
@@ -89,4 +89,4 @@ namespace CalyxEditor {
 		uint32_t rowPitch_		= 0;
 		uint32_t rowPitchDepth_ = 0;
 	};
-} // namespace CalyxEditor
+} // namespace CalyxEngine

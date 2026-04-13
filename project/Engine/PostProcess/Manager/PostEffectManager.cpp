@@ -152,7 +152,7 @@ void PostEffectManager::Update(float dt){
 
 		tw.t += dt;
 		const float r = std::clamp(tw.t / ( std::max ) (0.0001f, tw.dur), 0.f, 1.f);
-		const float k = CalyxEase::ApplyEase(tw.ease, r);
+		const float k = CalyxEngine::ApplyEase(tw.ease, r);
 		const float v = std::lerp(tw.start, tw.end, k);
 
 		if (tw.setter) tw.setter(v);
@@ -196,7 +196,7 @@ void PostEffectManager::Update(float dt){
 void PostEffectManager::Execute(ID3D12GraphicsCommandList* cmd,
 								DxGpuResource* input,
 								IRenderTarget* finalTarget,
-								CalyxGraphics::DxCore* dxCore){
+								CalyxEngine::DxCore* dxCore){
 	if (!initialized_) return;
 	RebuildGraphIfDirty();
 	graph_.Execute(cmd,input,finalTarget,dxCore);
@@ -209,7 +209,7 @@ void PostEffectManager::TweenFloat(const std::string& passName,
 								   std::optional<float> from,
 								   float to,
 								   float durationSec,
-								   CalyxEase::EaseType ease,
+								   CalyxEngine::EaseType ease,
 								   bool autoDisableIfZero,
 								   std::function<void()> onComplete){
 	FloatTween tw;

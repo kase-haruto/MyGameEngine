@@ -1,5 +1,8 @@
 #include "ParticleRenderer.h"
 
+#include "Engine/Assets/Manager/AssetManager.h"
+#include "Engine/Graphics/Context/GraphicsGroup.h"
+
 #include <Engine/Application/Effects/Particle/Emitter/FxEmitter.h>
 #include <Engine/Assets/Model/Modelmanager.h>
 #include <Engine/Assets/Texture/TextureManager.h>
@@ -11,8 +14,8 @@
 //		パーティクル描画
 ///////////////////////////////////////////////////////////////////////////////////////////////
 void ParticleRenderer::Render(
-	const std::vector<std::shared_ptr<CalyxEffect::FxEmitter>>&    cpuEmitters,
-	const std::vector<std::shared_ptr<CalyxEffect::GpuFxEmitter>>& gpuEmitters,
+	const std::vector<std::shared_ptr<CalyxEngine::FxEmitter>>&    cpuEmitters,
+	const std::vector<std::shared_ptr<CalyxEngine::GpuFxEmitter>>& gpuEmitters,
 	PipelineService*                                               pipelineService,
 	ID3D12GraphicsCommandList*                                     cmdList) {
 	if(cpuEmitters.empty() && gpuEmitters.empty()) return;
@@ -56,7 +59,7 @@ void ParticleRenderer::Render(
 			if(!em) continue;
 
 			em->GetMaterialBuffer().SetCommand(cmdList,1);
-			auto tex = TextureManager::GetInstance()->LoadTexture("Textures/" + em->GetTexturePath());
+			auto tex = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture("Textures/" + em->GetTexturePath());
 			cmdList->SetGraphicsRootDescriptorTable(3,tex);
 			MeshResource& mesh = em->GetMeshResource();
 
@@ -64,7 +67,7 @@ void ParticleRenderer::Render(
 			//EnsureMeshIsReady(mesh,device);
 
 			DrawMeshInstanced(mesh,cmdList,
-							  CalyxEffect::GpuFxEmitter::kMaxParticles,
+							  CalyxEngine::GpuFxEmitter::kMaxParticles,
 							  em->GetParticleSrv());
 		}
 	}
@@ -74,18 +77,18 @@ void ParticleRenderer::Render(
 //		GPUパーティクルのまとめ描きユーティリティ
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ParticleRenderer::RenderGrouped(const std::string&                                    modelPath,
-									 const std::vector<CalyxEffect::ParticleConstantData>& gpuUnits,
+									 const std::vector<CalyxEngine::ParticleConstantData>& gpuUnits,
 									 ID3D12GraphicsCommandList*                            cmdList) {
 	if(gpuUnits.empty()) return;
 
-	ModelData& model = ModelManager::GetInstance()->GetModelData(modelPath);
+	ModelData& model = CalyxEngine::AssetManager::GetInstance()->GetModelManager()->GetModelData(modelPath);
 	if(model.meshResource.Indices().empty()) return;
 
 	auto device = GraphicsGroup::GetInstance()->GetDevice().Get();
 	EnsureMeshIsReady(model.meshResource,device);
 
 	// 一時バッファをローカルで作成
-	DxStructuredBuffer<CalyxEffect::ParticleConstantData> tempBuffer;
+	DxStructuredBuffer<CalyxEngine::ParticleConstantData> tempBuffer;
 	tempBuffer.Initialize(device,static_cast<UINT>(gpuUnits.size()));
 	tempBuffer.TransferVectorData(gpuUnits);
 	tempBuffer.CreateSrv(device);

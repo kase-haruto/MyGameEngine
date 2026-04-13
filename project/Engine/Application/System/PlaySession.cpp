@@ -1,8 +1,11 @@
 #include "PlaySession.h"
+
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <Engine/Assets/Texture/TextureManager.h>
 #include <Engine/Scene/Serializer/SceneSerializer.h>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	void PlaySession::Initialize(SceneContext* editorContext) {
 		editorContext_ = editorContext;
@@ -19,7 +22,7 @@ namespace CalyxEditor {
 	}
 
 	void PlaySession::LoadIcons() {
-		auto& tm		 = *TextureManager::GetInstance();
+		auto& tm		 = *AssetManager::GetInstance()->GetTextureManager();
 		iconPlay_.tex	 = (ImTextureID)tm.LoadTexture("UI/Tool/ToolBar/play.dds").ptr;
 		iconPause_.tex	 = (ImTextureID)tm.LoadTexture("UI/Tool/ToolBar/pause.dds").ptr;
 		iconStep_.tex	 = (ImTextureID)tm.LoadTexture("UI/Tool/ToolBar/step.dds").ptr;
@@ -216,4 +219,4 @@ namespace CalyxEditor {
 		}
 	}
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

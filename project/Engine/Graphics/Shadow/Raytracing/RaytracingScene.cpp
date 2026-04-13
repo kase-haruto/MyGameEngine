@@ -2,7 +2,7 @@
 
 #include "Engine/Foundation/Math/Matrix3x4.h"
 
-namespace CalyxGraphics {
+namespace CalyxEngine {
 
 	/////////////////////////////////////////////////////////////////////////////////
 	//  インスタンスのクリア
@@ -14,7 +14,7 @@ namespace CalyxGraphics {
 	///////////////////////////////////////////////////////////////////////////////
 	//  インスタンスの追加
 	///////////////////////////////////////////////////////////////////////////////
-	void RaytracingScene::AddInstance(const CalyxMath::Matrix3x4&	  transform,
+	void RaytracingScene::AddInstance(const CalyxEngine::Matrix3x4&	  transform,
 									  D3D12_GPU_VIRTUAL_ADDRESS		  blasAddress,
 									  uint32_t						  instanceID,
 									  uint8_t						  mask,
@@ -87,4 +87,4 @@ namespace CalyxGraphics {
 				   : 0;
 	}
 
-} // namespace CalyxGraphics
+} // namespace CalyxEngine

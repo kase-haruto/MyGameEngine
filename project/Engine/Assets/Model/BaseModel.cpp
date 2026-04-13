@@ -15,11 +15,14 @@
 #include <Engine/Foundation/Utility/Func/MyFunc.h>
 
 //external
+#include "Engine/Assets/Manager/AssetManager.h"
+#include "Engine/Foundation/Math/MathUtil.h"
 #include "externals/imgui/imgui.h"
 #include <Engine/System/Command/EditorCommand/GuiCommand/ImGuiHelper/GuiCmd.h>
 #include <algorithm>
 #include <Engine/Objects/3D/Details/BillboardParams.h>
 #include "Engine/Foundation/Utility/Func/CxUtils.h"
+#include "Engine/Graphics/Context/GraphicsGroup.h"
 
 
 const std::string BaseModel::directoryPath_ = "Resource/models";
@@ -27,9 +30,9 @@ const std::string BaseModel::directoryPath_ = "Resource/models";
 void BaseModel::Update(float deltaTime) {
 	// --- まだ modelData_ を取得していないなら、取得を試みる ---
 	if(!modelData_) {
-		if(ModelManager::GetInstance()->IsModelLoaded(fileName_)) {
-			ModelData& loaded = ModelManager::GetInstance()->GetModelData(fileName_);
-			modelData_		  = &loaded; // ModelData* を保持する
+		if(CalyxEngine::AssetManager::GetInstance()->GetModelManager()->IsModelLoaded(fileName_)) {
+			ModelData& loaded = CalyxEngine::AssetManager::GetInstance()->GetModelManager()->GetModelData(fileName_);
+			modelData_        = &loaded; // ModelData* を保持する
 
 			OnModelLoaded();
 		}
@@ -39,9 +42,9 @@ void BaseModel::Update(float deltaTime) {
 		UpdateTexture(deltaTime);
 
 		// UV transform を行列化
-		CalyxMath::Matrix4x4 uvTransformMatrix = CalyxMath::MakeScaleMatrix(CalyxMath::Vector3(uvTransform.scale.x, uvTransform.scale.y, 1.0f));
-		uvTransformMatrix					   = CalyxMath::Matrix4x4::Multiply(uvTransformMatrix, CalyxMath::MakeRotateZMatrix(uvTransform.rotate));
-		uvTransformMatrix					   = CalyxMath::Matrix4x4::Multiply(uvTransformMatrix, CalyxMath::MakeTranslateMatrix(CalyxMath::Vector3(uvTransform.translate.x, uvTransform.translate.y, 0.0f)));
+		CalyxEngine::Matrix4x4 uvTransformMatrix = CalyxEngine::MakeScaleMatrix(CalyxEngine::Vector3(uvTransform.scale.x, uvTransform.scale.y, 1.0f));
+		uvTransformMatrix					   = CalyxEngine::Matrix4x4::Multiply(uvTransformMatrix, CalyxEngine::MakeRotateZMatrix(uvTransform.rotate));
+		uvTransformMatrix					   = CalyxEngine::Matrix4x4::Multiply(uvTransformMatrix, CalyxEngine::MakeTranslateMatrix(CalyxEngine::Vector3(uvTransform.translate.x, uvTransform.translate.y, 0.0f)));
 
 		materialData_.uvTransform = uvTransformMatrix;
 		materialBuffer_.TransferData(materialData_);
@@ -67,11 +70,11 @@ void BaseModel::OnModelLoaded() {
 
 	// テクスチャ設定
 	if(!handle_) {
-		handle_ = TextureManager::GetInstance()->LoadTexture(
+		handle_ = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture(
 			"Textures/" + modelData_->meshResource.Material().textureFilePath);
 		textureName_ = "textures/" + modelData_->meshResource.Material().textureFilePath;
 		if(!handle_) { // 読み込み失敗・空文字列など
-			handle_ = TextureManager::GetInstance()->LoadTexture("textures/white1x1.dds");
+			handle_ = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture("textures/white1x1.dds");
 		}
 	}
 
@@ -111,13 +114,13 @@ void BaseModel::ShowImGuiInterface() {
 	if(GuiCmd::CollapsingHeader("Material")) {
 		materialData_.ShowImGui();
 
-		auto& textures = TextureManager::GetInstance()->GetLoadedTextures();
+		auto& textures = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->GetLoadedTextures();
 		if(ImGui::BeginCombo("Texture", textureName_.c_str())) {
 			for(const auto& texture : textures) {
 				bool is_selected = (textureName_ == texture.first);
 				if(ImGui::Selectable(texture.first.c_str(), is_selected)) {
 					textureName_ = texture.first;
-					handle_		 = TextureManager::GetInstance()->LoadTexture(texture.first);
+					handle_		 = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture(texture.first);
 				}
 				if(is_selected) {
 					ImGui::SetItemDefaultFocus();
@@ -151,7 +154,7 @@ void BaseModel::Draw(const WorldTransform& transform) {
 	cmdList->SetGraphicsRootDescriptorTable(2, handle_.value());
 
 	// 環境マップ
-	D3D12_GPU_DESCRIPTOR_HANDLE envMapHandle = TextureManager::GetInstance()->GetEnvironmentTextureSrvHandle();
+	D3D12_GPU_DESCRIPTOR_HANDLE envMapHandle = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->GetEnvironmentTextureSrvHandle();
 	cmdList->SetGraphicsRootDescriptorTable(6, envMapHandle);
 
 	// 描画
@@ -192,7 +195,7 @@ void BaseModel::ApplyConfig(const BaseModelConfig& config) {
 	}
 
 	if(!ok) {
-		handle_		 = TextureManager::GetInstance()->LoadTexture("textures/white1x1.dds");
+		handle_      = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture("textures/white1x1.dds");
 		textureGuid_ = Guid{}; // 未設定
 	}
 }
@@ -294,7 +297,7 @@ void BaseModel::ShowImGui(BaseModelConfig& config) {
 bool BaseModel::LoadTextureByGuid(const Guid& g) {
 	if(!g.isValid()) return false;
 
-	auto h = TextureManager::GetInstance()->LoadTexture(g);
+	auto h = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture(g);
 	if(!h.ptr) return false;
 
 	handle_		 = h;
@@ -306,7 +309,7 @@ ModelData* BaseModel::GetModelData() const { return modelData_; }
 
 // ======================================= renderer 専用 ==========================================
 
-void BaseModel::SetTex(const std::string& name) { handle_ = TextureManager::GetInstance()->LoadTexture("textures/" + name); }
+void BaseModel::SetTex(const std::string& name) { handle_ = CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->LoadTexture("textures/" + name); }
 
 void BaseModel::EnsureInstanceCapacity(ID3D12Device* device, UINT needCount) {
 	if(!instanceBufferCreated_) {
@@ -332,7 +335,7 @@ void BaseModel::UploadInstanceMatrices(const std::vector<WorldTransform>& transf
 	for(const auto& tf : transforms) {
 		TransformationMatrix m{};
 		m.world					= tf.matrix.world;
-		m.WorldInverseTranspose = CalyxMath::Matrix4x4::Transpose(CalyxMath::Matrix4x4::Inverse(tf.matrix.world));
+		m.WorldInverseTranspose = CalyxEngine::Matrix4x4::Transpose(CalyxEngine::Matrix4x4::Inverse(tf.matrix.world));
 		matrices.push_back(m);
 	}
 	instanceBuffer_.TransferVectorData(matrices);
@@ -340,7 +343,7 @@ void BaseModel::UploadInstanceMatrices(const std::vector<WorldTransform>& transf
 
 D3D12_GPU_DESCRIPTOR_HANDLE BaseModel::GetInstanceSrv() const { return instanceBuffer_.GetGpuSrvHandle(); }
 D3D12_GPU_DESCRIPTOR_HANDLE BaseModel::GetTexSrv() const { return handle_.value(); }
-D3D12_GPU_DESCRIPTOR_HANDLE BaseModel::GetEnvMapSrv() const { return TextureManager::GetInstance()->GetEnvironmentTextureSrvHandle(); }
+D3D12_GPU_DESCRIPTOR_HANDLE BaseModel::GetEnvMapSrv() const { return CalyxEngine::AssetManager::GetInstance()->GetTextureManager()->GetEnvironmentTextureSrvHandle(); }
 
 void BaseModel::BindVertexIndexBuffers(ID3D12GraphicsCommandList* cmdList) const {
 	modelData_->meshResource.SetCommand(cmdList);

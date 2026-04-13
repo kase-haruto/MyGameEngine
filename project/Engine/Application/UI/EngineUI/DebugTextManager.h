@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	/*-----------------------------------------------------------------------------------------
 	 * DebugTextManager
@@ -43,4 +43,4 @@ namespace CalyxEditor {
 		std::vector<Message> messages_;
 	};
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine

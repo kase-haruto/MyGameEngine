@@ -2,6 +2,8 @@
 /* ========================================================================
 /* include space
 /* ===================================================================== */
+#include "Engine/Assets/Manager/AssetManager.h"
+
 #include <Engine/Assets/Texture/TextureManager.h>
 #include <Engine/Editor/SceneObjectEditor.h>
 #include <Engine/Foundation/Math/Matrix4x4.h>
@@ -12,15 +14,15 @@
 #include <Engine/Scene/Context/SceneContext.h>
 #include <Engine/System/Command/Manager/CommandManager.h>
 
-namespace CalyxEditor {
+namespace CalyxEngine {
 
 	Manipulator::Manipulator() {
-		iconTranslate_.texture = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/translate.dds").ptr);
-		iconRotate_.texture	   = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/rotate.dds").ptr);
-		iconScale_.texture	   = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/scale.dds").ptr);
-		iconUniversal_.texture = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/universal.dds").ptr);
-		iconWorld_.texture	   = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/world.dds").ptr);
-		iconDrawGrid_.texture  = reinterpret_cast<ImTextureID>(TextureManager::GetInstance()->LoadTexture("UI/Tool/grid.dds").ptr);
+		iconTranslate_.texture = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/translate.dds").ptr);
+		iconRotate_.texture	   = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/rotate.dds").ptr);
+		iconScale_.texture	   = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/scale.dds").ptr);
+		iconUniversal_.texture = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/universal.dds").ptr);
+		iconWorld_.texture	   = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/world.dds").ptr);
+		iconDrawGrid_.texture  = reinterpret_cast<ImTextureID>(AssetManager::GetInstance()->GetTextureManager()->LoadTexture("UI/Tool/grid.dds").ptr);
 		SetOverlayAlign(OverlayAlign::TopLeft);
 		SetOverlayOffset(overlayOffset_); // Viewport右上から左下に少しずらす
 	}
@@ -53,11 +55,11 @@ namespace CalyxEditor {
 		float view[16], proj[16], world[16];
 
 		// カメラビュー、プロジェクションを転置して列優先配列に変換
-		CalyxMath::Matrix4x4::Transpose(camera_->GetViewMatrix()).CopyToArray(view);
-		CalyxMath::Matrix4x4::Transpose(camera_->GetProjectionMatrix()).CopyToArray(proj);
+		CalyxEngine::Matrix4x4::Transpose(camera_->GetViewMatrix()).CopyToArray(view);
+		CalyxEngine::Matrix4x4::Transpose(camera_->GetProjectionMatrix()).CopyToArray(proj);
 
 		// 操作対象のワールド行列を転置して列優先配列に変換
-		CalyxMath::Matrix4x4::Transpose(target_->matrix.world).CopyToArray(world);
+		CalyxEngine::Matrix4x4::Transpose(target_->matrix.world).CopyToArray(world);
 
 		// 操作対象のワールド行列でManipulateを呼ぶ
 		// （本来なら第9引数は boundsSnap です。親行列ではないためここでは nullptr にします）
@@ -66,7 +68,7 @@ namespace CalyxEditor {
 		bool usingNow = ImGuizmo::IsUsing();
 
 		if(usingNow) {
-			CalyxMath::Matrix4x4 worldEdited = ColumnArrayToRow(world);
+			CalyxEngine::Matrix4x4 worldEdited = ColumnArrayToRow(world);
 
 			float wE[16];
 			RowToColumnArray(worldEdited, wE);
@@ -75,8 +77,8 @@ namespace CalyxEditor {
 
 			WorldTransform* worldTarget = dynamic_cast<WorldTransform*>(target_);
 			if(worldTarget && worldTarget->parent) {
-				CalyxMath::Matrix4x4 effP	  = worldTarget->GetEffectiveParentMatrix();
-				CalyxMath::Matrix4x4 localMat = worldEdited * CalyxMath::Matrix4x4::Inverse(effP);
+				CalyxEngine::Matrix4x4 effP	  = worldTarget->GetEffectiveParentMatrix();
+				CalyxEngine::Matrix4x4 localMat = worldEdited * CalyxEngine::Matrix4x4::Inverse(effP);
 
 				float localCol[16];
 				RowToColumnArray(localMat, localCol);
@@ -86,12 +88,12 @@ namespace CalyxEditor {
 				// --- Rigid Inverse Reconstruction (Updateの合成ロジックの逆計算) ---
 
 				// 親の情報を取得 (Updateと同じ方法で抽出)
-				CalyxMath::Vector3 pScl = {
-					CalyxMath::Vector3(worldTarget->parent->matrix.world.m[0][0], worldTarget->parent->matrix.world.m[0][1], worldTarget->parent->matrix.world.m[0][2]).Length(),
-					CalyxMath::Vector3(worldTarget->parent->matrix.world.m[1][0], worldTarget->parent->matrix.world.m[1][1], worldTarget->parent->matrix.world.m[1][2]).Length(),
-					CalyxMath::Vector3(worldTarget->parent->matrix.world.m[2][0], worldTarget->parent->matrix.world.m[2][1], worldTarget->parent->matrix.world.m[2][2]).Length()};
+				CalyxEngine::Vector3 pScl = {
+					CalyxEngine::Vector3(worldTarget->parent->matrix.world.m[0][0], worldTarget->parent->matrix.world.m[0][1], worldTarget->parent->matrix.world.m[0][2]).Length(),
+					CalyxEngine::Vector3(worldTarget->parent->matrix.world.m[1][0], worldTarget->parent->matrix.world.m[1][1], worldTarget->parent->matrix.world.m[1][2]).Length(),
+					CalyxEngine::Vector3(worldTarget->parent->matrix.world.m[2][0], worldTarget->parent->matrix.world.m[2][1], worldTarget->parent->matrix.world.m[2][2]).Length()};
 
-				CalyxMath::Matrix4x4 pRotMat = worldTarget->parent->matrix.world;
+				CalyxEngine::Matrix4x4 pRotMat = worldTarget->parent->matrix.world;
 				if(pScl.x > 0.0001f) {
 					pRotMat.m[0][0] /= pScl.x;
 					pRotMat.m[0][1] /= pScl.x;
@@ -109,20 +111,20 @@ namespace CalyxEditor {
 				}
 				pRotMat.m[3][0] = pRotMat.m[3][1] = pRotMat.m[3][2] = 0.0f;
 				pRotMat.m[3][3]										= 1.0f;
-				CalyxMath::Quaternion pRotQ							= CalyxMath::Quaternion::FromMatrix(pRotMat);
+				CalyxEngine::Quaternion pRotQ							= CalyxEngine::Quaternion::FromMatrix(pRotMat);
 
-				CalyxMath::Vector3 pPos = {worldTarget->parent->matrix.world.m[3][0], worldTarget->parent->matrix.world.m[3][1], worldTarget->parent->matrix.world.m[3][2]};
+				CalyxEngine::Vector3 pPos = {worldTarget->parent->matrix.world.m[3][0], worldTarget->parent->matrix.world.m[3][1], worldTarget->parent->matrix.world.m[3][2]};
 
-				CalyxMath::Vector3	  effPScl = worldTarget->inheritScale ? pScl : CalyxMath::Vector3{1, 1, 1};
-				CalyxMath::Quaternion effPRot = worldTarget->inheritRotate ? pRotQ : CalyxMath::Quaternion::MakeIdentity();
-				CalyxMath::Vector3	  effPPos = worldTarget->inheritTranslate ? pPos : CalyxMath::Vector3{0, 0, 0};
+				CalyxEngine::Vector3	  effPScl = worldTarget->inheritScale ? pScl : CalyxEngine::Vector3{1, 1, 1};
+				CalyxEngine::Quaternion effPRot = worldTarget->inheritRotate ? pRotQ : CalyxEngine::Quaternion::MakeIdentity();
+				CalyxEngine::Vector3	  effPPos = worldTarget->inheritTranslate ? pPos : CalyxEngine::Vector3{0, 0, 0};
 
 				// 操作モードに応じて変更箇所を絞る
 				if(operation_ & ImGuizmo::TRANSLATE) {
 					// worldPos = effPPos + effPRot * (effPScl * localPos)
 					// localPos = (effPRot.Inv * (worldPos - effPPos)) / effPScl
-					CalyxMath::Vector3 diff		  = {pW[0] - effPPos.x, pW[1] - effPPos.y, pW[2] - effPPos.z};
-					CalyxMath::Vector3 localTrans = CalyxMath::Quaternion::RotateVector(diff, CalyxMath::Quaternion::Inverse(effPRot));
+					CalyxEngine::Vector3 diff		  = {pW[0] - effPPos.x, pW[1] - effPPos.y, pW[2] - effPPos.z};
+					CalyxEngine::Vector3 localTrans = CalyxEngine::Quaternion::RotateVector(diff, CalyxEngine::Quaternion::Inverse(effPRot));
 					if(std::abs(effPScl.x) > 0.0001f) localTrans.x /= effPScl.x;
 					if(std::abs(effPScl.y) > 0.0001f) localTrans.y /= effPScl.y;
 					if(std::abs(effPScl.z) > 0.0001f) localTrans.z /= effPScl.z;
@@ -130,7 +132,7 @@ namespace CalyxEditor {
 				}
 				if(operation_ & ImGuizmo::SCALE) {
 					// worldScl = localScl * effPScl
-					CalyxMath::Vector3 localScl = {sW[0], sW[1], sW[2]};
+					CalyxEngine::Vector3 localScl = {sW[0], sW[1], sW[2]};
 					if(std::abs(effPScl.x) > 0.0001f) localScl.x /= effPScl.x;
 					if(std::abs(effPScl.y) > 0.0001f) localScl.y /= effPScl.y;
 					if(std::abs(effPScl.z) > 0.0001f) localScl.z /= effPScl.z;
@@ -139,7 +141,7 @@ namespace CalyxEditor {
 				if(operation_ & ImGuizmo::ROTATE) {
 					// worldRot = localRot * effPRot
 					// localRot = worldRot * effPRot.Inv
-					CalyxMath::Matrix4x4 wRotMat = worldEdited;
+					CalyxEngine::Matrix4x4 wRotMat = worldEdited;
 					if(std::abs(sW[0]) > 0.0001f) {
 						wRotMat.m[0][0] /= sW[0];
 						wRotMat.m[0][1] /= sW[0];
@@ -158,8 +160,8 @@ namespace CalyxEditor {
 					wRotMat.m[3][0] = wRotMat.m[3][1] = wRotMat.m[3][2] = 0.0f;
 					wRotMat.m[3][3]										= 1.0f;
 
-					CalyxMath::Quaternion worldRot = CalyxMath::Quaternion::FromMatrix(wRotMat);
-					target_->rotation			   = CalyxMath::Quaternion::Multiply(worldRot, CalyxMath::Quaternion::Inverse(effPRot));
+					CalyxEngine::Quaternion worldRot = CalyxEngine::Quaternion::FromMatrix(wRotMat);
+					target_->rotation			   = CalyxEngine::Quaternion::Multiply(worldRot, CalyxEngine::Quaternion::Inverse(effPRot));
 					target_->rotationSource		   = RotationSource::Quaternion;
 				}
 
@@ -173,7 +175,7 @@ namespace CalyxEditor {
 					target_->scale = {sW[0], sW[1], sW[2]};
 				}
 				if(operation_ & ImGuizmo::ROTATE) {
-					CalyxMath::Matrix4x4 rotMat = worldEdited;
+					CalyxEngine::Matrix4x4 rotMat = worldEdited;
 					if(std::abs(sW[0]) > 0.0001f) {
 						rotMat.m[0][0] /= sW[0];
 						rotMat.m[0][1] /= sW[0];
@@ -190,7 +192,7 @@ namespace CalyxEditor {
 						rotMat.m[2][2] /= sW[2];
 					}
 
-					target_->rotation		= CalyxMath::Quaternion::FromMatrix(rotMat);
+					target_->rotation		= CalyxEngine::Quaternion::FromMatrix(rotMat);
 					target_->rotationSource = RotationSource::Quaternion;
 				}
 			}
@@ -295,7 +297,7 @@ namespace CalyxEditor {
 	void Manipulator::RenderToolbar() {
 	}
 
-	void Manipulator::RowToColumnArray(const CalyxMath::Matrix4x4& m, float out[16]) {
+	void Manipulator::RowToColumnArray(const CalyxEngine::Matrix4x4& m, float out[16]) {
 		// 回転スケール 3×3 を転置（row→column変換）
 		out[0]	= m.m[0][0];
 		out[1]	= m.m[0][1];
@@ -316,8 +318,8 @@ namespace CalyxEditor {
 		out[15] = 1.0f;
 	}
 
-	CalyxMath::Matrix4x4 Manipulator::ColumnArrayToRow(const float in_[16]) {
-		CalyxMath::Matrix4x4 m;
+	CalyxEngine::Matrix4x4 Manipulator::ColumnArrayToRow(const float in_[16]) {
+		CalyxEngine::Matrix4x4 m;
 		m.m[0][0] = in_[0];
 		m.m[0][1] = in_[1];
 		m.m[0][2] = in_[2];
@@ -338,4 +340,4 @@ namespace CalyxEditor {
 		return m;
 	}
 
-} // namespace CalyxEditor
+} // namespace CalyxEngine
