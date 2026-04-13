@@ -16,6 +16,8 @@
 #include <externals/imgui/imgui.h>
 #endif
 
+#include "Engine/Foundation/Math/MathUtil.h"
+
 #include <Engine/Foundation/Utility/Func/CxUtils.h>
 #include <Engine/Foundation/Utility/Func/MyFunc.h>
 #include <filesystem>

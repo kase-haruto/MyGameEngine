@@ -239,6 +239,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(SolutionD
     <ClCompile Include="Engine\Application\UI\EngineUI\DebugOverlay.cpp" />
     <ClCompile Include="Engine\Application\UI\EngineUI\DebugTextOverlay.cpp" />
     <ClCompile Include="Engine\Application\UI\GUI\ImGuiJapaneaseFonts.cpp" />
+    <ClCompile Include="Engine\Assets\File\AssetChange.cpp" />
+    <ClCompile Include="Engine\Assets\File\IAssetChangeHandler.cpp" />
     <ClCompile Include="Engine\Editor\ImguiLayoutService.cpp" />
     <ClCompile Include="Engine\Editor\ImGuiLayoutSwitcher.cpp" />
     <ClCompile Include="Engine\Editor\PickingPass.cpp" />
@@ -284,7 +286,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(SolutionD
     <ClCompile Include="Engine\Objects\Event\BaseEventObject.cpp" />
     <ClCompile Include="Engine\Objects\Event\Camera\CameraEventObject.cpp" />
     <ClCompile Include="Engine\PostProcess\Manager\PostEffectManager.cpp" />
-    <ClCompile Include="Engine\Foundation\Utility\FileSystem\FileDirectoryWatcher\FileDirectoryWatcher.cpp" />
     <ClCompile Include="Game\Scene\Utility\SceneTypeUtil.cpp" />
     <ClCompile Include="Engine\Assets\Database\AssetDatabase.cpp" />
     <ClCompile Include="Engine\Application\UI\Panels\AssetPanel.cpp" />
@@ -485,6 +486,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(SolutionD
     <ClInclude Include="Engine\Application\UI\EngineUI\DebugTextManager.h" />
     <ClInclude Include="Engine\Application\UI\EngineUI\DebugTextOverlay.h" />
     <ClInclude Include="Engine\Application\UI\GUI\ImGuiJapaneaseFonts.h" />
+    <ClInclude Include="Engine\Assets\File\AssetChange.h" />
+    <ClInclude Include="Engine\Assets\File\IAssetChangeHandler.h" />
     <ClInclude Include="Engine\Editor\ImguiLayoutService.h" />
     <ClInclude Include="Engine\Editor\ImGuiLayoutSwitcher.h" />
     <ClInclude Include="Engine\Editor\PickingPass.h" />
@@ -538,7 +541,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(SolutionD
     <ClInclude Include="Engine\PostProcess\Manager\PostEffectManager.h" />
     <ClInclude Include="Engine\Scene\Transitioner\IScenePayload.h" />
     <ClInclude Include="Engine\System\Component\IComponent.h" />
-    <ClInclude Include="Engine\Foundation\Utility\FileSystem\FileDirectoryWatcher\FileDirectoryWatcher.h" />
     <ClInclude Include="Game\Scene\Utility\SceneTypeUtil.h" />
     <ClInclude Include="Engine\Assets\Database\AssetDatabase.h" />
     <ClInclude Include="Engine\Application\UI\Panels\AssetPanel.h" />
