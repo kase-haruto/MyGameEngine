@@ -5,7 +5,7 @@
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int){
 	LeakChecker leakChecker_;
 	CalyxEngine::CalyxFrameWork CalyxFrameWork;
-
+	
 	CalyxFrameWork.Initialize(hInstance);
 	CalyxFrameWork.Run();
 	CalyxFrameWork.Finalize();
